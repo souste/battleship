@@ -1,5 +1,5 @@
-function generateJoke() {
-  return "Why are fish so smart? Because they live in schools!";
+function generateJoke(a, b) {
+  return a + b;
 }
 
-export default generateJoke;
+module.exports = generateJoke;
