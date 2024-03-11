@@ -1,15 +1,30 @@
 /******/ (() => { // webpackBootstrap
 /******/ 	var __webpack_modules__ = ({
 
-/***/ "./src/Ships.js":
+/***/ "./src/ships.js":
 /*!**********************!*\
-  !*** ./src/Ships.js ***!
+  !*** ./src/ships.js ***!
   \**********************/
 /***/ ((module) => {
 
-function Ships(a, b) {
-  return a + b;
-}
+function _typeof(o) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof(o); }
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, _toPropertyKey(descriptor.key), descriptor); } }
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); Object.defineProperty(Constructor, "prototype", { writable: false }); return Constructor; }
+function _toPropertyKey(t) { var i = _toPrimitive(t, "string"); return "symbol" == _typeof(i) ? i : String(i); }
+function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e = t[Symbol.toPrimitive]; if (void 0 !== e) { var i = e.call(t, r || "default"); if ("object" != _typeof(i)) return i; throw new TypeError("@@toPrimitive must return a primitive value."); } return ("string" === r ? String : Number)(t); }
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+var Ships = /*#__PURE__*/_createClass(function Ships(length, timesHit, sunk) {
+  _classCallCheck(this, Ships);
+  this.length = length;
+  this.timesHit = timesHit;
+  this.sunk = sunk;
+});
+var carrier = new Ships(5, 0, false);
+var battleship = new Ships(4, 0, false);
+var cruiser = new Ships(3, 0, false);
+var submarine = new Ships(3, 0, false);
+var destroyer = new Ships(2, 0, false);
+console.log(battleship);
 module.exports = Ships;
 
 /***/ }),
@@ -573,8 +588,8 @@ var __webpack_exports__ = {};
   !*** ./src/index.js ***!
   \**********************/
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _Ships__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./Ships */ "./src/Ships.js");
-/* harmony import */ var _Ships__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_Ships__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _ships__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./ships */ "./src/ships.js");
+/* harmony import */ var _ships__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_ships__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _styles_main_scss__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./styles/main.scss */ "./src/styles/main.scss");
 
 
@@ -582,4 +597,4 @@ __webpack_require__.r(__webpack_exports__);
 
 /******/ })()
 ;
-//# sourceMappingURL=bundle97e5971223242822dfba.js.map
+//# sourceMappingURL=bundlef3cd0220832941e74c4f.js.map
