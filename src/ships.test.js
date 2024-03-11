@@ -15,3 +15,21 @@ test("Hit method increases the number of timesHit, while also remembering previo
   carrier.hit();
   expect(carrier.hit()).toEqual({ length: 5, timesHit: 2, sunk: false });
 });
+
+test("isSunk method turns the sunk value from false to true if timesHit equals length of ship", () => {
+  const carrier = new Ships(5, 0, false);
+  carrier.hit();
+  carrier.hit();
+  carrier.hit();
+  carrier.hit();
+  carrier.hit();
+  expect(carrier.isSunk()).toEqual({ length: 5, timesHit: 5, sunk: true });
+});
+
+test("isSunk method will not change sunk value to true if timesHit is less than length", () => {
+  const carrier = new Ships(5, 0, false);
+  carrier.hit();
+  carrier.hit();
+  carrier.hit();
+  expect(carrier.isSunk()).toEqual({ length: 5, timesHit: 3, sunk: false });
+});

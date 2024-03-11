@@ -9,6 +9,13 @@ class Ships {
     this.timesHit += 1;
     return this;
   }
+
+  isSunk() {
+    if (this.timesHit === this.length) {
+      this.sunk = true;
+    }
+    return this;
+  }
 }
 
 const carrier = new Ships(5, 0, false);
