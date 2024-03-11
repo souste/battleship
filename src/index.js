@@ -1,2 +1,2 @@
-import Ships from "./Ships";
+import Ships from "./ships";
 import "./styles/main.scss";
