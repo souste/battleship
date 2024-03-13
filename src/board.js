@@ -17,11 +17,7 @@ class Board {
 }
 
 const playerBoard = new Board();
+playerBoard.board[3][4] = "ship";
 console.log(playerBoard);
-playerBoard.board[0][3] = "Jeev";
-console.log(playerBoard);
-
-const playerBoard2 = new Board();
-console.log(playerBoard2);
 
 module.exports = Board;

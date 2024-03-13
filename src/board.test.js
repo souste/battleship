@@ -18,7 +18,24 @@ test("ship class will generate a new board calling the generateBoard function", 
   });
 });
 
-// Next test should test that each new board doesn't affect the previous one
+test("the game board can be amended using row and column coordinates", () => {
+  const testBoard = new Board();
+  testBoard.board[3][4] = "ship";
+  expect(testBoard).toEqual({
+    board: [
+      [0, 1, 2, 3, 4, 5, 6, 7, 8, 9],
+      [0, 1, 2, 3, 4, 5, 6, 7, 8, 9],
+      [0, 1, 2, 3, 4, 5, 6, 7, 8, 9],
+      [0, 1, 2, 3, "ship", 5, 6, 7, 8, 9],
+      [0, 1, 2, 3, 4, 5, 6, 7, 8, 9],
+      [0, 1, 2, 3, 4, 5, 6, 7, 8, 9],
+      [0, 1, 2, 3, 4, 5, 6, 7, 8, 9],
+      [0, 1, 2, 3, 4, 5, 6, 7, 8, 9],
+      [0, 1, 2, 3, 4, 5, 6, 7, 8, 9],
+      [0, 1, 2, 3, 4, 5, 6, 7, 8, 9],
+    ],
+  });
+});
 
 // const playerBoard = new Board(generateBoard());
 // console.log(playerBoard);
