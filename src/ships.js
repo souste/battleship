@@ -35,20 +35,4 @@ const destroyer = new Ships(2, 0, false);
 // You can do this either by user input, or just by using hardcoded values in the Gameboard creator function.
 // You will also need to store all your ships in a list, and have a way to call upon the correct ship when the shot hits
 
-const board = [];
-
-for (let i = 0; i < 10; i++) {
-  const boardRow = [];
-  for (let j = 0; j < 10; j++) {
-    boardRow.push(j);
-  }
-  board.push(boardRow);
-}
-
-console.log("board", board);
-
-class Board {
-  constructor() {}
-}
-
 module.exports = Ships;
