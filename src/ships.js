@@ -18,12 +18,6 @@ class Ships {
   }
 }
 
-const carrier = new Ships(5, 0, false);
-const battleship = new Ships(4, 0, false);
-const cruiser = new Ships(3, 0, false);
-const submarine = new Ships(3, 0, false);
-const destroyer = new Ships(2, 0, false);
-
 ////////////////////////////////////////////////////////////////////////////
 
 // Row and Column indexes for Gameboard are the coordinates you will use, starting at 0 and going to 9

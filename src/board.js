@@ -1,3 +1,5 @@
+const Ships = require("./ships");
+
 class Board {
   constructor() {
     this.board = this.generateBoard();
@@ -17,7 +19,22 @@ class Board {
 }
 
 const playerBoard = new Board();
-playerBoard.board[3][4] = "ship";
+
+const carrier = new Ships(5, 0, false);
+const battleship = new Ships(4, 0, false);
+const cruiser = new Ships(3, 0, false);
+const submarine = new Ships(3, 0, false);
+const destroyer = new Ships(2, 0, false);
+
+playerBoard.board[0].splice(
+  0,
+  carrier.length,
+  "ca1",
+  "ca1",
+  "ca1",
+  "ca1",
+  "ca1"
+);
 console.log(playerBoard);
 
 module.exports = Board;
