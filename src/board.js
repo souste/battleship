@@ -16,6 +16,17 @@ class Board {
     }
     return board;
   }
+
+  placeShip(ship, cord1, cord2) {
+    let arr = [];
+    for (let i = 0; i < ship.length; i++) {
+      arr.push("ship");
+    }
+
+    playerBoard.board[cord1].splice(cord2, ship.length, ...arr);
+    return playerBoard;
+  }
+  // if vertically will just need to keep cord2 the same but repeat cord 1
 }
 
 const playerBoard = new Board();
@@ -26,15 +37,19 @@ const cruiser = new Ships(3, 0, false);
 const submarine = new Ships(3, 0, false);
 const destroyer = new Ships(2, 0, false);
 
-playerBoard.board[0].splice(
-  0,
-  carrier.length,
-  "ca1",
-  "ca1",
-  "ca1",
-  "ca1",
-  "ca1"
-);
+playerBoard.placeShip(carrier, 0, 0);
+playerBoard.placeShip(battleship, 1, 0);
 console.log(playerBoard);
+
+// playerBoard.board[0].splice(
+//   0,
+//   carrier.length,
+//   "ca1",
+//   "ca1",
+//   "ca1",
+//   "ca1",
+//   "ca1"
+// );
+// console.log(playerBoard);
 
 module.exports = Board;
