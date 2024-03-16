@@ -17,16 +17,21 @@ class Board {
     return board;
   }
 
-  placeShip(ship, cord1, cord2) {
-    let arr = [];
-    for (let i = 0; i < ship.length; i++) {
-      arr.push("ship");
+  placeShip(ship, rowCord, colCord, direction) {
+    if (direction === "horizontal") {
+      let arr = [];
+      for (let i = 0; i < ship.length; i++) {
+        arr.push("ship");
+      }
+      this.board[rowCord].splice(colCord, ship.length, ...arr);
+      return this;
+    } else if (direction === "vertical") {
+      for (let i = 0; i < ship.length; i++) {
+        this.board[rowCord + i].splice(colCord, 0, "ship");
+      }
+      return this;
     }
-
-    this.board[cord1].splice(cord2, ship.length, ...arr);
-    return this;
   }
-  // if vertically will just need to keep cord2 the same but repeat cord 1
 }
 
 const playerBoard = new Board();
@@ -37,23 +42,12 @@ const cruiser = new Ships(3, 0, false);
 const submarine = new Ships(3, 0, false);
 const destroyer = new Ships(2, 0, false);
 
-playerBoard.placeShip(carrier, 0, 0);
-playerBoard.placeShip(battleship, 1, 0);
+playerBoard.placeShip(carrier, 0, 0, "horizontal");
+playerBoard.placeShip(battleship, 1, 0, "horizontal");
 console.log(playerBoard);
 
 const playerBoard2 = new Board();
-playerBoard2.placeShip(submarine, 4, 4);
+playerBoard2.placeShip(carrier, 0, 1, "vertical");
 console.log(playerBoard2);
-
-// playerBoard.board[0].splice(
-//   0,
-//   carrier.length,
-//   "ca1",
-//   "ca1",
-//   "ca1",
-//   "ca1",
-//   "ca1"
-// );
-// console.log(playerBoard);
 
 module.exports = Board;
