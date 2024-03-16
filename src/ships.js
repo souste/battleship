@@ -1,8 +1,9 @@
 class Ships {
-  constructor(length, timesHit, sunk) {
+  constructor(length, timesHit, sunk, boardName) {
     this.length = length;
     this.timesHit = timesHit;
     this.sunk = sunk;
+    this.boardName = boardName;
   }
 
   hit() {
