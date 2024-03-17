@@ -132,8 +132,24 @@ test("all five ships can be placed on the board, either vertically or horizontal
   });
 });
 
-// it seems to point to the same array, this is the next problem to solve
-
-// next tests:
-// place ships vertically - probably need a direction(vertical/horizontal) parameter added to Ship class
-// ships can't overlap
+test("ships cannot overlap each other when being placed on the board", () => {
+  const carrier = new Ships(5, 0, false, "Crr");
+  const battleship = new Ships(4, 0, false, "Bat");
+  const testBoard = new Board();
+  testBoard.placeShip(carrier, 0, 0, "horizontal");
+  testBoard.placeShip(battleship, 0, 0, "vertical");
+  expect(testBoard).toEqual({
+    board: [
+      ["Crr", "Crr", "Crr", "Crr", "Crr", 5, 6, 7, 8, 9],
+      [0, 1, 2, 3, 4, 5, 6, 7, 8, 9],
+      [0, 1, 2, 3, 4, 5, 6, 7, 8, 9],
+      [0, 1, 2, 3, 4, 5, 6, 7, 8, 9],
+      [0, 1, 2, 3, 4, 5, 6, 7, 8, 9],
+      [0, 1, 2, 3, 4, 5, 6, 7, 8, 9],
+      [0, 1, 2, 3, 4, 5, 6, 7, 8, 9],
+      [0, 1, 2, 3, 4, 5, 6, 7, 8, 9],
+      [0, 1, 2, 3, 4, 5, 6, 7, 8, 9],
+      [0, 1, 2, 3, 4, 5, 6, 7, 8, 9],
+    ],
+  });
+});
