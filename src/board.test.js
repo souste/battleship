@@ -1,7 +1,7 @@
 const Board = require("./board");
 const Ships = require("./ships");
 
-test("ship class will generate a new board calling the generateBoard function", () => {
+test("ship class will generate a new board by automatically calling the generateBoard() function", () => {
   const testBoard = new Board();
   expect(testBoard).toEqual({
     board: [
@@ -19,7 +19,7 @@ test("ship class will generate a new board calling the generateBoard function", 
   });
 });
 
-test("the game board can be amended using row and column coordinates", () => {
+test("the game board number values can be replaced with strings using row and column coordinates", () => {
   const testBoard = new Board();
   testBoard.board[3][4] = "ship";
   expect(testBoard).toEqual({
@@ -38,7 +38,7 @@ test("the game board can be amended using row and column coordinates", () => {
   });
 });
 
-test("the game board can call the ship class and place a ship horizontally on a row on the board, using the ships length to place hardcoded replacement strings", () => {
+test("the game board can call the ship class and place a ship horizontally on the board, using the ships length to place hardcoded replacement strings", () => {
   const carrier = new Ships(5, 0, false);
   const testBoard = new Board();
   testBoard.board[0].splice(
@@ -85,7 +85,7 @@ test("places a ship horizonatally on a game board with placeBoard() method and r
   });
 });
 
-test("the 'direction' argument applied to placeShip method to allow ship to be placed horizontally as well as vertically", () => {
+test("the 'direction' argument now applied to placeShip method to allow ship to be placed horizontally as well as vertically", () => {
   const carrier = new Ships(5, 0, false, "ship");
   const testBoard = new Board();
   expect(testBoard.placeShip(carrier, 0, 0, "vertical")).toEqual({
@@ -142,6 +142,30 @@ test("ships cannot overlap each other when being placed on the board", () => {
     board: [
       ["Crr", "Crr", "Crr", "Crr", "Crr", 5, 6, 7, 8, 9],
       [0, 1, 2, 3, 4, 5, 6, 7, 8, 9],
+      [0, 1, 2, 3, 4, 5, 6, 7, 8, 9],
+      [0, 1, 2, 3, 4, 5, 6, 7, 8, 9],
+      [0, 1, 2, 3, 4, 5, 6, 7, 8, 9],
+      [0, 1, 2, 3, 4, 5, 6, 7, 8, 9],
+      [0, 1, 2, 3, 4, 5, 6, 7, 8, 9],
+      [0, 1, 2, 3, 4, 5, 6, 7, 8, 9],
+      [0, 1, 2, 3, 4, 5, 6, 7, 8, 9],
+      [0, 1, 2, 3, 4, 5, 6, 7, 8, 9],
+    ],
+  });
+});
+
+// RECEIVE ATTACK
+
+test("the receiveAttack() method will determine if the opposing player has hit a ship or missed", () => {
+  const carrier = new Ships(5, 0, false, "Crr");
+  const testBoard = new Board();
+  testBoard.placeShip(carrier, 0, 0, "horizontal");
+  testBoard.receiveAttack(0, 0);
+  testBoard.receiveAttack(1, 0);
+  expect(testBoard).toEqual({
+    board: [
+      ["Hit", "Crr", "Crr", "Crr", "Crr", 5, 6, 7, 8, 9],
+      ["Miss", 1, 2, 3, 4, 5, 6, 7, 8, 9],
       [0, 1, 2, 3, 4, 5, 6, 7, 8, 9],
       [0, 1, 2, 3, 4, 5, 6, 7, 8, 9],
       [0, 1, 2, 3, 4, 5, 6, 7, 8, 9],

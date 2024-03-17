@@ -39,6 +39,17 @@ class Board {
       }
     }
   }
+
+  receiveAttack(rowCoord, colCoord) {
+    let coordValue = this.board[rowCoord][colCoord];
+    if (typeof coordValue == "number") {
+      this.board[rowCoord].splice(colCoord, 1, "Miss");
+      return this;
+    } else {
+      this.board[rowCoord].splice(colCoord, 1, "Hit");
+      return this;
+    }
+  }
 }
 
 const carrier = new Ships(5, 0, false, "Crr");
@@ -53,6 +64,10 @@ playerBoard1.placeShip(battleship, 1, 0, "vertical");
 playerBoard1.placeShip(cruiser, 4, 3, "horizontal");
 playerBoard1.placeShip(submarine, 5, 4, "vertical");
 playerBoard1.placeShip(destroyer, 8, 6, "vertical");
+console.log(playerBoard1);
+
+playerBoard1.receiveAttack(0, 0);
+playerBoard1.receiveAttack(1, 1);
 console.log(playerBoard1);
 
 module.exports = Board;
