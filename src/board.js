@@ -46,8 +46,28 @@ class Board {
       this.board[rowCoord].splice(colCoord, 1, "Miss");
       return this;
     } else {
+      const ship = this.findShipByName(coordValue);
+      ship.hit();
       this.board[rowCoord].splice(colCoord, 1, "Hit");
-      return this;
+    }
+    return this;
+  }
+
+  findShipByName(name) {
+    if (name === "Crr") {
+      return carrier;
+    }
+    if (name === "Bat") {
+      return battleship;
+    }
+    if (name === "Cru") {
+      return cruiser;
+    }
+    if (name === "Sub") {
+      return submarine;
+    }
+    if (name === "Des") {
+      return destroyer;
     }
   }
 }
@@ -69,5 +89,8 @@ console.log(playerBoard1);
 playerBoard1.receiveAttack(0, 0);
 playerBoard1.receiveAttack(1, 1);
 console.log(playerBoard1);
+console.log(carrier);
+playerBoard1.receiveAttack(0, 1);
+console.log(carrier);
 
 module.exports = Board;

@@ -177,3 +177,23 @@ test("the receiveAttack() method will determine if the opposing player has hit a
     ],
   });
 });
+
+test("if a ship is hit through the receiveAttack() method, the Ships.hit() method will increase timesHit by 1", () => {
+  const carrier = new Ships(5, 0, false, "Crr");
+  const testBoard = new Board();
+  testBoard.placeShip(carrier, 0, 0, "horizontal");
+  testBoard.receiveAttack(0, 0);
+  console.log("testBoard", testBoard);
+
+  expect(carrier).toEqual({
+    length: 5,
+    timesHit: 1,
+    sunk: false,
+    boardName: "Crr",
+  });
+});
+
+// next tests
+// need to store ships in the class to get the final test to work
+// can't hit came coord twice
+// test for isSunk changing to true if times hit == length
