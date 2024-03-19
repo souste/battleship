@@ -158,7 +158,7 @@ test("ships cannot overlap each other when being placed on the board", () => {
 
 test("the receiveAttack() method will determine if the opposing player has hit a ship or missed", () => {
   const carrier = new Ships(5, 0, false, "Crr");
-  const testBoard = new Board();
+  const testBoard = new Board(carrier);
   testBoard.placeShip(carrier, 0, 0, "horizontal");
   testBoard.receiveAttack(0, 0);
   testBoard.receiveAttack(1, 0);
@@ -180,17 +180,12 @@ test("the receiveAttack() method will determine if the opposing player has hit a
 
 test("if a ship is hit through the receiveAttack() method, the Ships.hit() method will increase timesHit by 1", () => {
   const carrier = new Ships(5, 0, false, "Crr");
-  const testBoard = new Board();
+
+  const testBoard = new Board(carrier);
   testBoard.placeShip(carrier, 0, 0, "horizontal");
   testBoard.receiveAttack(0, 0);
-  console.log("testBoard", testBoard);
 
-  expect(carrier).toEqual({
-    length: 5,
-    timesHit: 1,
-    sunk: false,
-    boardName: "Crr",
-  });
+  expect(carrier.timesHit).toBe(1);
 });
 
 // next tests

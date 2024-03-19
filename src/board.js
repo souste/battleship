@@ -1,8 +1,13 @@
 const Ships = require("./ships");
 
 class Board {
-  constructor() {
+  constructor(carrier, battleship, cruiser, submarine, destroyer) {
     this.board = this.generateBoard();
+    this.carrier = carrier;
+    this.battleship = battleship;
+    this.cruiser = cruiser;
+    this.submarine = submarine;
+    this.destroyer = destroyer;
   }
 
   generateBoard() {
@@ -55,19 +60,19 @@ class Board {
 
   findShipByName(name) {
     if (name === "Crr") {
-      return carrier;
+      return this.carrier;
     }
     if (name === "Bat") {
-      return battleship;
+      return this.battleship;
     }
     if (name === "Cru") {
-      return cruiser;
+      return this.cruiser;
     }
     if (name === "Sub") {
-      return submarine;
+      return this.submarine;
     }
     if (name === "Des") {
-      return destroyer;
+      return this.destroyer;
     }
   }
 }
@@ -78,7 +83,7 @@ const cruiser = new Ships(3, 0, false, "Cru");
 const submarine = new Ships(3, 0, false, "Sub");
 const destroyer = new Ships(2, 0, false, "Des");
 
-playerBoard1 = new Board();
+playerBoard1 = new Board(carrier, battleship, cruiser, submarine, destroyer);
 playerBoard1.placeShip(carrier, 0, 0, "horizontal");
 playerBoard1.placeShip(battleship, 1, 0, "vertical");
 playerBoard1.placeShip(cruiser, 4, 3, "horizontal");
@@ -92,5 +97,24 @@ console.log(playerBoard1);
 console.log(carrier);
 playerBoard1.receiveAttack(0, 1);
 console.log(carrier);
+
+const carrier2 = new Ships(5, 0, false, "Crr");
+const battleship2 = new Ships(4, 0, false, "Bat");
+const cruiser2 = new Ships(3, 0, false, "Cru");
+const submarine2 = new Ships(3, 0, false, "Sub");
+const destroyer2 = new Ships(2, 0, false, "Des");
+
+playerBoard2 = new Board(
+  carrier2,
+  battleship2,
+  cruiser2,
+  submarine2,
+  destroyer2
+);
+playerBoard2.placeShip(carrier2, 0, 0, "horizontal");
+console.log("playerBoard2", playerBoard2);
+playerBoard2.receiveAttack(0, 0);
+
+console.log(carrier2.timesHit);
 
 module.exports = Board;
