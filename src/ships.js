@@ -7,7 +7,7 @@ class Ships {
   }
 
   hit() {
-    this.timesHit += 1;
+    this.timesHit++;
     return this;
   }
 

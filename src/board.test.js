@@ -160,32 +160,24 @@ test("the receiveAttack() method will determine if the opposing player has hit a
   const carrier = new Ships(5, 0, false, "Crr");
   const testBoard = new Board(carrier);
   testBoard.placeShip(carrier, 0, 0, "horizontal");
+
   testBoard.receiveAttack(0, 0);
   testBoard.receiveAttack(1, 0);
-  expect(testBoard).toEqual({
-    board: [
-      ["Hit", "Crr", "Crr", "Crr", "Crr", 5, 6, 7, 8, 9],
-      ["Miss", 1, 2, 3, 4, 5, 6, 7, 8, 9],
-      [0, 1, 2, 3, 4, 5, 6, 7, 8, 9],
-      [0, 1, 2, 3, 4, 5, 6, 7, 8, 9],
-      [0, 1, 2, 3, 4, 5, 6, 7, 8, 9],
-      [0, 1, 2, 3, 4, 5, 6, 7, 8, 9],
-      [0, 1, 2, 3, 4, 5, 6, 7, 8, 9],
-      [0, 1, 2, 3, 4, 5, 6, 7, 8, 9],
-      [0, 1, 2, 3, 4, 5, 6, 7, 8, 9],
-      [0, 1, 2, 3, 4, 5, 6, 7, 8, 9],
-    ],
-  });
-});
+  console.log(testBoard);
 
-test("if a ship is hit through the receiveAttack() method, the Ships.hit() method will increase timesHit by 1", () => {
-  const carrier = new Ships(5, 0, false, "Crr");
-
-  const testBoard = new Board(carrier);
-  testBoard.placeShip(carrier, 0, 0, "horizontal");
-  testBoard.receiveAttack(0, 0);
-
-  expect(carrier.timesHit).toBe(1);
+  expect(testBoard.board).toEqual([
+    ["Hit", "Crr", "Crr", "Crr", "Crr", 5, 6, 7, 8, 9],
+    ["Miss", 1, 2, 3, 4, 5, 6, 7, 8, 9],
+    [0, 1, 2, 3, 4, 5, 6, 7, 8, 9],
+    [0, 1, 2, 3, 4, 5, 6, 7, 8, 9],
+    [0, 1, 2, 3, 4, 5, 6, 7, 8, 9],
+    [0, 1, 2, 3, 4, 5, 6, 7, 8, 9],
+    [0, 1, 2, 3, 4, 5, 6, 7, 8, 9],
+    [0, 1, 2, 3, 4, 5, 6, 7, 8, 9],
+    [0, 1, 2, 3, 4, 5, 6, 7, 8, 9],
+    [0, 1, 2, 3, 4, 5, 6, 7, 8, 9],
+  ]);
+  expect(carrier.timesHit).toEqual(1);
 });
 
 // next tests

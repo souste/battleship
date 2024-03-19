@@ -53,6 +53,7 @@ class Board {
     } else {
       const ship = this.findShipByName(coordValue);
       ship.hit();
+
       this.board[rowCoord].splice(colCoord, 1, "Hit");
     }
     return this;
@@ -77,44 +78,41 @@ class Board {
   }
 }
 
-const carrier = new Ships(5, 0, false, "Crr");
-const battleship = new Ships(4, 0, false, "Bat");
-const cruiser = new Ships(3, 0, false, "Cru");
-const submarine = new Ships(3, 0, false, "Sub");
-const destroyer = new Ships(2, 0, false, "Des");
+// const carrier = new Ships(5, 0, false, "Crr");
+// const battleship = new Ships(4, 0, false, "Bat");
+// const cruiser = new Ships(3, 0, false, "Cru");
+// const submarine = new Ships(3, 0, false, "Sub");
+// const destroyer = new Ships(2, 0, false, "Des");
 
-playerBoard1 = new Board(carrier, battleship, cruiser, submarine, destroyer);
-playerBoard1.placeShip(carrier, 0, 0, "horizontal");
-playerBoard1.placeShip(battleship, 1, 0, "vertical");
-playerBoard1.placeShip(cruiser, 4, 3, "horizontal");
-playerBoard1.placeShip(submarine, 5, 4, "vertical");
-playerBoard1.placeShip(destroyer, 8, 6, "vertical");
-console.log(playerBoard1);
+// playerBoard1 = new Board(carrier, battleship, cruiser, submarine, destroyer);
+// playerBoard1.placeShip(carrier, 0, 0, "horizontal");
+// playerBoard1.placeShip(battleship, 1, 0, "vertical");
+// playerBoard1.placeShip(cruiser, 4, 3, "horizontal");
+// playerBoard1.placeShip(submarine, 5, 4, "vertical");
+// playerBoard1.placeShip(destroyer, 8, 6, "vertical");
+// console.log(playerBoard1);
 
-playerBoard1.receiveAttack(0, 0);
-playerBoard1.receiveAttack(1, 1);
-console.log(playerBoard1);
-console.log(carrier);
-playerBoard1.receiveAttack(0, 1);
-console.log(carrier);
+// playerBoard1.receiveAttack(0, 0);
+// playerBoard1.receiveAttack(1, 1);
+// console.log(playerBoard1);
+// console.log(carrier);
+// playerBoard1.receiveAttack(0, 1);
+// playerBoard1.receiveAttack(0, 2);
+// console.log(carrier);
 
-const carrier2 = new Ships(5, 0, false, "Crr");
-const battleship2 = new Ships(4, 0, false, "Bat");
-const cruiser2 = new Ships(3, 0, false, "Cru");
-const submarine2 = new Ships(3, 0, false, "Sub");
-const destroyer2 = new Ships(2, 0, false, "Des");
+// const carrier2 = new Ships(5, 0, false, "Crr");
+// const battleship2 = new Ships(4, 0, false, "Bat");
+// const cruiser2 = new Ships(3, 0, false, "Cru");
+// const submarine2 = new Ships(3, 0, false, "Sub");
+// const destroyer2 = new Ships(2, 0, false, "Des");
 
-playerBoard2 = new Board(
-  carrier2,
-  battleship2,
-  cruiser2,
-  submarine2,
-  destroyer2
-);
-playerBoard2.placeShip(carrier2, 0, 0, "horizontal");
-console.log("playerBoard2", playerBoard2);
-playerBoard2.receiveAttack(0, 0);
+// playerBoard2 = new Board(carrier2);
+// playerBoard2.placeShip(carrier2, 0, 0, "horizontal");
+// console.log("playerBoard2", playerBoard2);
+// playerBoard2.receiveAttack(0, 0);
 
-console.log(carrier2.timesHit);
+// console.log("carrier2", carrier2);
+
+// console.log("playerBoard2", carrier2.timesHit);
 
 module.exports = Board;
