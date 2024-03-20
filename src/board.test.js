@@ -180,7 +180,36 @@ test("the receiveAttack() method will determine if the opposing player has hit a
   expect(carrier.timesHit).toEqual(1);
 });
 
-// next tests
-// need to store ships in the class to get the final test to work
-// can't hit came coord twice
-// test for isSunk changing to true if times hit == length
+test("if a ship has received all 'hits' on the board, its sunk value will convert to true", () => {
+  const carrier = new Ships(5, 0, false, "Crr");
+  const testBoard = new Board(carrier);
+  testBoard.placeShip(carrier, 0, 0, "horizontal");
+  testBoard.receiveAttack(0, 0);
+  testBoard.receiveAttack(0, 1);
+  testBoard.receiveAttack(0, 2);
+  testBoard.receiveAttack(0, 3);
+  testBoard.receiveAttack(0, 4);
+  expect(carrier.sunk).toEqual(true);
+});
+
+test("if all ship have been sunk, you will be informed of this in the console (no UI in place yet)", () => {
+  const carrier = new Ships(5, 0, true, "Crr");
+  const battleship = new Ships(4, 0, true, "Bat");
+  const cruiser = new Ships(3, 0, true, "Cru");
+  const submarine = new Ships(3, 0, true, "Sub");
+  const destroyer = new Ships(2, 0, true, "Des");
+  const testBoard = new Board(
+    carrier,
+    battleship,
+    cruiser,
+    submarine,
+    destroyer
+  );
+  testBoard.placeShip(carrier, 0, 0, "horizontal");
+  testBoard.placeShip(battleship, 1, 0, "vertical");
+  testBoard.placeShip(cruiser, 4, 3, "horizontal");
+  testBoard.placeShip(submarine, 5, 4, "vertical");
+  testBoard.placeShip(destroyer, 8, 6, "vertical");
+
+  expect(testBoard.allShipsSunk()).toEqual(true);
+});
