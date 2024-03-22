@@ -2,7 +2,7 @@ const Player = require("./player");
 const Board = require("./board");
 const Ships = require("./ships");
 
-// beforeEach()
+beforeEach();
 
 describe("Player Class allows Player 1 (human) to place an attack on the opposing board", () => {
   const carrier = new Ships(5, 0, false, "Crr");

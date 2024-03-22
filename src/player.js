@@ -3,11 +3,6 @@ const Board = require("./board");
 
 class Player {
   constructor() {
-    this.carrier = new Ships(5, 0, false, "Crr");
-    this.battleship = new Ships(4, 0, false, "Bat");
-    this.cruiser = new Ships(3, 0, false, "Cru");
-    this.submarine = new Ships(3, 0, false, "Sub");
-    this.destroyer = new Ships(2, 0, false, "Des");
     this.board = new Board(
       this.carrier,
       this.battleship,
@@ -18,9 +13,9 @@ class Player {
   }
 }
 
-playerOne = new Player();
+// playerOne = new Player();
 
-console.log(playerOne);
+// console.log(playerOne);
 // const carrier = new Ships(5, 0, false, "Crr");
 // const battleship = new Ships(4, 0, false, "Bat");
 // const cruiser = new Ships(3, 0, false, "Cru");
