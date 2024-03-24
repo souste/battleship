@@ -3,31 +3,53 @@ const Board = require("./board");
 
 class Player {
   constructor() {
-    this.board = new Board(
-      this.carrier,
-      this.battleship,
-      this.cruiser,
-      this.submarine,
-      this.destroyer
-    );
+    this.myBoard = new Board();
+    this.computerBoard = new Board();
   }
 }
 
-// playerOne = new Player();
+stephen = new Player();
 
-// console.log(playerOne);
-// const carrier = new Ships(5, 0, false, "Crr");
-// const battleship = new Ships(4, 0, false, "Bat");
-// const cruiser = new Ships(3, 0, false, "Cru");
-// const submarine = new Ships(3, 0, false, "Sub");
-// const destroyer = new Ships(2, 0, false, "Des");
+stephen.myBoard.placeShip(stephen.myBoard.carrier, 0, 0, "horizontal");
+stephen.myBoard.placeShip(stephen.myBoard.battleship, 1, 0, "vertical");
+stephen.myBoard.placeShip(stephen.myBoard.cruiser, 4, 3, "horizontal");
+stephen.myBoard.placeShip(stephen.myBoard.submarine, 5, 4, "vertical");
+stephen.myBoard.placeShip(stephen.myBoard.destroyer, 8, 6, "vertical");
 
-// playerBoard1 = new Board(carrier, battleship, cruiser, submarine, destroyer);
-// playerBoard1.placeShip(carrier, 0, 0, "horizontal");
-// playerBoard1.placeShip(battleship, 1, 0, "vertical");
-// playerBoard1.placeShip(cruiser, 4, 3, "horizontal");
-// playerBoard1.placeShip(submarine, 5, 4, "vertical");
-// playerBoard1.placeShip(destroyer, 8, 6, "vertical");
+console.log("stephen/ my board", stephen.myBoard.board);
+
+stephen.computerBoard.placeShip(
+  stephen.computerBoard.carrier,
+  0,
+  0,
+  "horizontal"
+);
+stephen.computerBoard.placeShip(
+  stephen.computerBoard.battleship,
+  1,
+  0,
+  "vertical"
+);
+stephen.computerBoard.placeShip(
+  stephen.computerBoard.cruiser,
+  4,
+  3,
+  "horizontal"
+);
+stephen.computerBoard.placeShip(
+  stephen.computerBoard.submarine,
+  5,
+  4,
+  "vertical"
+);
+stephen.computerBoard.placeShip(
+  stephen.computerBoard.destroyer,
+  8,
+  6,
+  "vertical"
+);
+
+console.log("stephen/ comp board", stephen.computerBoard.board);
 
 // // Player 2 2 will have to be randomised I assume?
 
