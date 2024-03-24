@@ -95,37 +95,4 @@ class Board {
   }
 }
 
-// playerBoard1 = new Board();
-// playerBoard1.placeShip(playerBoard1.carrier, 0, 0, "horizontal");
-// playerBoard1.placeShip(playerBoard1.battleship, 1, 0, "vertical");
-// playerBoard1.placeShip(playerBoard1.cruiser, 4, 3, "horizontal");
-// playerBoard1.placeShip(playerBoard1.submarine, 5, 4, "vertical");
-// playerBoard1.placeShip(playerBoard1.destroyer, 8, 6, "vertical");
-
-// // Player 2 2 will have to be randomised I assume?
-
-// playerBoard1.receiveAttack(0, 0);
-// playerBoard1.receiveAttack(0, 1);
-// playerBoard1.receiveAttack(0, 2);
-// playerBoard1.receiveAttack(0, 3);
-// playerBoard1.receiveAttack(0, 4);
-
-// playerBoard1.receiveAttack(1, 0);
-// playerBoard1.receiveAttack(2, 0);
-// playerBoard1.receiveAttack(3, 0);
-// playerBoard1.receiveAttack(4, 0);
-
-// playerBoard1.receiveAttack(4, 3);
-// playerBoard1.receiveAttack(4, 4);
-// playerBoard1.receiveAttack(4, 5);
-
-// playerBoard1.receiveAttack(5, 4);
-// playerBoard1.receiveAttack(6, 4);
-// playerBoard1.receiveAttack(7, 4);
-
-// playerBoard1.receiveAttack(8, 6);
-// playerBoard1.receiveAttack(9, 6);
-
-// console.log(playerBoard1);
-
 module.exports = Board;

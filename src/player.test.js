@@ -58,3 +58,19 @@ test("the computer has its own method, compAttack(), which will attack the playe
     [0, 1, 2, 3, 4, 5, 6, 7, 8, 9],
   ]);
 });
+
+test("the computer board will randomly place the five ships on the board before the start of each game", () => {
+  const testPlayer2 = new Player();
+  expect(testPlayer2.computerBoard.board).not.toEqual([
+    [0, 1, 2, 3, 4, 5, 6, 7, 8, 9],
+    [0, 1, 2, 3, 4, 5, 6, 7, 8, 9],
+    [0, 1, 2, 3, 4, 5, 6, 7, 8, 9],
+    [0, 1, 2, 3, 4, 5, 6, 7, 8, 9],
+    [0, 1, 2, 3, 4, 5, 6, 7, 8, 9],
+    [0, 1, 2, 3, 4, 5, 6, 7, 8, 9],
+    [0, 1, 2, 3, 4, 5, 6, 7, 8, 9],
+    [0, 1, 2, 3, 4, 5, 6, 7, 8, 9],
+    [0, 1, 2, 3, 4, 5, 6, 7, 8, 9],
+    [0, 1, 2, 3, 4, 5, 6, 7, 8, 9],
+  ]);
+});
