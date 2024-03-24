@@ -151,7 +151,6 @@ test("the receiveAttack() method will determine if the opposing player has hit a
 
   testBoard.receiveAttack(0, 0);
   testBoard.receiveAttack(1, 0);
-  console.log(testBoard);
 
   expect(testBoard.board).toEqual([
     ["Hit", "Crr", "Crr", "Crr", "Crr", 5, 6, 7, 8, 9],

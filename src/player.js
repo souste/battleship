@@ -6,6 +6,12 @@ class Player {
     this.myBoard = new Board();
     this.computerBoard = new Board();
   }
+  myAttack(coord1, coord2) {
+    return this.computerBoard.receiveAttack(coord1, coord2);
+  }
+  compAttack(coord1, coord2) {
+    return this.myBoard.receiveAttack(coord1, coord2);
+  }
 }
 
 stephen = new Player();
@@ -50,6 +56,8 @@ stephen.computerBoard.placeShip(
 );
 
 console.log("stephen/ comp board", stephen.computerBoard.board);
+
+stephen.myAttack(0, 0);
 
 // // Player 2 2 will have to be randomised I assume?
 
