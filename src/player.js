@@ -16,7 +16,17 @@ class Player {
       stephen.computerBoard.destroyer,
     ];
     for (const ship of ships) {
-      this.computerBoard.placeShip(ship, Math.floor(Math.random() * 10), Math.floor(Math.random() * 10), "horizontal");
+      const direction = this.randomDirection();
+      this.computerBoard.placeShip(ship, Math.floor(Math.random() * 10), Math.floor(Math.random() * 10), direction);
+    }
+  }
+
+  randomDirection() {
+    const randomNumber = Math.random();
+    if (randomNumber < 0.5) {
+      return "horizontal";
+    } else {
+      return "vertical";
     }
   }
 
