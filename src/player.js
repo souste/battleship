@@ -8,13 +8,16 @@ class Player {
   }
 
   compShipPlacement() {
-    // Math.floor(Math.random()*10) generates a number from 0 - 9. - need to do this for each of the ships
-    this.computerBoard.placeShip(
-      this.myBoard.carrier,
-      Math.floor(Math.random() * 10),
-      Math.floor(Math.random() * 10),
-      "horizontal"
-    );
+    const ships = [
+      stephen.computerBoard.carrier,
+      stephen.computerBoard.battleship,
+      stephen.computerBoard.cruiser,
+      stephen.computerBoard.submarine,
+      stephen.computerBoard.destroyer,
+    ];
+    for (const ship of ships) {
+      this.computerBoard.placeShip(ship, Math.floor(Math.random() * 10), Math.floor(Math.random() * 10), "horizontal");
+    }
   }
 
   myAttack(coord1, coord2) {
@@ -29,7 +32,6 @@ class Player {
 // then comp AI for placing hits on myBoard
 
 stephen = new Player();
-
 stephen.compShipPlacement();
 
 stephen.myBoard.placeShip(stephen.myBoard.carrier, 0, 0, "horizontal");
