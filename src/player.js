@@ -15,11 +15,27 @@ class Player {
       stephen.computerBoard.submarine,
       stephen.computerBoard.destroyer,
     ];
+
     for (const ship of ships) {
-      const direction = this.randomDirection();
-      this.computerBoard.placeShip(ship, Math.floor(Math.random() * 10), Math.floor(Math.random() * 10), direction);
+      let placed = false;
+      while (!placed) {
+        const direction = this.randomDirection();
+        const result = this.computerBoard.placeShip(
+          ship,
+          Math.floor(Math.random() * 10),
+          Math.floor(Math.random() * 10),
+          direction
+        );
+
+        if (result) {
+          placed = true;
+        }
+      }
     }
   }
+
+  // need to limit end of ship length to 9
+  // need to redo placement if board value !-- "number"
 
   randomDirection() {
     const randomNumber = Math.random();
@@ -53,36 +69,5 @@ stephen.myBoard.placeShip(stephen.myBoard.destroyer, 8, 6, "vertical");
 console.log("stephen/ my board", stephen.myBoard.board);
 
 console.log("stephen/ comp board", stephen.computerBoard.board);
-
-// stephen.computerBoard.placeShip(
-//   stephen.computerBoard.carrier,
-//   0,
-//   0,
-//   "horizontal"
-// );
-// stephen.computerBoard.placeShip(
-//   stephen.computerBoard.battleship,
-//   1,
-//   0,
-//   "vertical"
-// );
-// stephen.computerBoard.placeShip(
-//   stephen.computerBoard.cruiser,
-//   4,
-//   3,
-//   "horizontal"
-// );
-// stephen.computerBoard.placeShip(
-//   stephen.computerBoard.submarine,
-//   5,
-//   4,
-//   "vertical"
-// );
-// stephen.computerBoard.placeShip(
-//   stephen.computerBoard.destroyer,
-//   8,
-//   6,
-//   "vertical"
-// );
 
 module.exports = Player;

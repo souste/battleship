@@ -26,7 +26,8 @@ class Board {
 
   placeShip(ship, rowCoord, colCoord, direction) {
     const coordValue = this.board[rowCoord][colCoord];
-    if (typeof coordValue == "number") {
+
+    if (typeof coordValue == "number" && coordValue <= 9) {
       if (direction === "horizontal") {
         let arr = [];
         for (let i = 0; i < ship.length; i++) {
@@ -79,13 +80,7 @@ class Board {
 
   // Should I make the array prior to this?
   allShipsSunk() {
-    for (const ship of [
-      this.carrier,
-      this.battleship,
-      this.cruiser,
-      this.submarine,
-      this.destroyer,
-    ]) {
+    for (const ship of [this.carrier, this.battleship, this.cruiser, this.submarine, this.destroyer]) {
       if (!ship || !ship.sunk) {
         return false;
       }
