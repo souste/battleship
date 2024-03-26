@@ -34,9 +34,6 @@ class Player {
     }
   }
 
-  // need to limit end of ship length to 9
-  // need to redo placement if board value !-- "number"
-
   randomDirection() {
     const randomNumber = Math.random();
     if (randomNumber < 0.5) {
@@ -53,9 +50,6 @@ class Player {
     return this.myBoard.receiveAttack(coord1, coord2);
   }
 }
-
-// Need some code for computer to randomly place ships on board with if statement for whether position has been filled previously ie. number not ship.boardnName
-// then comp AI for placing hits on myBoard
 
 stephen = new Player();
 stephen.compShipPlacement();

@@ -3,12 +3,7 @@ const Board = require("./board");
 const Ships = require("./ships");
 
 const testPlayer = new Player();
-testPlayer.computerBoard.placeShip(
-  testPlayer.computerBoard.carrier,
-  0,
-  0,
-  "horizontal"
-);
+testPlayer.computerBoard.placeShip(testPlayer.computerBoard.carrier, 0, 0, "horizontal");
 testPlayer.myBoard.placeShip(testPlayer.myBoard.carrier, 0, 0, "horizontal");
 
 test("Player Class allows Player 1 (human) to place an attack on the opposing board with hardcoded values", () => {
@@ -61,6 +56,7 @@ test("the computer has its own method, compAttack(), which will attack the playe
 
 test("the computer board will randomly place the five ships on the board before the start of each game", () => {
   const testPlayer2 = new Player();
+  testPlayer2.compShipPlacement();
   expect(testPlayer2.computerBoard.board).not.toEqual([
     [0, 1, 2, 3, 4, 5, 6, 7, 8, 9],
     [0, 1, 2, 3, 4, 5, 6, 7, 8, 9],
