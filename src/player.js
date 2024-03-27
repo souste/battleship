@@ -5,15 +5,16 @@ class Player {
   constructor() {
     this.myBoard = new Board();
     this.computerBoard = new Board();
+    this.compShipPlacement();
   }
 
   compShipPlacement() {
     const ships = [
-      stephen.computerBoard.carrier,
-      stephen.computerBoard.battleship,
-      stephen.computerBoard.cruiser,
-      stephen.computerBoard.submarine,
-      stephen.computerBoard.destroyer,
+      this.computerBoard.carrier,
+      this.computerBoard.battleship,
+      this.computerBoard.cruiser,
+      this.computerBoard.submarine,
+      this.computerBoard.destroyer,
     ];
 
     for (const ship of ships) {
@@ -44,15 +45,17 @@ class Player {
   }
 
   myAttack(coord1, coord2) {
-    return this.computerBoard.receiveAttack(coord1, coord2);
+    const result = this.computerBoard.receiveAttack(coord1, coord2);
+    return result;
   }
-  compAttack(coord1, coord2) {
+  compAttack() {
+    coord1 = Math.floor(Math.random() * 10);
+    coord2 = Math.floor(Math.random() * 10);
     return this.myBoard.receiveAttack(coord1, coord2);
   }
 }
 
 stephen = new Player();
-stephen.compShipPlacement();
 
 stephen.myBoard.placeShip(stephen.myBoard.carrier, 0, 0, "horizontal");
 stephen.myBoard.placeShip(stephen.myBoard.battleship, 1, 0, "vertical");
@@ -62,6 +65,18 @@ stephen.myBoard.placeShip(stephen.myBoard.destroyer, 8, 6, "vertical");
 
 console.log("stephen/ my board", stephen.myBoard.board);
 
-console.log("stephen/ comp board", stephen.computerBoard.board);
+stephen.myAttack(2, 5);
+console.log("stephen/ comp board after first attack", stephen.computerBoard.board);
+
+stephen.myAttack(6, 3);
+console.log("stephen/ comp board after second attack", stephen.computerBoard.board);
+
+stephen.myAttack(2, 2);
+console.log("stephen/ comp board after third attack", stephen.computerBoard.board);
+
+stephen.myAttack(2, 3);
+stephen.myAttack(2, 4);
+stephen.myAttack(3, 5);
+console.log("stephen/ comp board after forth attack", stephen.computerBoard.board);
 
 module.exports = Player;
