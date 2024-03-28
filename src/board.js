@@ -52,10 +52,14 @@ class Board {
     }
   }
 
+  // need logic for if a ship has already been hit
   receiveAttack(rowCoord, colCoord) {
     let coordValue = this.board[rowCoord][colCoord];
     if (typeof coordValue == "number") {
       this.board[rowCoord].splice(colCoord, 1, "Miss");
+      return this;
+    } else if (coordValue == "Hit" || coordValue == "Miss") {
+      console.log("You cannot hit the same place twice");
       return this;
     } else {
       const ship = this.findShipByName(coordValue);

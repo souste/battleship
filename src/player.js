@@ -68,6 +68,9 @@ stephen = new Player();
 
 stephen.myAttack(2, 5);
 stephen.myAttack(2, 6);
+stephen.myAttack(3, 3);
+stephen.myAttack(4, 4);
+stephen.myAttack(4, 4);
 
 console.log("stephen/ my board", stephen.myBoard.board);
 console.log("stephen/ comp board", stephen.computerBoard.board);
