@@ -9,29 +9,37 @@ class Player {
   }
 
   compShipPlacement() {
-    const ships = [
-      this.computerBoard.carrier,
-      this.computerBoard.battleship,
-      this.computerBoard.cruiser,
-      this.computerBoard.submarine,
-      this.computerBoard.destroyer,
-    ];
+    const flattenedBoard = this.computerBoard.board.flat();
+    const stringsToCheck = ["Crr", "Bat", "Cru", "Sub", "Des"];
+    const areAllStringsPresent = stringsToCheck.every((str) => flattenedBoard.includes(str));
 
-    for (const ship of ships) {
-      let placed = false;
-      while (!placed) {
-        const direction = this.randomDirection();
-        const result = this.computerBoard.placeShip(
-          ship,
-          Math.floor(Math.random() * 10),
-          Math.floor(Math.random() * 10),
-          direction
-        );
+    if (!areAllStringsPresent) {
+      const ships = [
+        this.computerBoard.carrier,
+        this.computerBoard.battleship,
+        this.computerBoard.cruiser,
+        this.computerBoard.submarine,
+        this.computerBoard.destroyer,
+      ];
 
-        if (result) {
-          placed = true;
+      for (const ship of ships) {
+        let placed = false;
+        while (!placed) {
+          const direction = this.randomDirection();
+          const result = this.computerBoard.placeShip(
+            ship,
+            Math.floor(Math.random() * 10),
+            Math.floor(Math.random() * 10),
+            direction
+          );
+
+          if (result) {
+            placed = true;
+          }
         }
       }
+    } else {
+      return;
     }
   }
 
@@ -70,7 +78,12 @@ stephen.myAttack(2, 5);
 stephen.myAttack(2, 6);
 stephen.myAttack(3, 3);
 stephen.myAttack(4, 4);
-stephen.myAttack(4, 4);
+stephen.myAttack(4, 5);
+stephen.myAttack(4, 6);
+stephen.myAttack(4, 8);
+stephen.myAttack(5, 9);
+stephen.myAttack(6, 9);
+stephen.myAttack(7, 9);
 
 console.log("stephen/ my board", stephen.myBoard.board);
 console.log("stephen/ comp board", stephen.computerBoard.board);

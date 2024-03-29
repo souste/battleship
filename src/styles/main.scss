@@ -1,3 +1,8 @@
-* {
-  color: red;
+.boards-container {
+  display: flex;
+  gap: 100px;
+}
+
+.grid-container {
+  display: grid;
 }
