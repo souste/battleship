@@ -1,7 +1,3 @@
-const Ships = require("./ships");
-const Board = require("./board");
-const Player = require("./player");
-
 const content = document.querySelector(".content");
 const title = document.createElement("h1");
 title.innerText = "Battleships";
@@ -18,6 +14,9 @@ myBoardTitle.innerText = "Player Board";
 const myBoardGrid = document.createElement("div");
 myBoardGrid.className = "grid-container";
 
+const computerBoardGrid = document.createElement("div");
+computerBoardGrid.className = "grid-container";
+
 const computerBoardContainer = document.createElement("div");
 const computerBoardTitle = document.createElement("h2");
 computerBoardTitle.innerText = "Opponent Board";
@@ -28,3 +27,24 @@ myBoardContainer.appendChild(myBoardGrid);
 
 boardsContainer.appendChild(computerBoardContainer);
 computerBoardContainer.appendChild(computerBoardTitle);
+computerBoardContainer.appendChild(computerBoardGrid);
+
+function renderMyBoard(arr) {
+  let flatArr = arr.flat();
+  for (let i = 0; i <= 99; i++) {
+    let item = document.createElement("div");
+    item.innerText = flatArr[i];
+    myBoardGrid.appendChild(item);
+  }
+}
+
+function renderComputerBoard(arr) {
+  let flatArr = arr.flat();
+  for (let i = 0; i <= 99; i++) {
+    let item = document.createElement("div");
+    item.innerText = flatArr[i];
+    computerBoardGrid.appendChild(item);
+  }
+}
+
+module.exports = { renderMyBoard, renderComputerBoard };

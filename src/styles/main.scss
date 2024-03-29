@@ -5,4 +5,12 @@
 
 .grid-container {
   display: grid;
+  grid-template-rows: repeat(10, 40px);
+  grid-template-columns: repeat(10, 40px);
+  background-color: yellow;
+  border: 1px solid black;
+}
+
+.grid-container > div {
+  border: 1px solid black;
 }
