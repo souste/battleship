@@ -43,6 +43,7 @@ function renderComputerBoard(arr) {
   for (let i = 0; i <= 99; i++) {
     let item = document.createElement("div");
     item.innerText = flatArr[i];
+    item.style.color = "yellow";
     squareClickListener(item);
     computerBoardGrid.appendChild(item);
   }
@@ -54,8 +55,12 @@ function squareClickListener(item) {
   item.addEventListener("click", () => {
     if (shipValues.includes(item.innerText)) {
       item.style.backgroundColor = "red";
+      item.innerText = "HIT!";
+      item.style.color = "black";
     } else {
       item.style.backgroundColor = "green";
+      item.innerText = "MISS";
+      item.style.color = "black";
     }
   });
 }
