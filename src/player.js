@@ -71,6 +71,7 @@ class Player {
   compAttack(coord1, coord2) {
     let compCoord1 = coord1 + 1;
     let compCoord2 = coord2 + 1;
+    // wont work with coords higher than 8 - need to figure this out later
     let result = this.myBoard.receiveAttack(compCoord1, compCoord2);
     return result;
   }
@@ -88,13 +89,14 @@ stephen.computerBoard.placeShip(stephen.computerBoard.carrier, 0, 1, "horizontal
 stephen.computerBoard.placeShip(stephen.computerBoard.battleship, 2, 5, "vertical");
 stephen.computerBoard.placeShip(stephen.computerBoard.cruiser, 4, 6, "horizontal");
 stephen.computerBoard.placeShip(stephen.computerBoard.submarine, 6, 1, "vertical");
-stephen.computerBoard.placeShip(stephen.computerBoard.destroyer, 9, 5, "vertical");
+stephen.computerBoard.placeShip(stephen.computerBoard.destroyer, 7, 5, "vertical");
 
-stephen.myAttack(2, 5);
-stephen.myAttack(2, 6);
-stephen.myAttack(3, 3);
-stephen.myAttack(4, 4);
-stephen.myAttack(4, 5);
+// stephen.myAttack(2, 5);
+// stephen.myAttack(2, 6);
+// stephen.myAttack(3, 3);
+// stephen.myAttack(4, 4);
+// stephen.myAttack(4, 5);
+// stephen.myAttack(8, 8);
 
 renderMyBoard(stephen.myBoard.board);
 renderComputerBoard(stephen.computerBoard.board);

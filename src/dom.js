@@ -43,8 +43,21 @@ function renderComputerBoard(arr) {
   for (let i = 0; i <= 99; i++) {
     let item = document.createElement("div");
     item.innerText = flatArr[i];
+    squareClickListener(item);
     computerBoardGrid.appendChild(item);
   }
+}
+
+function squareClickListener(item) {
+  const shipValues = ["Crr", "Bat", "Cru", "Sub", "Des"];
+
+  item.addEventListener("click", () => {
+    if (shipValues.includes(item.innerText)) {
+      item.style.backgroundColor = "red";
+    } else {
+      item.style.backgroundColor = "green";
+    }
+  });
 }
 
 module.exports = { renderMyBoard, renderComputerBoard };
