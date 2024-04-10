@@ -52,15 +52,18 @@ function renderComputerBoard(arr) {
 function squareClickListener(item) {
   const shipValues = ["Crr", "Bat", "Cru", "Sub", "Des"];
 
+  // Cell should be deactivated once clicked, so you can't click it again
   item.addEventListener("click", () => {
     if (shipValues.includes(item.innerText)) {
       item.style.backgroundColor = "red";
       item.innerText = "HIT!";
       item.style.color = "black";
+      item.style.pointerEvents = "none";
     } else {
       item.style.backgroundColor = "green";
       item.innerText = "MISS";
       item.style.color = "black";
+      item.style.pointerEvents = "none";
     }
   });
 }
