@@ -10,52 +10,6 @@ class Player {
     // this.compShipPlacement();
   }
 
-  // renderMyBoard() {}
-
-  // compShipPlacement() {
-  //   const flattenedBoard = this.computerBoard.board.flat();
-  //   const stringsToCheck = ["Crr", "Bat", "Cru", "Sub", "Des"];
-  //   const areAllStringsPresent = stringsToCheck.every((str) => flattenedBoard.includes(str));
-
-  //   if (!areAllStringsPresent) {
-  //     const ships = [
-  //       this.computerBoard.carrier,
-  //       this.computerBoard.battleship,
-  //       this.computerBoard.cruiser,
-  //       this.computerBoard.submarine,
-  //       this.computerBoard.destroyer,
-  //     ];
-
-  //     for (const ship of ships) {
-  //       let placed = false;
-  //       while (!placed) {
-  //         const direction = this.randomDirection();
-  //         const result = this.computerBoard.placeShip(
-  //           ship,
-  //           Math.floor(Math.random() * 10),
-  //           Math.floor(Math.random() * 10),
-  //           direction
-  //         );
-
-  //         if (result) {
-  //           placed = true;
-  //         }
-  //       }
-  //     }
-  //   } else {
-  //     return;
-  //   }
-  // }
-
-  // randomDirection() {
-  //   const randomNumber = Math.random();
-  //   if (randomNumber < 0.5) {
-  //     return "horizontal";
-  //   } else {
-  //     return "vertical";
-  //   }
-  // }
-
   randomCoord() {
     return Math.floor(Math.random() * 10);
   }
@@ -105,3 +59,49 @@ console.log("stephen/ my board", stephen.myBoard.board);
 console.log("stephen/ comp board", stephen.computerBoard.board);
 
 module.exports = Player;
+
+// renderMyBoard() {}
+
+// compShipPlacement() {
+//   const flattenedBoard = this.computerBoard.board.flat();
+//   const stringsToCheck = ["Crr", "Bat", "Cru", "Sub", "Des"];
+//   const areAllStringsPresent = stringsToCheck.every((str) => flattenedBoard.includes(str));
+
+//   if (!areAllStringsPresent) {
+//     const ships = [
+//       this.computerBoard.carrier,
+//       this.computerBoard.battleship,
+//       this.computerBoard.cruiser,
+//       this.computerBoard.submarine,
+//       this.computerBoard.destroyer,
+//     ];
+
+//     for (const ship of ships) {
+//       let placed = false;
+//       while (!placed) {
+//         const direction = this.randomDirection();
+//         const result = this.computerBoard.placeShip(
+//           ship,
+//           Math.floor(Math.random() * 10),
+//           Math.floor(Math.random() * 10),
+//           direction
+//         );
+
+//         if (result) {
+//           placed = true;
+//         }
+//       }
+//     }
+//   } else {
+//     return;
+//   }
+// }
+
+// randomDirection() {
+//   const randomNumber = Math.random();
+//   if (randomNumber < 0.5) {
+//     return "horizontal";
+//   } else {
+//     return "vertical";
+//   }
+// }

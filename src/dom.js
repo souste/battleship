@@ -34,6 +34,7 @@ function renderMyBoard(arr) {
   for (let i = 0; i <= 99; i++) {
     let item = document.createElement("div");
     item.innerText = flatArr[i];
+    // need event listener for computer clicks now
     myBoardGrid.appendChild(item);
   }
 }
@@ -44,28 +45,45 @@ function renderComputerBoard(arr) {
     let item = document.createElement("div");
     item.innerText = flatArr[i];
     item.style.color = "yellow";
-    squareClickListener(item);
+    squareClickListener(item, i);
     computerBoardGrid.appendChild(item);
   }
 }
 
-function squareClickListener(item) {
+function squareClickListener(item, index) {
   const shipValues = ["Crr", "Bat", "Cru", "Sub", "Des"];
+  const row = Math.floor(index / 10);
+  const column = index % 10;
 
-  // Cell should be deactivated once clicked, so you can't click it again
   item.addEventListener("click", () => {
     if (shipValues.includes(item.innerText)) {
       item.style.backgroundColor = "red";
       item.innerText = "HIT!";
       item.style.color = "black";
       item.style.pointerEvents = "none";
+      console.log(row);
+      console.log(column);
+      stephen.myAttack(row, column);
+      console.log(stephen.computerBoard.board);
+      // need to change this to the player input name when that is set up
     } else {
       item.style.backgroundColor = "green";
       item.innerText = "MISS";
       item.style.color = "black";
       item.style.pointerEvents = "none";
+      console.log(row);
+      console.log(column);
+      stephen.myAttack(row, column);
+      console.log(stephen.computerBoard.board);
+      // need to change this to the player input name when that is set up
     }
   });
 }
+
+// Next Steps
+// 1) Connect the click events to the array
+// 2) Need to connect to computer automatic turns
+// 3) Create event listeners to change colour for computer accordingly
+// 4) Sort out the issue of Ship Placement
 
 module.exports = { renderMyBoard, renderComputerBoard };
