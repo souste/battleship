@@ -54,13 +54,14 @@ function renderComputerBoard(arr) {
   for (let i = 0; i <= 99; i++) {
     let item = document.createElement("div");
     item.innerText = flatArr[i];
-    item.style.color = "yellow";
-    squareClickListener(item, i);
+    // item.style.color = "yellow";
+    // This will make the text invisible again
+    computerBoardSquares(item, i);
     computerBoardGrid.appendChild(item);
   }
 }
 
-function squareClickListener(item, index) {
+function computerBoardSquares(item, index) {
   const shipValues = ["Crr", "Bat", "Cru", "Sub", "Des"];
   const row = Math.floor(index / 10);
   const column = index % 10;
@@ -74,9 +75,9 @@ function squareClickListener(item, index) {
       console.log(row);
       console.log(column);
       stephen.myAttack(row, column);
+      // need to change this to the player input name when that is set up
       console.log("compboard", stephen.computerBoard.board);
       console.log("myboard", stephen.myBoard.board);
-      // need to change this to the player input name when that is set up
     } else {
       item.style.backgroundColor = "green";
       item.innerText = "MISS";
@@ -85,17 +86,17 @@ function squareClickListener(item, index) {
       console.log(row);
       console.log(column);
       stephen.myAttack(row, column);
+      // need to change this to the player input name when that is set up
       console.log("compboard", stephen.computerBoard.board);
       console.log("myboard", stephen.myBoard.board);
-      // need to change this to the player input name when that is set up
     }
   });
 }
 
 // Next Steps
-// 1) Connect the click events to the array
-// 2) Need to connect to computer automatic turns
-// 3) Create event listeners to change colour for computer accordingly
+// 1) Connect the click events to the array - Done!
+// 2) Need to connect to computer automatic turns - Done!
+// 3) Create event listeners to change colour for computer accordingly - Done!
 // 4) Sort out the issue of Ship Placement
 
 module.exports = { renderMyBoard, renderComputerBoard };
