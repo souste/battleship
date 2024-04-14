@@ -68,11 +68,10 @@ class Player {
     return result;
   }
 
-  compAttack(coord1, coord2) {
-    let compCoord1 = coord1 + 1;
-    let compCoord2 = coord2 + 1;
-    // wont work with coords higher than 8 - need to figure this out later
-    let result = this.myBoard.receiveAttack(compCoord1, compCoord2);
+  compAttack() {
+    let coord1 = Math.floor(Math.random() * 10);
+    let coord2 = Math.floor(Math.random() * 10);
+    let result = this.myBoard.receiveAttack(coord1, coord2);
     this.refreshMyBoardAfterCompAttack();
 
     return result;
