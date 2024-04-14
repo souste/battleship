@@ -30,12 +30,22 @@ computerBoardContainer.appendChild(computerBoardTitle);
 computerBoardContainer.appendChild(computerBoardGrid);
 
 function renderMyBoard(arr) {
+  myBoardGrid.innerHTML = "";
   let flatArr = arr.flat();
   for (let i = 0; i <= 99; i++) {
     let item = document.createElement("div");
     item.innerText = flatArr[i];
-    // need event listener for computer clicks now
+    myBoardSquares(item);
     myBoardGrid.appendChild(item);
+  }
+}
+
+function myBoardSquares(item) {
+  if (item.innerText === "Hit") {
+    item.style.backgroundColor = "red";
+  }
+  if (item.innerText === "Miss") {
+    item.style.backgroundColor = "green";
   }
 }
 
@@ -64,7 +74,8 @@ function squareClickListener(item, index) {
       console.log(row);
       console.log(column);
       stephen.myAttack(row, column);
-      console.log(stephen.computerBoard.board);
+      console.log("compboard", stephen.computerBoard.board);
+      console.log("myboard", stephen.myBoard.board);
       // need to change this to the player input name when that is set up
     } else {
       item.style.backgroundColor = "green";
@@ -74,7 +85,8 @@ function squareClickListener(item, index) {
       console.log(row);
       console.log(column);
       stephen.myAttack(row, column);
-      console.log(stephen.computerBoard.board);
+      console.log("compboard", stephen.computerBoard.board);
+      console.log("myboard", stephen.myBoard.board);
       // need to change this to the player input name when that is set up
     }
   });

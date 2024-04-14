@@ -27,7 +27,13 @@ class Player {
     let compCoord2 = coord2 + 1;
     // wont work with coords higher than 8 - need to figure this out later
     let result = this.myBoard.receiveAttack(compCoord1, compCoord2);
+    this.refreshMyBoardAfterCompAttack();
+
     return result;
+  }
+
+  refreshMyBoardAfterCompAttack() {
+    renderMyBoard(this.myBoard.board);
   }
 }
 
