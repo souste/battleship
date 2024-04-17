@@ -35,6 +35,7 @@ function renderMyBoard(arr) {
   for (let i = 0; i <= 99; i++) {
     let item = document.createElement("div");
     item.innerText = flatArr[i];
+    item.className = "square";
     myBoardSquares(item);
     myBoardGrid.appendChild(item);
   }
@@ -54,6 +55,7 @@ function renderComputerBoard(arr) {
   for (let i = 0; i <= 99; i++) {
     let item = document.createElement("div");
     item.innerText = flatArr[i];
+    item.className = "square";
     // item.style.color = "yellow";
     // This will make the text invisible again
     computerBoardSquares(item, i);
@@ -94,9 +96,8 @@ function computerBoardSquares(item, index) {
 }
 
 // Next Steps
-// 1) Connect the click events to the array - Done!
-// 2) Need to connect to computer automatic turns - Done!
-// 3) Create event listeners to change colour for computer accordingly - Done!
-// 4) Sort out the issue of Ship Placement
+// Recursion?? - if computer hits a previous Miss or achieves a Hit, it goes again?
+// The player gets another turn it if achieves a Hit
+// Improve the computer AI
 
 module.exports = { renderMyBoard, renderComputerBoard };

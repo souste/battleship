@@ -63,16 +63,34 @@ class Player {
   myAttack(coord1, coord2) {
     let result = this.computerBoard.receiveAttack(coord1, coord2);
     if (result) {
-      this.compAttack(coord1, coord2);
+      this.compAttack();
     }
     return result;
   }
 
   compAttack() {
-    let coord1 = Math.floor(Math.random() * 10);
-    let coord2 = Math.floor(Math.random() * 10);
-    let result = this.myBoard.receiveAttack(coord1, coord2);
-    this.refreshMyBoardAfterCompAttack();
+    let coord1, coord2, coordValue, result;
+
+    const attackAfterOneSecond = () => {
+      coord1 = Math.floor(Math.random() * 10);
+      coord2 = Math.floor(Math.random() * 10);
+      coordValue = this.myBoard.board[coord1][coord2];
+      result = this.myBoard.receiveAttack(coord1, coord2);
+      this.refreshMyBoardAfterCompAttack();
+
+      if (
+        coordValue === "Miss" ||
+        coordValue === "Hit" ||
+        coordValue === "Crr" ||
+        coordValue === "Bat" ||
+        coordValue === "Cru" ||
+        coordValue === "Sub" ||
+        coordValue === "Des"
+      ) {
+        setTimeout(attackAfterOneSecond, 1000);
+      }
+    };
+    attackAfterOneSecond();
 
     return result;
   }
@@ -90,21 +108,7 @@ stephen.myBoard.placeShip(stephen.myBoard.cruiser, 4, 3, "horizontal");
 stephen.myBoard.placeShip(stephen.myBoard.submarine, 5, 4, "vertical");
 stephen.myBoard.placeShip(stephen.myBoard.destroyer, 8, 6, "vertical");
 
-// stephen.computerBoard.placeShip(stephen.computerBoard.carrier, 0, 1, "horizontal");
-// stephen.computerBoard.placeShip(stephen.computerBoard.battleship, 2, 5, "vertical");
-// stephen.computerBoard.placeShip(stephen.computerBoard.cruiser, 4, 6, "horizontal");
-// stephen.computerBoard.placeShip(stephen.computerBoard.submarine, 6, 1, "vertical");
-// stephen.computerBoard.placeShip(stephen.computerBoard.destroyer, 7, 5, "vertical");
-
-// stephen.myAttack(2, 5);
-// stephen.myAttack(2, 6);
-// stephen.myAttack(3, 3);
-// stephen.myAttack(4, 4);
-// stephen.myAttack(4, 5);
-// stephen.myAttack(8, 8);
-
 renderMyBoard(stephen.myBoard.board);
-// renderComputerBoard(stephen.computerBoard.board);
 
 console.log("stephen/ my board", stephen.myBoard.board);
 console.log("stephen/ comp board", stephen.computerBoard.board);
