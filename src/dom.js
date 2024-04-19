@@ -96,7 +96,7 @@ function computerBoardSquares(item, index) {
 }
 
 // Next Steps
-// Recursion?? - if computer hits a previous Miss or achieves a Hit, it goes again?
+// Recursion?? - if computer hits a previous Miss or achieves a Hit, it goes again? - Done!
 // The player gets another turn it if achieves a Hit
 // Improve the computer AI
 

@@ -56,14 +56,12 @@ class Player {
     }
   }
 
-  randomCoord() {
-    return Math.floor(Math.random() * 10);
-  }
-
   myAttack(coord1, coord2) {
     let result = this.computerBoard.receiveAttack(coord1, coord2);
     if (result) {
-      this.compAttack();
+      setTimeout(() => {
+        this.compAttack();
+      }, 1000);
     }
     return result;
   }
