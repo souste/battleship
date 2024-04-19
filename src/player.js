@@ -58,7 +58,9 @@ class Player {
 
   myAttack(coord1, coord2) {
     let result = this.computerBoard.receiveAttack(coord1, coord2);
-    if (result) {
+    let coordValue = this.computerBoard.board[coord1][coord2];
+    console.log("coordValue", coordValue);
+    if (coordValue === "Miss") {
       setTimeout(() => {
         this.compAttack();
       }, 1000);

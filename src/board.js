@@ -54,7 +54,6 @@ class Board {
     }
   }
 
-  // double check logic for if ship already hit
   receiveAttack(rowCoord, colCoord) {
     let coordValue = this.board[rowCoord][colCoord];
     if (typeof coordValue == "number") {
