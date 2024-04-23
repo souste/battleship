@@ -52,14 +52,16 @@ function myBoardSquares(item) {
 
 function renderComputerBoard(arr) {
   let flatArr = arr.flat();
+
   for (let i = 0; i <= 99; i++) {
     let item = document.createElement("div");
     item.innerText = flatArr[i];
     item.className = "square";
+    computerBoardGrid.appendChild(item);
     // item.style.color = "yellow";
     // This will make the text invisible again
+
     computerBoardSquares(item, i);
-    computerBoardGrid.appendChild(item);
   }
 }
 
@@ -69,35 +71,34 @@ function computerBoardSquares(item, index) {
   const column = index % 10;
 
   item.addEventListener("click", () => {
+    if (!stephen.playerTurn) return;
     if (shipValues.includes(item.innerText)) {
       item.style.backgroundColor = "red";
       item.innerText = "HIT!";
       item.style.color = "black";
-      item.style.pointerEvents = "none";
-      console.log(row);
-      console.log(column);
+
       stephen.myAttack(row, column);
       // need to change this to the player input name when that is set up
-      console.log("compboard", stephen.computerBoard.board);
-      console.log("myboard", stephen.myBoard.board);
     } else {
       item.style.backgroundColor = "green";
       item.innerText = "MISS";
       item.style.color = "black";
-      item.style.pointerEvents = "none";
-      console.log(row);
-      console.log(column);
+
       stephen.myAttack(row, column);
+      stephen.playerTurn = false;
       // need to change this to the player input name when that is set up
-      console.log("compboard", stephen.computerBoard.board);
-      console.log("myboard", stephen.myBoard.board);
     }
   });
 }
 
 // Next Steps
 // Recursion?? - if computer hits a previous Miss or achieves a Hit, it goes again? - Done!
-// The player gets another turn it if achieves a Hit
+// The player gets another turn it if achieves a Hit - Done!
+// Player squares need to be deactivated until computer places hit
+// Need to show once all of a ship as sunk, once whole length hit
+// Allow Player to input name (need to replace all stephens here)
+// Allow Player to place ships
+// Apply ship images to the board
 // Improve the computer AI
 
 module.exports = { renderMyBoard, renderComputerBoard };

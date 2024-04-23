@@ -7,7 +7,7 @@ class Player {
     this.myBoard = new Board();
     this.computerBoard = new Board();
     this.computerAttacks = [];
-
+    this.playerTurn = true;
     this.compShipPlacement();
   }
 
@@ -57,6 +57,7 @@ class Player {
   }
 
   myAttack(coord1, coord2) {
+    if (!this.playerTurn) return;
     let result = this.computerBoard.receiveAttack(coord1, coord2);
     let coordValue = this.computerBoard.board[coord1][coord2];
     console.log("coordValue", coordValue);
@@ -64,11 +65,14 @@ class Player {
       setTimeout(() => {
         this.compAttack();
       }, 1000);
+      this.playerTurn = false;
     }
+
     return result;
   }
 
   compAttack() {
+    if (this.playerTurn) return;
     let coord1, coord2, coordValue, result;
 
     const attackAfterOneSecond = () => {
@@ -88,6 +92,8 @@ class Player {
         coordValue === "Des"
       ) {
         setTimeout(attackAfterOneSecond, 1000);
+      } else {
+        this.playerTurn = true;
       }
     };
     attackAfterOneSecond();
