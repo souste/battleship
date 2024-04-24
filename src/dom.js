@@ -76,17 +76,21 @@ function computerBoardSquares(item, index) {
       item.style.backgroundColor = "red";
       item.innerText = "HIT!";
       item.style.color = "black";
-
+      item.style.pointerEvents = "none";
       stephen.myAttack(row, column);
       // need to change this to the player input name when that is set up
+      console.log("compboard", stephen.computerBoard.board);
+      console.log("myboard", stephen.myBoard.board);
     } else {
       item.style.backgroundColor = "green";
       item.innerText = "MISS";
       item.style.color = "black";
-
+      item.style.pointerEvents = "none";
       stephen.myAttack(row, column);
       stephen.playerTurn = false;
       // need to change this to the player input name when that is set up
+      console.log("compboard", stephen.computerBoard.board);
+      console.log("myboard", stephen.myBoard.board);
     }
   });
 }
@@ -94,7 +98,7 @@ function computerBoardSquares(item, index) {
 // Next Steps
 // Recursion?? - if computer hits a previous Miss or achieves a Hit, it goes again? - Done!
 // The player gets another turn it if achieves a Hit - Done!
-// Player squares need to be deactivated until computer places hit
+// Player squares need to be deactivated until computer places hit - Done!
 // Need to show once all of a ship as sunk, once whole length hit
 // Allow Player to input name (need to replace all stephens here)
 // Allow Player to place ships

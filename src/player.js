@@ -72,7 +72,6 @@ class Player {
   }
 
   compAttack() {
-    if (this.playerTurn) return;
     let coord1, coord2, coordValue, result;
 
     const attackAfterOneSecond = () => {
