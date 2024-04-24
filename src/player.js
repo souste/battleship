@@ -1,4 +1,3 @@
-const Ships = require("./ships");
 const Board = require("./board");
 const { renderMyBoard, renderComputerBoard } = require("./dom");
 
@@ -9,6 +8,7 @@ class Player {
     this.computerAttacks = [];
     this.playerTurn = true;
     this.compShipPlacement();
+    console.log("Player Instance Created");
   }
 
   compShipPlacement() {
