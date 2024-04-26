@@ -1,38 +1,7 @@
-const Player = require("./player");
-const Board = require("./board");
 const content = document.querySelector(".content");
 const title = document.createElement("h1");
 title.innerText = "Battleships";
 content.appendChild(title);
-
-// FORM
-
-const formContainer = document.createElement("div");
-const playerNameLabel = document.createElement("label");
-const playerNameForm = document.createElement("form");
-const playerNameButton = document.createElement("button");
-playerNameButton.className = "player-name-button";
-const playerNameInput = document.createElement("input");
-
-playerNameLabel.textContent = "Enter Your Name";
-playerNameButton.textContent = "Start";
-
-playerNameForm.appendChild(playerNameInput);
-formContainer.appendChild(playerNameLabel);
-formContainer.appendChild(playerNameForm);
-formContainer.appendChild(playerNameButton);
-content.appendChild(formContainer);
-
-// the below works in index.js but not here...
-
-// playerNameButton.addEventListener("click", (event) => {
-//   event.preventDefault();
-//   const playerName = playerNameInput.value;
-//   console.log("playerNameInput", playerNameInput.value);
-//   playerName = new Player();
-// });
-
-// jeevy = new Player();
 
 // BOARDS
 
@@ -137,5 +106,6 @@ function computerBoardSquares(item, index) {
 // Allow Player to place ships
 // Apply ship images to the board
 // Improve the computer AI
+// Comp ships occassionally intersect
 
 module.exports = { renderMyBoard, renderComputerBoard };

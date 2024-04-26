@@ -8,7 +8,6 @@ class Player {
     this.computerAttacks = [];
     this.playerTurn = true;
     this.compShipPlacement();
-    console.log("Player Instance Created");
   }
 
   compShipPlacement() {
@@ -105,17 +104,50 @@ class Player {
   }
 }
 
-stephen = new Player();
+//////////////////Bug in dom.js since can't import Player class, possibly due to co-dependencies with dom.js???
 
-stephen.myBoard.placeShip(stephen.myBoard.carrier, 0, 0, "horizontal");
-stephen.myBoard.placeShip(stephen.myBoard.battleship, 1, 0, "vertical");
-stephen.myBoard.placeShip(stephen.myBoard.cruiser, 4, 3, "horizontal");
-stephen.myBoard.placeShip(stephen.myBoard.submarine, 5, 4, "vertical");
-stephen.myBoard.placeShip(stephen.myBoard.destroyer, 8, 6, "vertical");
+///////////////////////////////////////////////////////////////////////////////////// FORM
+const content = document.querySelector(".content");
+const formContainer = document.createElement("div");
+const playerNameLabel = document.createElement("label");
+const playerNameForm = document.createElement("form");
+const playerNameButton = document.createElement("button");
+playerNameButton.className = "player-name-button";
+const playerNameInput = document.createElement("input");
 
-renderMyBoard(stephen.myBoard.board);
+playerNameLabel.textContent = "Enter Your Name";
+playerNameButton.textContent = "Start";
 
-console.log("stephen/ my board", stephen.myBoard.board);
-console.log("stephen/ comp board", stephen.computerBoard.board);
+playerNameForm.appendChild(playerNameInput);
+formContainer.appendChild(playerNameLabel);
+formContainer.appendChild(playerNameForm);
+formContainer.appendChild(playerNameButton);
+content.appendChild(formContainer);
+
+playerNameButton.addEventListener("click", (event) => {
+  event.preventDefault();
+  createPlayer(playerNameInput.value);
+});
+
+playerName = "";
+
+const createPlayer = function (name) {
+  playerName = name;
+  console.log(playerName);
+};
+
+playerName = new Player();
+console.log(playerName);
+
+playerName.myBoard.placeShip(playerName.myBoard.carrier, 0, 0, "horizontal");
+playerName.myBoard.placeShip(playerName.myBoard.battleship, 1, 0, "vertical");
+playerName.myBoard.placeShip(playerName.myBoard.cruiser, 4, 3, "horizontal");
+playerName.myBoard.placeShip(playerName.myBoard.submarine, 5, 4, "vertical");
+playerName.myBoard.placeShip(playerName.myBoard.destroyer, 8, 6, "vertical");
+
+renderMyBoard(playerName.myBoard.board);
+
+console.log("playerName/ my board", playerName.myBoard.board);
+console.log("playerName/ comp board", playerName.computerBoard.board);
 
 module.exports = Player;

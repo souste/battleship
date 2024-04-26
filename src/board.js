@@ -1,5 +1,4 @@
 const Ships = require("./ships");
-// const domBoard = require("./dom");
 
 class Board {
   constructor() {
