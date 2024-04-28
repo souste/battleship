@@ -1,5 +1,5 @@
 const Board = require("./board");
-const { renderMyBoard, renderComputerBoard } = require("./dom");
+// const { renderMyBoard, renderComputerBoard } = require("./dom");
 
 class Player {
   constructor() {
@@ -104,16 +104,22 @@ class Player {
   }
 }
 
-//////////////////Bug in dom.js since can't import Player class, possibly due to co-dependencies with dom.js???
+/////////////////////////////////////////////////////////////////////////////////////////////////DOM
 
-///////////////////////////////////////////////////////////////////////////////////// FORM
 const content = document.querySelector(".content");
+const title = document.createElement("h1");
+title.innerText = "Battleships";
+content.appendChild(title);
+
+///////////////////////////////////////////////////////////////////////// FORM
+
 const formContainer = document.createElement("div");
 const playerNameLabel = document.createElement("label");
 const playerNameForm = document.createElement("form");
 const playerNameButton = document.createElement("button");
 playerNameButton.className = "player-name-button";
 const playerNameInput = document.createElement("input");
+playerNameInput.className = "player-name-input";
 
 playerNameLabel.textContent = "Enter Your Name";
 playerNameButton.textContent = "Start";
@@ -124,30 +130,121 @@ formContainer.appendChild(playerNameForm);
 formContainer.appendChild(playerNameButton);
 content.appendChild(formContainer);
 
+////////////////////////BOARDS////////////////////////////////
+
+const boardsContainer = document.createElement("div");
+boardsContainer.className = "boards-container";
+content.appendChild(boardsContainer);
+
+const myBoardContainer = document.createElement("div");
+const myBoardTitle = document.createElement("h2");
+
+const myBoardGrid = document.createElement("div");
+myBoardGrid.className = "grid-container";
+
+const computerBoardGrid = document.createElement("div");
+computerBoardGrid.className = "grid-container";
+
+const computerBoardContainer = document.createElement("div");
+const computerBoardTitle = document.createElement("h2");
+computerBoardTitle.innerText = "Opponent Board";
+
+boardsContainer.appendChild(myBoardContainer);
+myBoardContainer.appendChild(myBoardTitle);
+myBoardContainer.appendChild(myBoardGrid);
+
+boardsContainer.appendChild(computerBoardContainer);
+computerBoardContainer.appendChild(computerBoardTitle);
+computerBoardContainer.appendChild(computerBoardGrid);
+
+// Name Input//////////////////////////////////////////////////////////////////////////////////
+
+let playerObject;
+
 playerNameButton.addEventListener("click", (event) => {
   event.preventDefault();
-  createPlayer(playerNameInput.value);
+
+  playerObject = new Player();
+
+  playerObject.myBoard.placeShip(playerObject.myBoard.carrier, 0, 0, "horizontal");
+  playerObject.myBoard.placeShip(playerObject.myBoard.battleship, 1, 0, "vertical");
+  playerObject.myBoard.placeShip(playerObject.myBoard.cruiser, 4, 3, "horizontal");
+  playerObject.myBoard.placeShip(playerObject.myBoard.submarine, 5, 4, "vertical");
+  playerObject.myBoard.placeShip(playerObject.myBoard.destroyer, 8, 6, "vertical");
+
+  renderMyBoard(playerObject.myBoard.board);
+
+  myBoardTitle.innerText = `${playerNameInput.value}'s Board`;
 });
 
-playerName = "";
+console.log("playerObject", playerObject);
 
-const createPlayer = function (name) {
-  playerName = name;
-  console.log(playerName);
-};
+//////////////////////////////////////////////////////BOARDS
 
-playerName = new Player();
-console.log(playerName);
+function renderMyBoard(arr) {
+  myBoardGrid.innerHTML = "";
+  let flatArr = arr.flat();
+  for (let i = 0; i <= 99; i++) {
+    let item = document.createElement("div");
+    item.innerText = flatArr[i];
+    item.className = "square";
+    myBoardSquares(item);
+    myBoardGrid.appendChild(item);
+  }
+}
 
-playerName.myBoard.placeShip(playerName.myBoard.carrier, 0, 0, "horizontal");
-playerName.myBoard.placeShip(playerName.myBoard.battleship, 1, 0, "vertical");
-playerName.myBoard.placeShip(playerName.myBoard.cruiser, 4, 3, "horizontal");
-playerName.myBoard.placeShip(playerName.myBoard.submarine, 5, 4, "vertical");
-playerName.myBoard.placeShip(playerName.myBoard.destroyer, 8, 6, "vertical");
+function myBoardSquares(item) {
+  if (item.innerText === "Hit") {
+    item.style.backgroundColor = "red";
+  }
+  if (item.innerText === "Miss") {
+    item.style.backgroundColor = "green";
+  }
+}
 
-renderMyBoard(playerName.myBoard.board);
+function renderComputerBoard(arr) {
+  let flatArr = arr.flat();
 
-console.log("playerName/ my board", playerName.myBoard.board);
-console.log("playerName/ comp board", playerName.computerBoard.board);
+  for (let i = 0; i <= 99; i++) {
+    let item = document.createElement("div");
+    item.innerText = flatArr[i];
+    item.className = "square";
+    computerBoardGrid.appendChild(item);
+    // item.style.color = "yellow";
+    // This will make the text invisible again
+
+    computerBoardSquares(item, i);
+  }
+}
+
+function computerBoardSquares(item, index) {
+  const shipValues = ["Crr", "Bat", "Cru", "Sub", "Des"];
+  const row = Math.floor(index / 10);
+  const column = index % 10;
+
+  item.addEventListener("click", () => {
+    if (!playerObject.playerTurn) return;
+    if (shipValues.includes(item.innerText)) {
+      item.style.backgroundColor = "red";
+      item.innerText = "HIT!";
+      item.style.color = "black";
+      item.style.pointerEvents = "none";
+      playerObject.myAttack(row, column);
+      // need to change this to the player input name when that is set up
+      console.log("compboard", playerObject.computerBoard.board);
+      console.log("myboard", playerObject.myBoard.board);
+    } else {
+      item.style.backgroundColor = "green";
+      item.innerText = "MISS";
+      item.style.color = "black";
+      item.style.pointerEvents = "none";
+      playerObject.myAttack(row, column);
+      playerObject.playerTurn = false;
+      // need to change this to the player input name when that is set up
+      console.log("compboard", playerObject.computerBoard.board);
+      console.log("myboard", playerObject.myBoard.board);
+    }
+  });
+}
 
 module.exports = Player;
