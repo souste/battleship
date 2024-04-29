@@ -147,7 +147,7 @@ class Player {
   }
 
   refreshMyBoardAfterCompAttack() {
-    renderMyBoard(this.myBoard.board);
+    this.renderMyBoard(this.myBoard.board);
   }
 
   renderMyBoard(arr) {
