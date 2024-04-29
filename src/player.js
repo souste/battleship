@@ -48,6 +48,8 @@ computerBoardContainer.appendChild(computerBoardTitle);
 computerBoardContainer.appendChild(computerBoardGrid);
 // const { renderMyBoard, renderComputerBoard } = require("./dom");
 
+boardsContainer.style.display = "none";
+
 class Player {
   constructor() {
     this.myBoard = new Board();
@@ -231,6 +233,7 @@ playerNameButton.addEventListener("click", (event) => {
   playerObject.renderMyBoard(playerObject.myBoard.board);
 
   myBoardTitle.innerText = `${playerNameInput.value}'s Board`;
+  boardsContainer.style.display = "flex";
 });
 
 module.exports = Player;

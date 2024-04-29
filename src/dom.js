@@ -5,7 +5,7 @@
 // The player gets another turn it if achieves a Hit - Done!
 // Player squares need to be deactivated until computer places hit - Done!
 // Need to show once all of a ship as sunk, once whole length hit
-// Allow Player to input name (need to replace all stephens here)
+// Allow Player to input name (need to replace all stephens here) - Done!
 // Allow Player to place ships
 // Apply ship images to the board
 // Improve the computer AI
