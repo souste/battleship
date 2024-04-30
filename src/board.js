@@ -23,8 +23,6 @@ class Board {
     return board;
   }
 
-  // Will need an alert when UI built to inform player that ships overlap
-
   placeShip(ship, rowCoord, colCoord, direction) {
     const coordValue = this.board[rowCoord][colCoord];
     if (direction === "horizontal" && colCoord + ship.length > this.board[rowCoord].length) {
@@ -32,6 +30,18 @@ class Board {
     }
     if (direction === "vertical" && rowCoord + ship.length > this.board.length) {
       return false;
+    }
+
+    for (let i = 0; i < ship.length; i++) {
+      if (direction === "horizontal") {
+        if (typeof this.board[rowCoord][colCoord + i] === "string") {
+          return false;
+        }
+      } else if (direction === "vertical") {
+        if (typeof this.board[rowCoord + i][colCoord] === "string") {
+          return false;
+        }
+      }
     }
 
     if (typeof coordValue == "number" && coordValue <= 9) {

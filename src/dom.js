@@ -6,9 +6,9 @@
 // Player squares need to be deactivated until computer places hit - Done!
 // Need to show once all of a ship as sunk, once whole length hit
 // Allow Player to input name (need to replace all stephens here) - Done!
+// Stop Comp ships from intersecting
 // Allow Player to place ships
 // Apply ship images to the board
 // Improve the computer AI
-// Comp ships occassionally intersect
 
 // module.exports = { renderMyBoard, renderComputerBoard };

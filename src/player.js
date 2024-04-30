@@ -201,8 +201,8 @@ class Player {
         item.style.color = "black";
         item.style.pointerEvents = "none";
         playerObject.myAttack(row, column);
-        console.log("compboard", playerObject.computerBoard.board);
-        console.log("myboard", playerObject.myBoard.board);
+        // console.log("compboard", playerObject.computerBoard.board);
+        // console.log("myboard", playerObject.myBoard.board);
       } else {
         item.style.backgroundColor = "green";
         item.innerText = "MISS";
@@ -210,8 +210,8 @@ class Player {
         item.style.pointerEvents = "none";
         playerObject.myAttack(row, column);
         playerObject.playerTurn = false;
-        console.log("compboard", playerObject.computerBoard.board);
-        console.log("myboard", playerObject.myBoard.board);
+        // console.log("compboard", playerObject.computerBoard.board);
+        // console.log("myboard", playerObject.myBoard.board);
       }
     });
   }
@@ -234,6 +234,7 @@ playerNameButton.addEventListener("click", (event) => {
 
   myBoardTitle.innerText = `${playerNameInput.value}'s Board`;
   boardsContainer.style.display = "flex";
+  playerNameInput.value = "";
 });
 
 module.exports = Player;
