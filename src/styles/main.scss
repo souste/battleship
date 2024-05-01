@@ -18,3 +18,76 @@
 .square {
   cursor: pointer;
 }
+
+// SHIP SELECT
+
+.ship-buttons-container {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.ship-select-item {
+  background-color: yellow;
+  border: 1px solid black;
+}
+
+/////////////////CARRIER
+
+.carrier-select-container {
+  display: grid;
+  grid-template-rows: repeat(1, 40px);
+  grid-template-columns: repeat(5, 40px);
+}
+
+.carrier-select-container > div {
+  border: 1px solid black;
+}
+
+/////////////////BATTLESHIP
+
+.battleship-select-container {
+  display: grid;
+  grid-template-rows: repeat(1, 40px);
+  grid-template-columns: repeat(4, 40px);
+}
+
+.battleship-select-container > div {
+  border: 1px solid black;
+}
+
+////////////////CRUISER
+
+.cruiser-select-container {
+  display: grid;
+  grid-template-rows: repeat(1, 40px);
+  grid-template-columns: repeat(3, 40px);
+}
+
+.cruiser-select-container > div {
+  border: 1px solid black;
+}
+
+//////////////SUBMARINE
+
+.submarine-select-container {
+  display: grid;
+  grid-template-rows: repeat(1, 40px);
+  grid-template-columns: repeat(3, 40px);
+}
+
+.submarine-select-container > div {
+  border: 1px solid black;
+}
+
+///////////////DESTROYER
+
+.destroyer-select-container {
+  display: grid;
+  grid-template-rows: repeat(1, 40px);
+  grid-template-columns: repeat(2, 40px);
+}
+
+.destroyer-select-container > div {
+  border: 1px solid black;
+}
