@@ -12,5 +12,6 @@
 // Add sound effects and maybe one second delay before player can click again (if they achieve a hit)
 // Improve the computer AI
 // Separate DOM from player class - figure out what the issue is with importing
+// Player class needs major refactorin - figure out what the Player import bug is
 
 // module.exports = { renderMyBoard, renderComputerBoard };
