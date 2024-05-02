@@ -184,10 +184,11 @@ class Player {
     let column = index % 10;
 
     item.addEventListener("click", () => {
-      console.log("row", row);
-      console.log("column", column);
       playerObject.myBoard.placeShip(playerObject.myBoard.carrier, row, column, "horizontal");
-      console.log(playerObject.myBoard.board);
+      // playerObject.myBoard.placeShip(playerObject.myBoard.battleship, 1, 0, "vertical");
+      // playerObject.myBoard.placeShip(playerObject.myBoard.cruiser, 4, 3, "horizontal");
+      // playerObject.myBoard.placeShip(playerObject.myBoard.submarine, 5, 4, "vertical");
+      // playerObject.myBoard.placeShip(playerObject.myBoard.destroyer, 8, 6, "vertical");
       this.renderMyBoard(arr);
     });
   }
