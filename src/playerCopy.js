@@ -58,7 +58,6 @@ class Player {
     this.computerAttacks = [];
     this.playerTurn = true;
     this.compShipPlacement();
-    this.currentShipIndex = 0;
   }
 
   compShipPlacement() {
@@ -185,23 +184,13 @@ class Player {
     let column = index % 10;
 
     item.addEventListener("click", () => {
-      let currentShip = this.getCurrentShipToPlace();
-      playerObject.myBoard.placeShip(currentShip, row, column, "horizontal");
-      this.currentShipIndex++;
-
+      playerObject.myBoard.placeShip(playerObject.myBoard.carrier, row, column, "horizontal");
+      // playerObject.myBoard.placeShip(playerObject.myBoard.battleship, 1, 0, "vertical");
+      // playerObject.myBoard.placeShip(playerObject.myBoard.cruiser, 4, 3, "horizontal");
+      // playerObject.myBoard.placeShip(playerObject.myBoard.submarine, 5, 4, "vertical");
+      // playerObject.myBoard.placeShip(playerObject.myBoard.destroyer, 8, 6, "vertical");
       this.renderMyBoard(arr);
     });
-  }
-
-  getCurrentShipToPlace() {
-    const ships = [
-      this.myBoard.carrier,
-      this.myBoard.battleship,
-      this.myBoard.cruiser,
-      this.myBoard.submarine,
-      this.myBoard.destroyer,
-    ];
-    return ships[this.currentShipIndex];
   }
 
   renderComputerBoard(arr) {
