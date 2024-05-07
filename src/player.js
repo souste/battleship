@@ -53,8 +53,10 @@ computerBoardContainer.appendChild(computerBoardGrid);
 
 // const { renderMyBoard, renderComputerBoard } = require("./dom");
 
-// boardsContainer.style.display = "none";
-// Reveal this again to hid boards after name input
+boardsContainer.style.display = "none";
+myBoardContainer.style.display = "none";
+computerBoardContainer.style.display = "none";
+axisButton.style.display = "none";
 
 let orientation = "horizontal";
 
@@ -130,12 +132,11 @@ class Player {
     let result = this.computerBoard.receiveAttack(coord1, coord2);
     let coordValue = this.computerBoard.board[coord1][coord2];
     console.log("coordValue", coordValue);
-    if (coordValue === "Miss") {
-      setTimeout(() => {
-        this.compAttack();
-      }, 1000);
-      this.playerTurn = false;
-    }
+
+    setTimeout(() => {
+      this.compAttack();
+    }, 1000);
+    this.playerTurn = false;
 
     return result;
   }
@@ -157,11 +158,12 @@ class Player {
         coordValue === "Bat" ||
         coordValue === "Cru" ||
         coordValue === "Sub" ||
-        coordValue === "Des"
+        coordValue === "Des" ||
+        typeof coordValue === "number"
       ) {
-        setTimeout(attackAfterOneSecond, 1000);
-      } else {
         this.playerTurn = true;
+      } else {
+        setTimeout(attackAfterOneSecond, 1000);
       }
     };
     attackAfterOneSecond();
@@ -205,9 +207,11 @@ class Player {
 
   // need to highlight where the ship will be placed
   // need to disable event listener if too close to the edge of the board
-  // create a toggle button instead of a prompt
-  // hide then only reveal computer board once all ships have been selected
+  // create a toggle button instead of a prompt - done!
+  // hide then only reveal computer board once all ships have been selected - done!
   // change input to just enter input
+  // Need a dialogue instruction box
+  // Need to get rid of the extra turn since it is not a battleship rule
 
   myBoardShipSelect(item, index, arr) {
     let row = Math.floor(index / 10);
@@ -228,6 +232,8 @@ class Player {
 
     if (this.currentShipIndex === 5) {
       item.removeEventListener("click", clickHandler);
+      computerBoardContainer.style.display = "block";
+      axisButton.style.display = "none";
     }
   }
 
@@ -295,7 +301,10 @@ playerNameButton.addEventListener("click", (event) => {
 
   myBoardTitle.innerText = `${playerNameInput.value}'s Board`;
   boardsContainer.style.display = "flex";
+  myBoardContainer.style.display = "block";
+  formContainer.style.display = "none";
   playerNameInput.value = "";
+  axisButton.style.display = "grid";
 });
 
 module.exports = Player;
