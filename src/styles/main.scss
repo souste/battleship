@@ -7,7 +7,7 @@
   display: grid;
   grid-template-rows: repeat(10, 40px);
   grid-template-columns: repeat(10, 40px);
-  background-color: yellow;
+  background-color: rgb(241, 240, 240);
   border: 1px solid black;
 }
 
@@ -28,7 +28,7 @@
 }
 
 .ship-select-item {
-  background-color: yellow;
+  background-color: rgb(241, 240, 240);
   border: 1px solid black;
 }
 

@@ -165,18 +165,22 @@ class Player {
       myBoardGrid.appendChild(item);
 
       this.myBoardShipSelect(item, i, arr);
-
-      ////// Need this to only happen before the start of the game:
-      placePlayerShip(item, flatArr);
     }
   }
 
   myBoardSquares(item) {
-    if (item.innerText === "Hit") {
+    const stringsToCheck = ["Crr", "Bat", "Cru", "Sub", "Des"];
+    if (stringsToCheck.includes(item.innerText)) {
+      item.style.backgroundColor = "black";
+      item.style.color = "black";
+    } else if (item.innerText === "Hit") {
       item.style.backgroundColor = "red";
-    }
-    if (item.innerText === "Miss") {
+      item.style.color = "red";
+    } else if (item.innerText === "Miss") {
       item.style.backgroundColor = "green";
+      item.style.color = "green";
+    } else {
+      item.style.color = "rgb(241, 240, 240)";
     }
   }
 
@@ -186,6 +190,7 @@ class Player {
 
     const clickHandler = () => {
       let currentShip = this.getCurrentShipToPlace();
+      // CHANGE THIS PROMPT TO A RADIO BUTTON SELECT EVENTUALLY
       let orientation = prompt(
         `Select ${currentShip.fullName} Orientation (vertical or horizontal)`,
         "horizontal"
@@ -225,7 +230,7 @@ class Player {
       item.innerText = flatArr[i];
       item.className = "square";
       computerBoardGrid.appendChild(item);
-      // item.style.color = "yellow";
+      item.style.color = "rgb(241, 240, 240)";
       // This will make the text invisible again
 
       this.computerBoardSquares(item, i);
@@ -241,16 +246,14 @@ class Player {
       if (!playerObject.playerTurn) return;
       if (shipValues.includes(item.innerText)) {
         item.style.backgroundColor = "red";
-        item.innerText = "HIT!";
-        item.style.color = "black";
+        item.style.color = "red";
         item.style.pointerEvents = "none";
         playerObject.myAttack(row, column);
         // console.log("compboard", playerObject.computerBoard.board);
         // console.log("myboard", playerObject.myBoard.board);
       } else {
         item.style.backgroundColor = "green";
-        item.innerText = "MISS";
-        item.style.color = "black";
+        item.style.color = "green";
         item.style.pointerEvents = "none";
         playerObject.myAttack(row, column);
         playerObject.playerTurn = false;
@@ -268,31 +271,11 @@ playerNameButton.addEventListener("click", (event) => {
 
   playerObject = new Player();
 
-  // playerObject.myBoard.placeShip(playerObject.myBoard.carrier, 0, 0, "horizontal");
-  // playerObject.myBoard.placeShip(playerObject.myBoard.battleship, 1, 0, "vertical");
-  // playerObject.myBoard.placeShip(playerObject.myBoard.cruiser, 4, 3, "horizontal");
-  // playerObject.myBoard.placeShip(playerObject.myBoard.submarine, 5, 4, "vertical");
-  // playerObject.myBoard.placeShip(playerObject.myBoard.destroyer, 8, 6, "vertical");
-
   playerObject.renderMyBoard(playerObject.myBoard.board);
 
   myBoardTitle.innerText = `${playerNameInput.value}'s Board`;
   boardsContainer.style.display = "flex";
   playerNameInput.value = "";
 });
-
-////////////////////////// PLACING SHIP LOGIC
-
-function placePlayerShip(item) {
-  item.addEventListener("mouseover", () => {
-    for (let i = 0; i < 5; i++) {
-      item.style.backgroundColor = "blue";
-    }
-  });
-
-  item.addEventListener("mouseout", () => {
-    item.style.backgroundColor = "yellow";
-  });
-}
 
 module.exports = Player;
