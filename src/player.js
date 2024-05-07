@@ -186,10 +186,17 @@ class Player {
 
     item.addEventListener("click", () => {
       let currentShip = this.getCurrentShipToPlace();
-      playerObject.myBoard.placeShip(currentShip, row, column, "horizontal");
-      this.currentShipIndex++;
-
-      this.renderMyBoard(arr);
+      let orientation = prompt(
+        `Select ${currentShip.fullName} Orientation (vertical or horizontal)`,
+        "horizontal"
+      ).toLowerCase();
+      if (orientation === "horizontal" || orientation === "vertical") {
+        playerObject.myBoard.placeShip(currentShip, row, column, orientation);
+        this.currentShipIndex++;
+        this.renderMyBoard(arr);
+      } else {
+        alert("Invalid Orientation - Please select 'horizontal' or 'vertical'.");
+      }
     });
   }
 

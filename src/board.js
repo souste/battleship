@@ -3,11 +3,11 @@ const Ships = require("./ships");
 class Board {
   constructor() {
     this.board = this.generateBoard();
-    this.carrier = new Ships(5, 0, false, "Crr");
-    this.battleship = new Ships(4, 0, false, "Bat");
-    this.cruiser = new Ships(3, 0, false, "Cru");
-    this.submarine = new Ships(3, 0, false, "Sub");
-    this.destroyer = new Ships(2, 0, false, "Des");
+    this.carrier = new Ships(5, 0, false, "Crr", "Carrier");
+    this.battleship = new Ships(4, 0, false, "Bat", "Battleship");
+    this.cruiser = new Ships(3, 0, false, "Cru", "Cruiser");
+    this.submarine = new Ships(3, 0, false, "Sub", "Submarine");
+    this.destroyer = new Ships(2, 0, false, "Des", "Destroyer");
   }
 
   generateBoard() {
