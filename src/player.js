@@ -22,6 +22,10 @@ formContainer.appendChild(playerNameForm);
 formContainer.appendChild(playerNameButton);
 content.appendChild(formContainer);
 
+const axisButton = document.createElement("button");
+axisButton.innerText = "Horizontal";
+content.appendChild(axisButton);
+
 const boardsContainer = document.createElement("div");
 boardsContainer.className = "boards-container";
 content.appendChild(boardsContainer);
@@ -46,10 +50,25 @@ myBoardContainer.appendChild(myBoardGrid);
 boardsContainer.appendChild(computerBoardContainer);
 computerBoardContainer.appendChild(computerBoardTitle);
 computerBoardContainer.appendChild(computerBoardGrid);
+
 // const { renderMyBoard, renderComputerBoard } = require("./dom");
 
 // boardsContainer.style.display = "none";
 // Reveal this again to hid boards after name input
+
+let orientation = "horizontal";
+
+const changeAxis = () => {
+  if (axisButton.innerText === "Horizontal") {
+    axisButton.innerText = "Vertical";
+    orientation = "vertical";
+  } else if (axisButton.innerText === "Vertical") {
+    axisButton.innerText = "Horizontal";
+    orientation = "horizontal";
+  }
+};
+
+axisButton.addEventListener("click", changeAxis);
 
 class Player {
   constructor() {
@@ -184,23 +203,24 @@ class Player {
     }
   }
 
+  // need to highlight where the ship will be placed
+  // need to disable event listener if too close to the edge of the board
+  // create a toggle button instead of a prompt
+  // hide then only reveal computer board once all ships have been selected
+  // change input to just enter input
+
   myBoardShipSelect(item, index, arr) {
     let row = Math.floor(index / 10);
     let column = index % 10;
 
     const clickHandler = () => {
       let currentShip = this.getCurrentShipToPlace();
-      // CHANGE THIS PROMPT TO A RADIO BUTTON SELECT EVENTUALLY
-      let orientation = prompt(
-        `Select ${currentShip.fullName} Orientation (vertical or horizontal)`,
-        "horizontal"
-      ).toLowerCase();
-      if (orientation === "horizontal" || orientation === "vertical") {
-        playerObject.myBoard.placeShip(currentShip, row, column, orientation);
+      let lcOrientation = orientation.toLowerCase();
+
+      if (lcOrientation === "horizontal" || lcOrientation === "vertical") {
+        playerObject.myBoard.placeShip(currentShip, row, column, lcOrientation);
         this.currentShipIndex++;
         this.renderMyBoard(arr);
-      } else {
-        alert("Invalid Orientation - Please select 'horizontal' or 'vertical'.");
       }
     };
 
