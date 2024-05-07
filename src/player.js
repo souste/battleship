@@ -184,7 +184,7 @@ class Player {
     let row = Math.floor(index / 10);
     let column = index % 10;
 
-    item.addEventListener("click", () => {
+    const clickHandler = () => {
       let currentShip = this.getCurrentShipToPlace();
       let orientation = prompt(
         `Select ${currentShip.fullName} Orientation (vertical or horizontal)`,
@@ -197,7 +197,13 @@ class Player {
       } else {
         alert("Invalid Orientation - Please select 'horizontal' or 'vertical'.");
       }
-    });
+    };
+
+    item.addEventListener("click", clickHandler);
+
+    if (this.currentShipIndex === 5) {
+      item.removeEventListener("click", clickHandler);
+    }
   }
 
   getCurrentShipToPlace() {
