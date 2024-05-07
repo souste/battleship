@@ -150,16 +150,15 @@ class Player {
       coordValue = this.myBoard.board[coord1][coord2];
       result = this.myBoard.receiveAttack(coord1, coord2);
       this.refreshMyBoardAfterCompAttack();
+      console.log("compCordValue", coordValue);
 
       if (
-        coordValue === "Miss" ||
-        coordValue === "Hit" ||
+        typeof coordValue === "number" ||
         coordValue === "Crr" ||
         coordValue === "Bat" ||
         coordValue === "Cru" ||
         coordValue === "Sub" ||
-        coordValue === "Des" ||
-        typeof coordValue === "number"
+        coordValue === "Des"
       ) {
         this.playerTurn = true;
       } else {
