@@ -37,6 +37,7 @@ const display = document.createElement("p");
 display.className = "display";
 display.innerText = "Place the Carrier.  Use Axis button to change direction";
 boardsOuterContainer.appendChild(display);
+display.style.display = "none";
 
 const axisButton = document.createElement("button");
 axisButton.innerText = "Horizontal";
@@ -226,8 +227,8 @@ class Player {
   // need to disable event listener if too close to the edge of the board or if it goes on top of another ship
   // create a toggle button instead of a prompt - done!
   // hide then only reveal computer board once all ships have been selected - done!
-  // change input to just enter input
-  // Need a dialogue instruction box
+  // change input to just enter input - done!
+  // Need a dialogue instruction box - done!
   // Need to get rid of the extra turn since it is not a battleship rule - done!
 
   myBoardShipSelect(item, index, arr) {
@@ -274,7 +275,7 @@ class Player {
       "Place the Cruiser",
       "Place the Submarine",
       "Place the Destroyer",
-      "Player Turn.  Place a hit on the Board. Good Luck",
+      "Player Turn.  Place a hit on your Opponent's Board. Good Luck!!",
     ];
     return ships[this.currentDisplayIndex];
   }
@@ -338,6 +339,7 @@ playerNameInput.addEventListener("keydown", (event) => {
     playerNameInput.value = "";
     axisButton.style.display = "grid";
     titleImage.style.width = "500px";
+    display.style.display = "block";
   }
 });
 
