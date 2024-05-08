@@ -1,11 +1,21 @@
 const Board = require("./board");
+import battleshipIcon from "./assets/battleship-logo.jpg";
+import "./styles/main.scss";
 
 const content = document.querySelector(".content");
-const title = document.createElement("h1");
-title.innerText = "Battleships";
-content.appendChild(title);
+
+const titleImage = document.createElement("img");
+titleImage.src = battleshipIcon;
+titleImage.className = "title-image";
+
+const imageContainer = document.createElement("div");
+imageContainer.className = "image-container";
+imageContainer.appendChild(titleImage);
+
+content.appendChild(imageContainer);
 
 const formContainer = document.createElement("div");
+formContainer.className = "form-container";
 const playerNameLabel = document.createElement("label");
 const playerNameForm = document.createElement("form");
 const playerNameButton = document.createElement("button");
@@ -22,13 +32,18 @@ formContainer.appendChild(playerNameForm);
 formContainer.appendChild(playerNameButton);
 content.appendChild(formContainer);
 
+const boardsOuterContainer = document.createElement("div");
+boardsOuterContainer.className = "boards-outer-container";
+content.appendChild(boardsOuterContainer);
+
 const axisButton = document.createElement("button");
 axisButton.innerText = "Horizontal";
-content.appendChild(axisButton);
+axisButton.className = "axis-button";
+boardsOuterContainer.appendChild(axisButton);
 
 const boardsContainer = document.createElement("div");
 boardsContainer.className = "boards-container";
-content.appendChild(boardsContainer);
+boardsOuterContainer.appendChild(boardsContainer);
 
 const myBoardContainer = document.createElement("div");
 const myBoardTitle = document.createElement("h2");

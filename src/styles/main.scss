@@ -1,6 +1,44 @@
+.content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+// TITLE IMAGE
+
+.image-container {
+  text-align: center;
+}
+
+img {
+  height: auto;
+  width: 1000px;
+}
+
+// FORM
+
+.form-container {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+}
+
+.player-name-button {
+  width: 50px;
+}
+
+// BOARDS
+
+.boards-outer-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
 .boards-container {
   display: flex;
   gap: 100px;
+  justify-content: center;
 }
 
 .grid-container {
@@ -17,6 +55,10 @@
 
 .square {
   cursor: pointer;
+}
+
+.axis-button {
+  width: 100px;
 }
 
 // SHIP SELECT
