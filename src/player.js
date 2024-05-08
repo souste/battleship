@@ -17,6 +17,7 @@ content.appendChild(imageContainer);
 const formContainer = document.createElement("div");
 formContainer.className = "form-container";
 const playerNameLabel = document.createElement("label");
+playerNameLabel.className = "player-name-label";
 const playerNameForm = document.createElement("form");
 const playerNameInput = document.createElement("input");
 playerNameInput.className = "player-name-input";
@@ -316,6 +317,7 @@ playerNameInput.addEventListener("keydown", (event) => {
     formContainer.style.display = "none";
     playerNameInput.value = "";
     axisButton.style.display = "grid";
+    titleImage.style.width = "500px";
   }
 });
 
