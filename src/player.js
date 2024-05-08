@@ -33,6 +33,11 @@ const boardsOuterContainer = document.createElement("div");
 boardsOuterContainer.className = "boards-outer-container";
 content.appendChild(boardsOuterContainer);
 
+const display = document.createElement("p");
+display.className = "display";
+display.innerText = "Place the Carrier.  Use Axis button to change direction";
+boardsOuterContainer.appendChild(display);
+
 const axisButton = document.createElement("button");
 axisButton.innerText = "Horizontal";
 axisButton.className = "axis-button";
@@ -92,6 +97,7 @@ class Player {
     this.playerTurn = true;
     this.compShipPlacement();
     this.currentShipIndex = 0;
+    this.currentDisplayIndex = 0;
   }
 
   compShipPlacement() {
@@ -217,7 +223,7 @@ class Player {
   }
 
   // need to highlight where the ship will be placed
-  // need to disable event listener if too close to the edge of the board
+  // need to disable event listener if too close to the edge of the board or if it goes on top of another ship
   // create a toggle button instead of a prompt - done!
   // hide then only reveal computer board once all ships have been selected - done!
   // change input to just enter input
@@ -230,12 +236,15 @@ class Player {
 
     const clickHandler = () => {
       let currentShip = this.getCurrentShipToPlace();
+      let nextDisplay = this.getCurrentShipToDisplay();
       let lcOrientation = orientation.toLowerCase();
 
       if (lcOrientation === "horizontal" || lcOrientation === "vertical") {
         playerObject.myBoard.placeShip(currentShip, row, column, lcOrientation);
         this.currentShipIndex++;
+        this.currentDisplayIndex++;
         this.renderMyBoard(arr);
+        display.innerText = `${nextDisplay}`;
       }
     };
 
@@ -257,6 +266,17 @@ class Player {
       this.myBoard.destroyer,
     ];
     return ships[this.currentShipIndex];
+  }
+
+  getCurrentShipToDisplay() {
+    const ships = [
+      "Place the Battleship",
+      "Place the Cruiser",
+      "Place the Submarine",
+      "Place the Destroyer",
+      "Player Turn.  Place a hit on the Board. Good Luck",
+    ];
+    return ships[this.currentDisplayIndex];
   }
 
   renderComputerBoard(arr) {
