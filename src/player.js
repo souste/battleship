@@ -18,18 +18,14 @@ const formContainer = document.createElement("div");
 formContainer.className = "form-container";
 const playerNameLabel = document.createElement("label");
 const playerNameForm = document.createElement("form");
-const playerNameButton = document.createElement("button");
-playerNameButton.className = "player-name-button";
 const playerNameInput = document.createElement("input");
 playerNameInput.className = "player-name-input";
-
 playerNameLabel.textContent = "Enter Your Name";
-playerNameButton.textContent = "Start";
 
 playerNameForm.appendChild(playerNameInput);
 formContainer.appendChild(playerNameLabel);
 formContainer.appendChild(playerNameForm);
-formContainer.appendChild(playerNameButton);
+
 content.appendChild(formContainer);
 
 const boardsOuterContainer = document.createElement("div");
@@ -225,7 +221,7 @@ class Player {
   // hide then only reveal computer board once all ships have been selected - done!
   // change input to just enter input
   // Need a dialogue instruction box
-  // Need to get rid of the extra turn since it is not a battleship rule
+  // Need to get rid of the extra turn since it is not a battleship rule - done!
 
   myBoardShipSelect(item, index, arr) {
     let row = Math.floor(index / 10);
@@ -306,19 +302,21 @@ class Player {
 
 let playerObject;
 
-playerNameButton.addEventListener("click", (event) => {
-  event.preventDefault();
+playerNameInput.addEventListener("keydown", (event) => {
+  if (event.key === "Enter") {
+    event.preventDefault();
 
-  playerObject = new Player();
+    playerObject = new Player();
 
-  playerObject.renderMyBoard(playerObject.myBoard.board);
+    playerObject.renderMyBoard(playerObject.myBoard.board);
 
-  myBoardTitle.innerText = `${playerNameInput.value}'s Board`;
-  boardsContainer.style.display = "flex";
-  myBoardContainer.style.display = "block";
-  formContainer.style.display = "none";
-  playerNameInput.value = "";
-  axisButton.style.display = "grid";
+    myBoardTitle.innerText = `${playerNameInput.value}'s Board`;
+    boardsContainer.style.display = "flex";
+    myBoardContainer.style.display = "block";
+    formContainer.style.display = "none";
+    playerNameInput.value = "";
+    axisButton.style.display = "grid";
+  }
 });
 
 module.exports = Player;
