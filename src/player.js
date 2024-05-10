@@ -35,7 +35,6 @@ content.appendChild(boardsOuterContainer);
 
 const display = document.createElement("p");
 display.className = "display";
-display.innerText = "Place the Carrier.  Use Axis button to change direction";
 boardsOuterContainer.appendChild(display);
 display.style.display = "none";
 
@@ -151,10 +150,11 @@ class Player {
     let result = this.computerBoard.receiveAttack(coord1, coord2);
     let coordValue = this.computerBoard.board[coord1][coord2];
     console.log("coordValue", coordValue);
+    this.allComputerShipsSunk();
 
     setTimeout(() => {
       this.compAttack();
-    }, 1000);
+    }, 500);
     this.playerTurn = false;
 
     return result;
@@ -202,7 +202,6 @@ class Player {
       item.className = "square";
       this.myBoardSquares(item);
       myBoardGrid.appendChild(item);
-
       this.myBoardShipSelect(item, i, arr);
     }
   }
@@ -215,9 +214,11 @@ class Player {
     } else if (item.innerText === "Hit") {
       item.style.backgroundColor = "red";
       item.style.color = "red";
+      display.innerText = "The opponent has hit your ship";
     } else if (item.innerText === "Miss") {
       item.style.backgroundColor = "green";
       item.style.color = "green";
+      display.innerText = "The opponent has missed";
     } else {
       item.style.color = "rgb(241, 240, 240)";
     }
@@ -271,12 +272,13 @@ class Player {
 
   getCurrentShipToDisplay() {
     const ships = [
-      "Place the Battleship",
-      "Place the Cruiser",
-      "Place the Submarine",
-      "Place the Destroyer",
-      "Player Turn.  Place a hit on your Opponent's Board. Good Luck!!",
+      `${playerName}, place the Battleship`,
+      `${playerName}, place the Cruiser`,
+      `${playerName}, place the Submarine`,
+      `${playerName}, place the Destroyer`,
+      `${playerName}'s Turn.  Place a hit on your Opponent's Board. Good Luck!!`,
     ];
+
     return ships[this.currentDisplayIndex];
   }
 
@@ -288,7 +290,7 @@ class Player {
       item.innerText = flatArr[i];
       item.className = "square";
       computerBoardGrid.appendChild(item);
-      item.style.color = "rgb(241, 240, 240)";
+      // item.style.color = "rgb(241, 240, 240)";
       // This will make the text invisible again
 
       this.computerBoardSquares(item, i);
@@ -304,25 +306,35 @@ class Player {
       if (!playerObject.playerTurn) return;
       if (shipValues.includes(item.innerText)) {
         item.style.backgroundColor = "red";
-        item.style.color = "red";
+        // item.style.color = "red";
         item.style.pointerEvents = "none";
         playerObject.myAttack(row, column);
-        // console.log("compboard", playerObject.computerBoard.board);
-        // console.log("myboard", playerObject.myBoard.board);
+        display.innerText = `${playerName} has hit a ship!`;
+        console.log("compboard", playerObject.computerBoard.board);
+        console.log("myboard", playerObject.myBoard.board);
       } else {
         item.style.backgroundColor = "green";
-        item.style.color = "green";
+        // item.style.color = "green";
         item.style.pointerEvents = "none";
         playerObject.myAttack(row, column);
+        display.innerText = `${playerName} has missed`;
         playerObject.playerTurn = false;
-        // console.log("compboard", playerObject.computerBoard.board);
-        // console.log("myboard", playerObject.myBoard.board);
+        console.log("compboard", playerObject.computerBoard.board);
+        console.log("myboard", playerObject.myBoard.board);
       }
     });
+  }
+
+  allComputerShipsSunk() {
+    const allSunk = this.computerBoard.areAllShipsSunk();
+    if (allSunk) {
+      boardsOuterContainer.innerText = "";
+    }
   }
 }
 
 let playerObject;
+let playerName = playerNameInput.value;
 
 playerNameInput.addEventListener("keydown", (event) => {
   if (event.key === "Enter") {
@@ -333,6 +345,8 @@ playerNameInput.addEventListener("keydown", (event) => {
     playerObject.renderMyBoard(playerObject.myBoard.board);
 
     myBoardTitle.innerText = `${playerNameInput.value}'s Board`;
+    playerName = playerNameInput.value;
+    display.innerText = `${playerName}, place the Carrier.  Use Axis button to change direction`;
     boardsContainer.style.display = "flex";
     myBoardContainer.style.display = "block";
     formContainer.style.display = "none";

@@ -75,7 +75,7 @@ class Board {
       const ship = this.findShipByName(coordValue);
       ship.hit();
       this.board[rowCoord].splice(colCoord, 1, "Hit");
-      this.allShipsSunk();
+      this.areAllShipsSunk();
     }
     return this;
   }
@@ -98,13 +98,12 @@ class Board {
     }
   }
 
-  allShipsSunk() {
+  areAllShipsSunk() {
     for (const ship of [this.carrier, this.battleship, this.cruiser, this.submarine, this.destroyer]) {
       if (!ship || !ship.sunk) {
         return false;
       }
     }
-    console.log("All Ships Have Been Sunk. You Win");
     return true;
   }
 }
