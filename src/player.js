@@ -89,6 +89,20 @@ const changeAxis = () => {
 
 axisButton.addEventListener("click", changeAxis);
 
+// WINNER SCREEN
+
+const winnerContainer = document.createElement("div");
+winnerContainer.className = "winner-container";
+const winnerDisplay = document.createElement("p");
+winnerDisplay.className = "winner-display";
+const playAgainButton = document.createElement("button");
+playAgainButton.innerText = "Play Again";
+
+winnerContainer.appendChild(winnerDisplay);
+winnerContainer.appendChild(playAgainButton);
+content.appendChild(winnerContainer);
+winnerDisplay.innerText = "Winner wohoo!";
+
 class Player {
   constructor() {
     this.myBoard = new Board();
@@ -150,7 +164,7 @@ class Player {
     let result = this.computerBoard.receiveAttack(coord1, coord2);
     let coordValue = this.computerBoard.board[coord1][coord2];
     console.log("coordValue", coordValue);
-    this.allComputerShipsSunk();
+    this.allShipsSunk();
 
     setTimeout(() => {
       this.compAttack();
@@ -325,10 +339,12 @@ class Player {
     });
   }
 
-  allComputerShipsSunk() {
-    const allSunk = this.computerBoard.areAllShipsSunk();
-    if (allSunk) {
-      boardsOuterContainer.innerText = "";
+  allShipsSunk() {
+    const allComputerShipsSunk = this.computerBoard.areAllShipsSunk();
+    const allMyShipsSunk = this.myBoard.areAllShipsSunk();
+
+    if (allComputerShipsSunk) {
+      winnerDisplay.innerText = `${playerName} is the winner!!!! Well done! Play again?`;
     }
   }
 }
@@ -355,6 +371,26 @@ playerNameInput.addEventListener("keydown", (event) => {
     titleImage.style.width = "500px";
     display.style.display = "block";
   }
+});
+
+playAgainButton.addEventListener("click", (event) => {
+  event.preventDefault();
+
+  myBoardGrid.innerText = "";
+  computerBoardGrid.innerText = "";
+  computerBoardContainer.style.display = "none";
+
+  playerObject = new Player();
+  playerObject.renderMyBoard(playerObject.myBoard.board);
+  myBoardTitle.innerText = `${playerName}'s Board`;
+  display.innerText = `${playerName}, place the Carrier.  Use Axis button to change direction`;
+  boardsContainer.style.display = "flex";
+  myBoardContainer.style.display = "block";
+  formContainer.style.display = "none";
+  playerNameInput.value = "";
+  axisButton.style.display = "grid";
+  titleImage.style.width = "500px";
+  display.style.display = "block";
 });
 
 module.exports = Player;

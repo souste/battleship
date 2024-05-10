@@ -271,3 +271,16 @@ body {
 .destroyer-select-container > div {
   border: 1px solid black;
 }
+
+// WINNER CONTAINER
+
+.winner-container {
+  border: 2px solid black;
+  height: 500px;
+  width: 1000px;
+  line-height: 200px;
+}
+
+.winner-display {
+  background-color: yellow;
+}
