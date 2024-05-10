@@ -96,12 +96,14 @@ winnerContainer.className = "winner-container";
 const winnerDisplay = document.createElement("p");
 winnerDisplay.className = "winner-display";
 const playAgainButton = document.createElement("button");
+playAgainButton.className = "axis-button";
 playAgainButton.innerText = "Play Again";
 
 winnerContainer.appendChild(winnerDisplay);
 winnerContainer.appendChild(playAgainButton);
 content.appendChild(winnerContainer);
 winnerDisplay.innerText = "Winner wohoo!";
+winnerContainer.style.display = "none";
 
 class Player {
   constructor() {
@@ -344,6 +346,8 @@ class Player {
     const allMyShipsSunk = this.myBoard.areAllShipsSunk();
 
     if (allComputerShipsSunk) {
+      winnerContainer.style.display = "flex";
+      display.style.display = "none";
       winnerDisplay.innerText = `${playerName} is the winner!!!! Well done! Play again?`;
     }
   }
@@ -379,6 +383,7 @@ playAgainButton.addEventListener("click", (event) => {
   myBoardGrid.innerText = "";
   computerBoardGrid.innerText = "";
   computerBoardContainer.style.display = "none";
+  winnerContainer.style.display = "none";
 
   playerObject = new Player();
   playerObject.renderMyBoard(playerObject.myBoard.board);

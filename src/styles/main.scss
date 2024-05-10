@@ -130,10 +130,6 @@ body {
   color: black;
 }
 
-.highlight {
-  background-color: yellow;
-}
-
 .axis-button {
   background: #fff;
   backface-visibility: hidden;
@@ -194,93 +190,105 @@ body {
   transform: translateY(0.125rem);
 }
 
-// SHIP SELECT
-
-.ship-buttons-container {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-}
-
-.ship-select-item {
-  background-color: rgb(241, 240, 240);
-  border: 1px solid black;
-}
-
-/////////////////CARRIER
-
-.carrier-select-container {
-  display: grid;
-  grid-template-rows: repeat(1, 40px);
-  grid-template-columns: repeat(5, 40px);
-  cursor: pointer;
-}
-
-.carrier-select-container > div {
-  border: 1px solid black;
-}
-
-/////////////////BATTLESHIP
-
-.battleship-select-container {
-  display: grid;
-  grid-template-rows: repeat(1, 40px);
-  grid-template-columns: repeat(4, 40px);
-  cursor: pointer;
-}
-
-.battleship-select-container > div {
-  border: 1px solid black;
-}
-
-////////////////CRUISER
-
-.cruiser-select-container {
-  display: grid;
-  grid-template-rows: repeat(1, 40px);
-  grid-template-columns: repeat(3, 40px);
-  cursor: pointer;
-}
-
-.cruiser-select-container > div {
-  border: 1px solid black;
-}
-
-//////////////SUBMARINE
-
-.submarine-select-container {
-  display: grid;
-  grid-template-rows: repeat(1, 40px);
-  grid-template-columns: repeat(3, 40px);
-}
-
-.submarine-select-container > div {
-  border: 1px solid black;
-  cursor: pointer;
-}
-
-///////////////DESTROYER
-
-.destroyer-select-container {
-  display: grid;
-  grid-template-rows: repeat(1, 40px);
-  grid-template-columns: repeat(2, 40px);
-  cursor: pointer;
-}
-
-.destroyer-select-container > div {
-  border: 1px solid black;
-}
-
 // WINNER CONTAINER
 
 .winner-container {
+  position: absolute;
+  background-color: greenyellow;
   border: 2px solid black;
-  height: 500px;
+  height: 300px;
   width: 1000px;
-  line-height: 200px;
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  margin-top: 300px;
 }
 
 .winner-display {
-  background-color: yellow;
+  background-color: rgb(199, 184, 184);
+  height: 80px;
+  width: 800px;
+  border-radius: 10px;
+  padding-left: 20px;
+  border: 2px solid black;
+  line-height: 80px;
 }
+
+// // SHIP SELECT
+
+// .ship-buttons-container {
+//   display: flex;
+//   flex-direction: column;
+//   gap: 10px;
+// }
+
+// .ship-select-item {
+//   background-color: rgb(241, 240, 240);
+//   border: 1px solid black;
+// }
+
+// /////////////////CARRIER
+
+// .carrier-select-container {
+//   display: grid;
+//   grid-template-rows: repeat(1, 40px);
+//   grid-template-columns: repeat(5, 40px);
+//   cursor: pointer;
+// }
+
+// .carrier-select-container > div {
+//   border: 1px solid black;
+// }
+
+// /////////////////BATTLESHIP
+
+// .battleship-select-container {
+//   display: grid;
+//   grid-template-rows: repeat(1, 40px);
+//   grid-template-columns: repeat(4, 40px);
+//   cursor: pointer;
+// }
+
+// .battleship-select-container > div {
+//   border: 1px solid black;
+// }
+
+// ////////////////CRUISER
+
+// .cruiser-select-container {
+//   display: grid;
+//   grid-template-rows: repeat(1, 40px);
+//   grid-template-columns: repeat(3, 40px);
+//   cursor: pointer;
+// }
+
+// .cruiser-select-container > div {
+//   border: 1px solid black;
+// }
+
+// //////////////SUBMARINE
+
+// .submarine-select-container {
+//   display: grid;
+//   grid-template-rows: repeat(1, 40px);
+//   grid-template-columns: repeat(3, 40px);
+// }
+
+// .submarine-select-container > div {
+//   border: 1px solid black;
+//   cursor: pointer;
+// }
+
+// ///////////////DESTROYER
+
+// .destroyer-select-container {
+//   display: grid;
+//   grid-template-rows: repeat(1, 40px);
+//   grid-template-columns: repeat(2, 40px);
+//   cursor: pointer;
+// }
+
+// .destroyer-select-container > div {
+//   border: 1px solid black;
+// }
