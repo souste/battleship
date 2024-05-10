@@ -194,10 +194,11 @@ body {
 
 .winner-container {
   position: absolute;
-  background-color: greenyellow;
+  background-color: rgb(228, 195, 195);
   border: 2px solid black;
   height: 300px;
   width: 1000px;
+  border-radius: 10px;
   align-items: center;
   display: flex;
   flex-direction: column;
@@ -206,7 +207,7 @@ body {
 }
 
 .winner-display {
-  background-color: rgb(199, 184, 184);
+  background-color: rgb(113, 187, 126);
   height: 80px;
   width: 800px;
   border-radius: 10px;
@@ -292,3 +293,7 @@ body {
 // .destroyer-select-container > div {
 //   border: 1px solid black;
 // }
+
+.highlight {
+  background-color: rgba(0, 0, 255, 0.5); /* Adjust the color and opacity as needed */
+}

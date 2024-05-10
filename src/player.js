@@ -1,3 +1,17 @@
+// need to highlight where the ship will be placed - done!
+
+// create a toggle button instead of a prompt - done!
+// hide then only reveal computer board once all ships have been selected - done!
+// change input to just enter input - done!
+// Need a dialogue instruction box - done!
+// Need to get rid of the extra turn since it is not a battleship rule - done!
+
+// Enhance the boarder of the ship if sunk???
+// need to disable event listener if too close to the edge of the board or if it goes on top of another ship
+// Need to improve the AI for the computer
+
+// Separate DOM logic from Player Class
+
 const Board = require("./board");
 import battleshipIcon from "./assets/battleship-logo.jpg";
 import "./styles/main.scss";
@@ -68,8 +82,6 @@ boardsContainer.appendChild(computerBoardContainer);
 computerBoardContainer.appendChild(computerBoardTitle);
 computerBoardContainer.appendChild(computerBoardGrid);
 
-// const { renderMyBoard, renderComputerBoard } = require("./dom");
-
 boardsContainer.style.display = "none";
 myBoardContainer.style.display = "none";
 computerBoardContainer.style.display = "none";
@@ -102,7 +114,7 @@ playAgainButton.innerText = "Play Again";
 winnerContainer.appendChild(winnerDisplay);
 winnerContainer.appendChild(playAgainButton);
 content.appendChild(winnerContainer);
-winnerDisplay.innerText = "Winner wohoo!";
+winnerDisplay.innerText = "";
 winnerContainer.style.display = "none";
 
 class Player {
@@ -196,6 +208,7 @@ class Player {
         coordValue === "Des"
       ) {
         this.playerTurn = true;
+        this.allShipsSunk();
       } else {
         setTimeout(attackAfterOneSecond, 1000);
       }
@@ -240,35 +253,57 @@ class Player {
     }
   }
 
-  // need to highlight where the ship will be placed
-  // need to disable event listener if too close to the edge of the board or if it goes on top of another ship
-  // create a toggle button instead of a prompt - done!
-  // hide then only reveal computer board once all ships have been selected - done!
-  // change input to just enter input - done!
-  // Need a dialogue instruction box - done!
-  // Need to get rid of the extra turn since it is not a battleship rule - done!
-
   myBoardShipSelect(item, index, arr) {
     let row = Math.floor(index / 10);
     let column = index % 10;
+    let currentShip = this.getCurrentShipToPlace();
+    let nextDisplay = this.getCurrentShipToDisplay();
+
+    const highlightSquares = () => {
+      for (let i = 0; i < currentShip.length; i++) {
+        let newRow, newColumn;
+        if (orientation === "horizontal") {
+          newRow = row;
+          newColumn = column + i;
+        } else if (orientation === "vertical") {
+          newRow = row + i;
+          newColumn = column;
+        }
+        if (newRow >= 0 && newRow < 10 && newColumn >= 0 && newColumn < 10) {
+          let squareIndex = newRow * 10 + newColumn;
+          let square = myBoardGrid.children[squareIndex];
+          square.classList.add("highlight");
+        }
+      }
+    };
+
+    const removeHighlight = () => {
+      let highlightSquares = myBoardGrid.querySelectorAll(".highlight");
+      highlightSquares.forEach((square) => {
+        square.classList.remove("highlight");
+      });
+    };
 
     const clickHandler = () => {
-      let currentShip = this.getCurrentShipToPlace();
-      let nextDisplay = this.getCurrentShipToDisplay();
-      let lcOrientation = orientation.toLowerCase();
-
-      if (lcOrientation === "horizontal" || lcOrientation === "vertical") {
-        playerObject.myBoard.placeShip(currentShip, row, column, lcOrientation);
+      if (orientation === "horizontal" || orientation === "vertical") {
+        playerObject.myBoard.placeShip(currentShip, row, column, orientation);
         this.currentShipIndex++;
         this.currentDisplayIndex++;
         this.renderMyBoard(arr);
         display.innerText = `${nextDisplay}`;
+        removeHighlight();
+        item.removeEventListener("mouseenter", highlightSquares);
+        item.removeEventListener("mouseleave", removeHighlight);
       }
     };
 
+    item.addEventListener("mouseenter", highlightSquares);
+    item.addEventListener("mouseleave", removeHighlight);
     item.addEventListener("click", clickHandler);
 
     if (this.currentShipIndex === 5) {
+      item.removeEventListener("mouseenter", highlightSquares);
+      item.removeEventListener("mouseleave", removeHighlight);
       item.removeEventListener("click", clickHandler);
       computerBoardContainer.style.display = "block";
       axisButton.style.display = "none";
@@ -349,6 +384,10 @@ class Player {
       winnerContainer.style.display = "flex";
       display.style.display = "none";
       winnerDisplay.innerText = `${playerName} is the winner!!!! Well done! Play again?`;
+    } else if (allMyShipsSunk) {
+      winnerContainer.style.display = "flex";
+      display.style.display = "none";
+      winnerDisplay.innerText = `Sorry ${playerName} you lose. Play again?`;
     }
   }
 }
