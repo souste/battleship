@@ -179,6 +179,7 @@ class Player {
     let coordValue = this.computerBoard.board[coord1][coord2];
     console.log("coordValue", coordValue);
     this.allShipsSunk();
+    this.shipSunk();
 
     setTimeout(() => {
       this.compAttack();
@@ -372,6 +373,25 @@ class Player {
         playerObject.playerTurn = false;
         console.log("compboard", playerObject.computerBoard.board);
         console.log("myboard", playerObject.myBoard.board);
+      }
+    });
+  }
+
+  shipSunk() {
+    const ships = [
+      this.computerBoard.carrier,
+      this.computerBoard.battleship,
+      this.computerBoard.cruiser,
+      this.computerBoard.submarine,
+      this.computerBoard.destroyer,
+    ];
+    ships.forEach((ship) => {
+      if (ship.sunk === true) {
+        computerBoardGrid.querySelectorAll(".square").forEach((square) => {
+          if (square.innerText === ship.boardName) {
+            square.style.backgroundColor = "purple";
+          }
+        });
       }
     });
   }
