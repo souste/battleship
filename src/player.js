@@ -211,12 +211,14 @@ class Player {
         coordValue === "Des"
       ) {
         this.playerTurn = true;
+        this.refreshMyBoardAfterCompAttack();
         this.allShipsSunk();
       } else {
-        setTimeout(attackAfterOneSecond, 1000);
+        setTimeout(attackAfterOneSecond, 0);
       }
     };
     attackAfterOneSecond();
+    this.refreshMyBoardAfterCompAttack();
 
     return result;
   }
@@ -244,6 +246,9 @@ class Player {
     if (stringsToCheck.includes(item.innerText)) {
       // item.style.backgroundColor = "black";
       item.style.color = "black";
+    } else if (item.innerText === "Sunk") {
+      item.style.backgroundColor = "purple";
+      item.style.border = "2px solid black";
     } else if (item.innerText.startsWith("Hit")) {
       item.style.backgroundColor = "red";
       // item.style.color = "red";
@@ -408,15 +413,31 @@ class Player {
       this.myBoard.submarine,
       this.myBoard.destroyer,
     ];
+
+    let sunkShipUpdated = false;
+
     ships.forEach((ship) => {
       if (ship.sunk === true) {
-        myBoardGrid.querySelectorAll(".square").forEach((square) => {
-          if (square.innerText === `Hit ${ship.boardName}`) {
-            square.style.backgroundColor = "purple";
-          }
+        this.myBoard.board.forEach((row, rowIndex) => {
+          row.forEach((value, colIndex) => {
+            if (value === `Hit ${ship.boardName}`) {
+              this.myBoard.board[rowIndex][colIndex] = "Sunk";
+              sunkShipUpdated = true;
+            }
+          });
+          myBoardGrid.querySelectorAll(".square").forEach((square) => {
+            if (square.innerText === "Sunk") {
+              square.style.backgroundColor = "purple";
+              square.style.border = "2px solid black";
+              this.refreshMyBoardAfterCompAttack();
+            }
+          });
         });
       }
     });
+    if (sunkShipUpdated) {
+      this.refreshMyBoardAfterCompAttack();
+    }
   }
 
   allShipsSunk() {

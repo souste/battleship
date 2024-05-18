@@ -85,7 +85,7 @@ class Board {
     if (typeof coordValue == "number") {
       this.board[rowCoord].splice(colCoord, 1, "Miss");
       return this;
-    } else if (coordValue.startsWith("Hit") || coordValue == "Miss") {
+    } else if (coordValue.startsWith("Hit") || coordValue == "Miss" || coordValue == "Sunk") {
       console.log("You cannot hit the same place twice");
       return this;
     } else {
