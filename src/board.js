@@ -80,6 +80,23 @@ class Board {
     return this;
   }
 
+  receiveMyAttack(rowCoord, colCoord) {
+    let coordValue = this.board[rowCoord][colCoord];
+    if (typeof coordValue == "number") {
+      this.board[rowCoord].splice(colCoord, 1, "Miss");
+      return this;
+    } else if (coordValue.startsWith("Hit") || coordValue == "Miss") {
+      console.log("You cannot hit the same place twice");
+      return this;
+    } else {
+      const ship = this.findShipByName(coordValue);
+      ship.hit();
+      this.board[rowCoord].splice(colCoord, 1, `Hit ${ship.boardName}`);
+      this.areAllShipsSunk();
+    }
+    return this;
+  }
+
   findShipByName(name) {
     if (name === "Crr") {
       return this.carrier;

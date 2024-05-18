@@ -8,7 +8,7 @@
 
 // Enhance the boarder of the ship if sunk???
 // need to disable event listener if too close to the edge of the board or if it goes on top of another ship
-// Need to improve the AI for the computer
+// Need to improve the AI for the computer (also once squares run out it takes ages for computer to hit right square)
 
 // Separate DOM logic from Player Class
 
@@ -179,11 +179,12 @@ class Player {
     let coordValue = this.computerBoard.board[coord1][coord2];
     console.log("coordValue", coordValue);
     this.allShipsSunk();
-    this.shipSunk();
+    this.compShipSunk();
 
     setTimeout(() => {
       this.compAttack();
-    }, 500);
+      this.myShipSunk();
+    }, 100);
     this.playerTurn = false;
 
     return result;
@@ -196,9 +197,10 @@ class Player {
       coord1 = Math.floor(Math.random() * 10);
       coord2 = Math.floor(Math.random() * 10);
       coordValue = this.myBoard.board[coord1][coord2];
-      result = this.myBoard.receiveAttack(coord1, coord2);
+      result = this.myBoard.receiveMyAttack(coord1, coord2);
       this.refreshMyBoardAfterCompAttack();
-      console.log("compCordValue", coordValue);
+
+      // console.log("compCordValue", coordValue);
 
       if (
         typeof coordValue === "number" ||
@@ -230,6 +232,7 @@ class Player {
       let item = document.createElement("div");
       item.innerText = flatArr[i];
       item.className = "square";
+
       this.myBoardSquares(item);
       myBoardGrid.appendChild(item);
       this.myBoardShipSelect(item, i, arr);
@@ -239,18 +242,18 @@ class Player {
   myBoardSquares(item) {
     const stringsToCheck = ["Crr", "Bat", "Cru", "Sub", "Des"];
     if (stringsToCheck.includes(item.innerText)) {
-      item.style.backgroundColor = "black";
+      // item.style.backgroundColor = "black";
       item.style.color = "black";
-    } else if (item.innerText === "Hit") {
+    } else if (item.innerText.startsWith("Hit")) {
       item.style.backgroundColor = "red";
-      item.style.color = "red";
+      // item.style.color = "red";
       display.innerText = "The opponent has hit your ship";
     } else if (item.innerText === "Miss") {
       item.style.backgroundColor = "green";
-      item.style.color = "green";
+      // item.style.color = "green";
       display.innerText = "The opponent has missed";
     } else {
-      item.style.color = "rgb(241, 240, 240)";
+      // item.style.color = "rgb(241, 240, 240)";
     }
   }
 
@@ -377,7 +380,7 @@ class Player {
     });
   }
 
-  shipSunk() {
+  compShipSunk() {
     const ships = [
       this.computerBoard.carrier,
       this.computerBoard.battleship,
@@ -389,6 +392,26 @@ class Player {
       if (ship.sunk === true) {
         computerBoardGrid.querySelectorAll(".square").forEach((square) => {
           if (square.innerText === ship.boardName) {
+            square.style.backgroundColor = "purple";
+            square.style.border = "2px solid black";
+          }
+        });
+      }
+    });
+  }
+
+  myShipSunk() {
+    const ships = [
+      this.myBoard.carrier,
+      this.myBoard.battleship,
+      this.myBoard.cruiser,
+      this.myBoard.submarine,
+      this.myBoard.destroyer,
+    ];
+    ships.forEach((ship) => {
+      if (ship.sunk === true) {
+        myBoardGrid.querySelectorAll(".square").forEach((square) => {
+          if (square.innerText === `Hit ${ship.boardName}`) {
             square.style.backgroundColor = "purple";
           }
         });
