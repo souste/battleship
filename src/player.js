@@ -268,7 +268,30 @@ class Player {
     let currentShip = this.getCurrentShipToPlace();
     let nextDisplay = this.getCurrentShipToDisplay();
 
+    const isPlacementValid = (row, column, ship, orientation) => {
+      for (let i = 0; i < ship.length; i++) {
+        let newRow, newColumn;
+        if (orientation === "horizontal") {
+          newRow = row;
+          newColumn = column + i;
+        } else if (orientation === "vertical") {
+          newRow = row + i;
+          newColumn = column;
+        }
+
+        if (newRow >= 10 || newColumn >= 10) {
+          console.log(`Invalid: Out of bounds at (${newRow}, ${newColumn})`);
+          return false;
+        }
+      }
+      return true;
+    };
+
     const highlightSquares = () => {
+      if (!isPlacementValid(row, column, currentShip, orientation)) {
+        return;
+      }
+
       for (let i = 0; i < currentShip.length; i++) {
         let newRow, newColumn;
         if (orientation === "horizontal") {
@@ -294,7 +317,7 @@ class Player {
     };
 
     const clickHandler = () => {
-      if (orientation === "horizontal" || orientation === "vertical") {
+      if (isPlacementValid(row, column, currentShip, orientation)) {
         playerObject.myBoard.placeShip(currentShip, row, column, orientation);
         this.currentShipIndex++;
         this.currentDisplayIndex++;
@@ -303,6 +326,8 @@ class Player {
         removeHighlight();
         item.removeEventListener("mouseenter", highlightSquares);
         item.removeEventListener("mouseleave", removeHighlight);
+      } else {
+        display.innerText = `Invalid placement for ${currentShip.fullName}. Try again`;
       }
     };
 
