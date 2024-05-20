@@ -198,7 +198,6 @@ class Player {
       coord2 = Math.floor(Math.random() * 10);
       coordValue = this.myBoard.board[coord1][coord2];
       result = this.myBoard.receiveMyAttack(coord1, coord2);
-      this.refreshMyBoardAfterCompAttack();
 
       // console.log("compCordValue", coordValue);
 
@@ -212,6 +211,7 @@ class Player {
       ) {
         this.playerTurn = true;
         this.refreshMyBoardAfterCompAttack();
+        this.myShipSunk();
         this.allShipsSunk();
       } else {
         setTimeout(attackAfterOneSecond, 0);
@@ -423,13 +423,6 @@ class Player {
             if (value === `Hit ${ship.boardName}`) {
               this.myBoard.board[rowIndex][colIndex] = "Sunk";
               sunkShipUpdated = true;
-            }
-          });
-          myBoardGrid.querySelectorAll(".square").forEach((square) => {
-            if (square.innerText === "Sunk") {
-              square.style.backgroundColor = "purple";
-              square.style.border = "2px solid black";
-              this.refreshMyBoardAfterCompAttack();
             }
           });
         });
