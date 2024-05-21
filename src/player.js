@@ -7,9 +7,11 @@
 // Need to get rid of the extra turn since it is not a battleship rule - done!
 
 // Enhance the boarder of the ship if sunk??? - done!
-// need to disable event listener if too close to the edge of the board or if it goes on top of another ship
-// Need to improve the AI for the computer (also once squares run out it takes ages for computer to hit right square - reduced the timeout)
+// need to disable event listener if too close to the edge of the board or if it goes on top of another ship - done!
+// Need to improve the AI for the computer
 // Separate DOM logic from Player Class
+// Add actual ships to the ship squares in the DOM
+// Sounds for a ship being hit
 
 const Board = require("./board");
 import battleshipIcon from "./assets/battleship-logo.jpg";
@@ -125,6 +127,7 @@ class Player {
     this.compShipPlacement();
     this.currentShipIndex = 0;
     this.currentDisplayIndex = 0;
+    this.previousHitArr = [];
   }
 
   compShipPlacement() {
@@ -196,6 +199,14 @@ class Player {
       coord1 = Math.floor(Math.random() * 10);
       coord2 = Math.floor(Math.random() * 10);
       coordValue = this.myBoard.board[coord1][coord2];
+      this.previousHitArr.push(coordValue);
+      console.log(this.previousHitArr);
+      if (typeof this.previousHitArr[this.previousHitArr.length - 1] === "string") {
+        console.log("this is a string");
+      } else {
+        console.log("this is a number");
+      }
+
       result = this.myBoard.receiveMyAttack(coord1, coord2);
 
       // console.log("compCordValue", coordValue);
