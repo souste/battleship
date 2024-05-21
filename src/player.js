@@ -6,10 +6,9 @@
 // Need a dialogue instruction box - done!
 // Need to get rid of the extra turn since it is not a battleship rule - done!
 
-// Enhance the boarder of the ship if sunk???
+// Enhance the boarder of the ship if sunk??? - done!
 // need to disable event listener if too close to the edge of the board or if it goes on top of another ship
-// Need to improve the AI for the computer (also once squares run out it takes ages for computer to hit right square)
-
+// Need to improve the AI for the computer (also once squares run out it takes ages for computer to hit right square - reduced the timeout)
 // Separate DOM logic from Player Class
 
 const Board = require("./board");
@@ -281,6 +280,11 @@ class Player {
 
         if (newRow >= 10 || newColumn >= 10) {
           console.log(`Invalid: Out of bounds at (${newRow}, ${newColumn})`);
+          return false;
+        }
+
+        if (typeof arr[newRow][newColumn] !== "number") {
+          console.log(`Invalid: Overlap at (${newRow}, ${newColumn})`);
           return false;
         }
       }
