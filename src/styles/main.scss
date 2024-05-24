@@ -116,7 +116,8 @@ body {
   display: grid;
   grid-template-rows: repeat(10, 40px);
   grid-template-columns: repeat(10, 40px);
-  background-color: rgb(241, 240, 240);
+  // background-color: rgb(241, 240, 240);
+  background-color: white;
   border: 1px solid black;
   position: relative;
 }
@@ -128,8 +129,7 @@ body {
 
 .square {
   cursor: pointer;
-  // color: transparent;
-  color: black;
+  color: transparent;
 }
 
 .axis-button {
@@ -228,6 +228,7 @@ body {
   width: 100px;
   height: auto;
   opacity: 0.7;
+  top: -2px;
 }
 
 .vertical {

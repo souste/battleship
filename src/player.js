@@ -301,7 +301,7 @@ class Player {
     const stringsToCheck = ["Crr", "Bat", "Cru", "Sub", "Des"];
     if (stringsToCheck.includes(item.innerText)) {
       // item.style.backgroundColor = "black";
-      item.style.color = "black";
+      item.style.color = "transparent";
     } else if (item.innerText === "Sunk") {
       item.style.backgroundColor = "purple";
       item.style.border = "2px solid black";
