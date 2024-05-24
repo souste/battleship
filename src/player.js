@@ -300,18 +300,15 @@ class Player {
   myBoardSquares(item) {
     const stringsToCheck = ["Crr", "Bat", "Cru", "Sub", "Des"];
     if (stringsToCheck.includes(item.innerText)) {
-      // item.style.backgroundColor = "black";
       item.style.color = "transparent";
     } else if (item.innerText === "Sunk") {
       item.style.backgroundColor = "purple";
       item.style.border = "2px solid black";
     } else if (item.innerText.startsWith("Hit")) {
-      item.style.backgroundColor = "red";
-      // item.style.color = "red";
+      item.innerHTML = '<div class="dot red-dot"></div>';
       display.innerText = "The opponent has hit your ship";
     } else if (item.innerText === "Miss") {
-      item.style.backgroundColor = "green";
-      // item.style.color = "green";
+      item.innerHTML = '<div class="dot black-dot"></div>';
       display.innerText = "The opponent has missed";
     } else {
       // item.style.color = "rgb(241, 240, 240)";
@@ -495,16 +492,14 @@ class Player {
     item.addEventListener("click", () => {
       if (!playerObject.playerTurn) return;
       if (shipValues.includes(item.innerText)) {
-        item.style.backgroundColor = "red";
-        // item.style.color = "red";
+        item.innerHTML = '<div class="dot red-dot"></div>';
         item.style.pointerEvents = "none";
         playerObject.myAttack(row, column);
         display.innerText = `${playerName} has hit a ship!`;
         console.log("compboard", playerObject.computerBoard.board);
         console.log("myboard", playerObject.myBoard.board);
       } else {
-        item.style.backgroundColor = "green";
-        // item.style.color = "green";
+        item.innerHTML = '<div class="dot black-dot"></div>';
         item.style.pointerEvents = "none";
         playerObject.myAttack(row, column);
         display.innerText = `${playerName} has missed`;

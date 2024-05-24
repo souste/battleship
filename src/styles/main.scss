@@ -132,6 +132,22 @@ body {
   color: transparent;
 }
 
+.dot {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  margin-top: 10px;
+  margin-left: 9px;
+}
+
+.red-dot {
+  background-color: red;
+}
+
+.black-dot {
+  background-color: black;
+}
+
 .axis-button {
   background: #fff;
   backface-visibility: hidden;
@@ -227,8 +243,9 @@ body {
   z-index: 1;
   width: 100px;
   height: auto;
-  opacity: 0.7;
+  opacity: 0.4;
   top: -2px;
+  // right: -0.1px;
 }
 
 .vertical {
