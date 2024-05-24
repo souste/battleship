@@ -6,11 +6,11 @@
 
 // TITLE IMAGE
 
-.image-container {
-  text-align: center;
-}
+// .image-container {
+//   text-align: center;
+// }
 
-img {
+.title-image {
   height: auto;
   width: 1000px;
 }
@@ -118,10 +118,12 @@ body {
   grid-template-columns: repeat(10, 40px);
   background-color: rgb(241, 240, 240);
   border: 1px solid black;
+  position: relative;
 }
 
 .grid-container > div {
   border: 1px solid black;
+  position: relative;
 }
 
 .square {
@@ -216,84 +218,19 @@ body {
   line-height: 80px;
 }
 
-// // SHIP SELECT
-
-// .ship-buttons-container {
-//   display: flex;
-//   flex-direction: column;
-//   gap: 10px;
-// }
-
-// .ship-select-item {
-//   background-color: rgb(241, 240, 240);
-//   border: 1px solid black;
-// }
-
-// /////////////////CARRIER
-
-// .carrier-select-container {
-//   display: grid;
-//   grid-template-rows: repeat(1, 40px);
-//   grid-template-columns: repeat(5, 40px);
-//   cursor: pointer;
-// }
-
-// .carrier-select-container > div {
-//   border: 1px solid black;
-// }
-
-// /////////////////BATTLESHIP
-
-// .battleship-select-container {
-//   display: grid;
-//   grid-template-rows: repeat(1, 40px);
-//   grid-template-columns: repeat(4, 40px);
-//   cursor: pointer;
-// }
-
-// .battleship-select-container > div {
-//   border: 1px solid black;
-// }
-
-// ////////////////CRUISER
-
-// .cruiser-select-container {
-//   display: grid;
-//   grid-template-rows: repeat(1, 40px);
-//   grid-template-columns: repeat(3, 40px);
-//   cursor: pointer;
-// }
-
-// .cruiser-select-container > div {
-//   border: 1px solid black;
-// }
-
-// //////////////SUBMARINE
-
-// .submarine-select-container {
-//   display: grid;
-//   grid-template-rows: repeat(1, 40px);
-//   grid-template-columns: repeat(3, 40px);
-// }
-
-// .submarine-select-container > div {
-//   border: 1px solid black;
-//   cursor: pointer;
-// }
-
-// ///////////////DESTROYER
-
-// .destroyer-select-container {
-//   display: grid;
-//   grid-template-rows: repeat(1, 40px);
-//   grid-template-columns: repeat(2, 40px);
-//   cursor: pointer;
-// }
-
-// .destroyer-select-container > div {
-//   border: 1px solid black;
-// }
-
 .highlight {
   background-color: rgba(0, 0, 255, 0.5); /* Adjust the color and opacity as needed */
+}
+
+.ship-image {
+  position: absolute;
+  z-index: 1;
+  width: 100px;
+  height: auto;
+  opacity: 0.7;
+}
+
+.vertical {
+  transform: rotate(90deg);
+  transform-origin: left top;
 }

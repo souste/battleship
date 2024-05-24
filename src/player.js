@@ -15,6 +15,11 @@
 
 const Board = require("./board");
 import battleshipIcon from "./assets/battleship-logo.jpg";
+import battleshipImg from "./assets/battleship.PNG";
+import carrierImg from "./assets/carrier.PNG";
+import cruiserImg from "./assets/cruiser.PNG";
+import destroyerImg from "./assets/destroyer.PNG";
+import submarineImg from "./assets/submarine.PNG";
 import "./styles/main.scss";
 
 const content = document.querySelector(".content");
@@ -128,6 +133,7 @@ class Player {
     this.currentShipIndex = 0;
     this.currentDisplayIndex = 0;
     this.previousHitArr = [];
+    this.shipPositions = [];
   }
 
   compShipPlacement() {
@@ -199,15 +205,20 @@ class Player {
       coord1 = Math.floor(Math.random() * 10);
       coord2 = Math.floor(Math.random() * 10);
       coordValue = this.myBoard.board[coord1][coord2];
+
       this.previousHitArr.push(coordValue);
       console.log(this.previousHitArr);
       if (typeof this.previousHitArr[this.previousHitArr.length - 1] === "string") {
         console.log("this is a string");
-      } else {
+        // result = this.compAdjacentTargets(row, col);
+        result = this.myBoard.receiveMyAttack(coord1, coord2);
+      } else if (
+        typeof this.previousHitArr[this.previousHitArr.length - 1] === "number" ||
+        typeof this.previousHitArr[this.previousHitArr.length - 1] === undefined
+      ) {
         console.log("this is a number");
+        result = this.myBoard.receiveMyAttack(coord1, coord2);
       }
-
-      result = this.myBoard.receiveMyAttack(coord1, coord2);
 
       // console.log("compCordValue", coordValue);
 
@@ -233,6 +244,22 @@ class Player {
     return result;
   }
 
+  compAdjacentTargets(row, col) {
+    const adjacentTargets = [
+      [row - 1, col],
+      [row + 1, col],
+      [row, col - 1],
+      [row, col + 1],
+    ];
+
+    adjacentTargets.forEach(([row, column]) => {
+      if (row >= 10 && row < 10 && column >= 10 && column < 10 && typeof this.myBoard.board[row][column] === "number") {
+        this.previousHitArr.push([row, column]);
+        this.myBoard.receiveMyAttack(row, column);
+      }
+    });
+  }
+
   refreshMyBoardAfterCompAttack() {
     this.renderMyBoard(this.myBoard.board);
   }
@@ -249,6 +276,25 @@ class Player {
       myBoardGrid.appendChild(item);
       this.myBoardShipSelect(item, i, arr);
     }
+
+    this.shipPositions.forEach(({ ship, row, column, orientation }) => {
+      let startSquare = myBoardGrid.children[row * 10 + column];
+      let squareContent = document.createElement("div");
+      startSquare.appendChild(squareContent);
+
+      let shipImage = document.createElement("img");
+      shipImage.className = "ship-image";
+      shipImage.src = this.getShipImage(ship);
+      squareContent.appendChild(shipImage);
+
+      if (orientation === "horizontal") {
+        shipImage.style.width = `${ship.length * 42}px`;
+        shipImage.style.height = "40px";
+      } else {
+        shipImage.style.width = "40px";
+        shipImage.style.height = `${ship.length * 42}px`;
+      }
+    });
   }
 
   myBoardSquares(item) {
@@ -334,6 +380,7 @@ class Player {
     const clickHandler = () => {
       if (isPlacementValid(row, column, currentShip, orientation)) {
         playerObject.myBoard.placeShip(currentShip, row, column, orientation);
+        playerObject.recordShipPosition(currentShip, row, column, orientation);
         this.currentShipIndex++;
         this.currentDisplayIndex++;
         this.renderMyBoard(arr);
@@ -341,6 +388,23 @@ class Player {
         removeHighlight();
         item.removeEventListener("mouseenter", highlightSquares);
         item.removeEventListener("mouseleave", removeHighlight);
+
+        let startSquare = myBoardGrid.children[row * 10 + column];
+        let squareContent = document.createElement("div");
+        startSquare.appendChild(squareContent);
+
+        let shipImage = document.createElement("img");
+        shipImage.className = "ship-image";
+        shipImage.src = this.getShipImage(currentShip);
+        squareContent.appendChild(shipImage);
+
+        if (orientation === "horizontal") {
+          shipImage.style.width = `${currentShip.length * 42}px`;
+          shipImage.style.height = "40px";
+        } else {
+          shipImage.style.width = "40px";
+          shipImage.style.height = `${currentShip.length * 42}px`;
+        }
       } else {
         display.innerText = `Invalid placement for ${currentShip.fullName}. Try again`;
       }
@@ -356,6 +420,32 @@ class Player {
       item.removeEventListener("click", clickHandler);
       computerBoardContainer.style.display = "block";
       axisButton.style.display = "none";
+    }
+  }
+
+  recordShipPosition(ship, row, column, orientation) {
+    this.shipPositions.push({ ship, row, column, orientation });
+  }
+
+  getShipImage(ship) {
+    switch (ship.fullName) {
+      case "Carrier":
+        console.log("carrier");
+        return carrierImg;
+      case "Battleship":
+        console.log("battleship");
+        return battleshipImg;
+      case "Cruiser":
+        console.log("cruiser");
+        return cruiserImg;
+      case "Submarine":
+        console.log("submarine");
+        return submarineImg;
+      case "Destroyer":
+        console.log("destroyer");
+        return destroyerImg;
+      default:
+        return "";
     }
   }
 
