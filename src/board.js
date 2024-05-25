@@ -22,7 +22,6 @@ class Board {
 
     return board;
   }
-
   placeShip(ship, rowCoord, colCoord, direction) {
     const coordValue = this.board[rowCoord][colCoord];
     if (direction === "horizontal" && colCoord + ship.length > this.board[rowCoord].length) {
@@ -51,16 +50,17 @@ class Board {
           arr.push(ship.boardName);
         }
         this.board[rowCoord].splice(colCoord, ship.length, ...arr);
-        return this;
       } else if (direction === "vertical") {
         for (let i = 0; i < ship.length; i++) {
           this.board[rowCoord + i].splice(colCoord, 1, ship.boardName);
         }
-        return this;
-      } else {
-        return this;
       }
+
+      ship.startRow = rowCoord;
+      ship.startColumn = colCoord;
+      return this;
     }
+    return false;
   }
 
   receiveAttack(rowCoord, colCoord) {

@@ -41,11 +41,13 @@ document.addEventListener("DOMContentLoaded", function () {
       this.computerBoard = new Board();
       this.computerAttacks = [];
       this.playerTurn = true;
-      this.compShipPlacement();
       this.currentShipIndex = 0;
       this.currentDisplayIndex = 0;
       this.previousHitArr = [];
       this.shipPositions = [];
+      this.computerShipPositions = [];
+      this.compShipPlacement();
+      this.renderComputerBoard(this.computerBoard.board);
     }
 
     compShipPlacement() {
@@ -75,6 +77,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
             if (result) {
               placed = true;
+              this.recordComputerShipPosition(ship, ship.startRow, ship.startColumn, direction);
             }
           }
         }
@@ -122,7 +125,7 @@ document.addEventListener("DOMContentLoaded", function () {
         console.log(this.previousHitArr);
         if (typeof this.previousHitArr[this.previousHitArr.length - 1] === "string") {
           console.log("this is a string");
-          // result = this.compAdjacentTargets(row, col);
+
           result = this.myBoard.receiveMyAttack(coord1, coord2);
         } else if (
           typeof this.previousHitArr[this.previousHitArr.length - 1] === "number" ||
@@ -131,8 +134,6 @@ document.addEventListener("DOMContentLoaded", function () {
           console.log("this is a number");
           result = this.myBoard.receiveMyAttack(coord1, coord2);
         }
-
-        // console.log("compCordValue", coordValue);
 
         if (
           typeof coordValue === "number" ||
@@ -251,12 +252,10 @@ document.addEventListener("DOMContentLoaded", function () {
           }
 
           if (newRow >= 10 || newColumn >= 10) {
-            console.log(`Invalid: Out of bounds at (${newRow}, ${newColumn})`);
             return false;
           }
 
           if (typeof arr[newRow][newColumn] !== "number") {
-            console.log(`Invalid: Overlap at (${newRow}, ${newColumn})`);
             return false;
           }
         }
@@ -342,6 +341,10 @@ document.addEventListener("DOMContentLoaded", function () {
       this.shipPositions.push({ ship, row, column, orientation });
     }
 
+    recordComputerShipPosition(ship, row, column, orientation) {
+      this.computerShipPositions.push({ ship, row, column, orientation });
+    }
+
     getCurrentShipToPlace() {
       const ships = [
         this.myBoard.carrier,
@@ -366,6 +369,7 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
     renderComputerBoard(arr) {
+      dom.computerBoardGrid.innerHTML = "";
       let flatArr = arr.flat();
 
       for (let i = 0; i <= 99; i++) {
@@ -373,11 +377,31 @@ document.addEventListener("DOMContentLoaded", function () {
         item.innerText = flatArr[i];
         item.className = "square";
         dom.computerBoardGrid.appendChild(item);
-        // item.style.color = "rgb(241, 240, 240)";
-        // This will make the text invisible again
 
-        this.computerBoardSquares(item, i);
+        this.computerBoardSquares(item, i, arr);
       }
+
+      this.computerShipPositions.forEach(({ ship, row, column, orientation }) => {
+        let startSquareIndex = row * 10 + column;
+
+        let startSquare = dom.computerBoardGrid.children[startSquareIndex];
+
+        let squareContent = document.createElement("div");
+        startSquare.appendChild(squareContent);
+
+        let shipImage = document.createElement("img");
+        shipImage.className = "ship-image";
+        shipImage.src = getShipImage(ship);
+        squareContent.appendChild(shipImage);
+
+        if (orientation === "horizontal") {
+          shipImage.style.width = `${ship.length * 42}px`;
+          shipImage.style.height = "40px";
+        } else {
+          shipImage.style.width = "40px";
+          shipImage.style.height = `${ship.length * 42}px`;
+        }
+      });
     }
 
     computerBoardSquares(item, index) {

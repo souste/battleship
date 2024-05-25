@@ -78,8 +78,6 @@ export const initializeDom = () => {
   computerBoardContainer.style.display = "none";
   axisButton.style.display = "none";
 
-  // WINNER SCREEN
-
   const winnerContainer = document.createElement("div");
   winnerContainer.className = "winner-container";
   const winnerDisplay = document.createElement("p");
@@ -121,19 +119,14 @@ export const initializeDom = () => {
 export const getShipImage = (ship) => {
   switch (ship.fullName) {
     case "Carrier":
-      console.log("carrier");
       return carrierImg;
     case "Battleship":
-      console.log("battleship");
       return battleshipImg;
     case "Cruiser":
-      console.log("cruiser");
       return cruiserImg;
     case "Submarine":
-      console.log("submarine");
       return submarineImg;
     case "Destroyer":
-      console.log("destroyer");
       return destroyerImg;
     default:
       return "";
