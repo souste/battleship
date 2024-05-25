@@ -1,6 +1,7 @@
 import Ships from "./ships";
 import Board from "./board";
 import Player from "./player";
+import Dom from "./dom";
 import "./dom";
 import "./styles/main.scss";
 

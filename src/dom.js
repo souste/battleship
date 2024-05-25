@@ -1,139 +1,141 @@
-// const initializeGameUI = () => {
-//   const content = document.querySelector(".content");
+import battleshipIcon from "./assets/battleship-logo.jpg";
+import battleshipImg from "./assets/battleship.PNG";
+import carrierImg from "./assets/carrier.PNG";
+import cruiserImg from "./assets/cruiser.PNG";
+import destroyerImg from "./assets/destroyer.PNG";
+import submarineImg from "./assets/submarine.PNG";
+import "./styles/main.scss";
 
-//   const title = document.createElement("h1");
-//   title.innerText = "Battleships";
-//   content.appendChild(title);
-// };
+export const initializeDom = () => {
+  const content = document.querySelector(".content");
 
-// const formContainer = document.createElement("div");
-// const playerNameLabel = document.createElement("label");
-// const playerNameForm = document.createElement("form");
-// const playerNameButton = document.createElement("button");
-// playerNameButton.className = "player-name-button";
-// const playerNameInput = document.createElement("input");
-// playerNameInput.className = "player-name-input";
-// playerNameLabel.textContent = "Enter Your Name";
-// playerNameButton.textContent = "Start";
-// playerNameForm.appendChild(playerNameInput);
-// formContainer.appendChild(playerNameLabel);
-// formContainer.appendChild(playerNameForm);
-// formContainer.appendChild(playerNameButton);
-// content.appendChild(formContainer);
+  const titleImage = document.createElement("img");
+  titleImage.src = battleshipIcon;
+  titleImage.className = "title-image";
 
-// const boardsContainer = document.createElement("div");
-// boardsContainer.className = "boards-container";
-// content.appendChild(boardsContainer);
+  const imageContainer = document.createElement("div");
+  imageContainer.className = "image-container";
+  imageContainer.appendChild(titleImage);
 
-// const myBoardContainer = document.createElement("div");
-// const myBoardTitle = document.createElement("h2");
-// // myBoardTitle.innerText = "Your Board";
+  content.appendChild(imageContainer);
 
-// const myBoardGrid = document.createElement("div");
-// myBoardGrid.className = "grid-container";
+  const formContainer = document.createElement("div");
+  formContainer.className = "form-container";
+  const playerNameLabel = document.createElement("label");
+  playerNameLabel.className = "player-name-label";
+  const playerNameForm = document.createElement("form");
+  const playerNameInput = document.createElement("input");
+  playerNameInput.className = "player-name-input";
+  playerNameLabel.textContent = "Enter Your Name";
 
-// const computerBoardContainer = document.createElement("div");
-// const computerBoardTitle = document.createElement("h2");
-// computerBoardTitle.innerText = "Opponent Board";
+  playerNameForm.appendChild(playerNameInput);
+  formContainer.appendChild(playerNameLabel);
+  formContainer.appendChild(playerNameForm);
 
-// const computerBoardGrid = document.createElement("div");
-// computerBoardGrid.className = "grid-container";
+  content.appendChild(formContainer);
 
-// boardsContainer.appendChild(myBoardContainer);
-// myBoardContainer.appendChild(myBoardTitle);
-// myBoardContainer.appendChild(myBoardGrid);
-// boardsContainer.appendChild(computerBoardContainer);
-// computerBoardContainer.appendChild(computerBoardTitle);
-// computerBoardContainer.appendChild(computerBoardGrid);
+  const boardsOuterContainer = document.createElement("div");
+  boardsOuterContainer.className = "boards-outer-container";
+  content.appendChild(boardsOuterContainer);
 
-// // boardsContainer.style.display = "none";
-// // Reveal this again to hid boards after name input
+  const display = document.createElement("p");
+  display.className = "display";
+  boardsOuterContainer.appendChild(display);
+  display.style.display = "none";
 
-// const renderMyBoard = (myBoardGrid, arr) => {};
+  const axisButton = document.createElement("button");
+  axisButton.innerText = "Horizontal";
+  axisButton.className = "axis-button";
+  boardsOuterContainer.appendChild(axisButton);
 
-// const renderComputerBoard = (computerBoardGrid, arr) => {};
+  const boardsContainer = document.createElement("div");
+  boardsContainer.className = "boards-container";
+  boardsOuterContainer.appendChild(boardsContainer);
 
-// renderMyBoard(arr) {
-//   myBoardGrid.innerHTML = "";
-//   let flatArr = arr.flat();
-//   for (let i = 0; i <= 99; i++) {
-//     let item = document.createElement("div");
-//     item.innerText = flatArr[i];
-//     item.className = "square";
-//     this.myBoardSquares(item);
-//     myBoardGrid.appendChild(item);
+  const myBoardContainer = document.createElement("div");
+  const myBoardTitle = document.createElement("h2");
 
-//     this.myBoardShipSelect(item, i, arr);
+  const myBoardGrid = document.createElement("div");
+  myBoardGrid.className = "grid-container";
 
-//     ////// Need this to only happen before the start of the game:
-//     placePlayerShip(item, flatArr);
-//   }
-// }
+  const computerBoardGrid = document.createElement("div");
+  computerBoardGrid.className = "grid-container";
 
-// myBoardSquares(item) {
-//   if (item.innerText === "Hit") {
-//     item.style.backgroundColor = "red";
-//   }
-//   if (item.innerText === "Miss") {
-//     item.style.backgroundColor = "green";
-//   }
-// }
+  const computerBoardContainer = document.createElement("div");
+  const computerBoardTitle = document.createElement("h2");
+  computerBoardTitle.innerText = "Opponent Board";
 
-// myBoardShipSelect(item, index, arr) {
-//   let row = Math.floor(index / 10);
-//   let column = index % 10;
+  boardsContainer.appendChild(myBoardContainer);
+  myBoardContainer.appendChild(myBoardTitle);
+  myBoardContainer.appendChild(myBoardGrid);
 
-//   item.addEventListener("click", () => {
-//     playerObject.myBoard.placeShip(playerObject.myBoard.carrier, row, column, "horizontal");
-//     // playerObject.myBoard.placeShip(playerObject.myBoard.battleship, 1, 0, "vertical");
-//     // playerObject.myBoard.placeShip(playerObject.myBoard.cruiser, 4, 3, "horizontal");
-//     // playerObject.myBoard.placeShip(playerObject.myBoard.submarine, 5, 4, "vertical");
-//     // playerObject.myBoard.placeShip(playerObject.myBoard.destroyer, 8, 6, "vertical");
-//     this.renderMyBoard(arr);
-//   });
-// }
+  boardsContainer.appendChild(computerBoardContainer);
+  computerBoardContainer.appendChild(computerBoardTitle);
+  computerBoardContainer.appendChild(computerBoardGrid);
 
-// renderComputerBoard(arr) {
-//   let flatArr = arr.flat();
+  boardsContainer.style.display = "none";
+  myBoardContainer.style.display = "none";
+  computerBoardContainer.style.display = "none";
+  axisButton.style.display = "none";
 
-//   for (let i = 0; i <= 99; i++) {
-//     let item = document.createElement("div");
-//     item.innerText = flatArr[i];
-//     item.className = "square";
-//     computerBoardGrid.appendChild(item);
-//     // item.style.color = "yellow";
-//     // This will make the text invisible again
+  // WINNER SCREEN
 
-//     this.computerBoardSquares(item, i);
-//   }
-// }
+  const winnerContainer = document.createElement("div");
+  winnerContainer.className = "winner-container";
+  const winnerDisplay = document.createElement("p");
+  winnerDisplay.className = "winner-display";
+  const playAgainButton = document.createElement("button");
+  playAgainButton.className = "axis-button";
+  playAgainButton.innerText = "Play Again";
 
-// computerBoardSquares(item, index) {
-//   const shipValues = ["Crr", "Bat", "Cru", "Sub", "Des"];
-//   const row = Math.floor(index / 10);
-//   const column = index % 10;
+  winnerContainer.appendChild(winnerDisplay);
+  winnerContainer.appendChild(playAgainButton);
+  content.appendChild(winnerContainer);
+  winnerDisplay.innerText = "";
+  winnerContainer.style.display = "none";
 
-//   item.addEventListener("click", () => {
-//     if (!playerObject.playerTurn) return;
-//     if (shipValues.includes(item.innerText)) {
-//       item.style.backgroundColor = "red";
-//       item.innerText = "HIT!";
-//       item.style.color = "black";
-//       item.style.pointerEvents = "none";
-//       playerObject.myAttack(row, column);
-//       // console.log("compboard", playerObject.computerBoard.board);
-//       // console.log("myboard", playerObject.myBoard.board);
-//     } else {
-//       item.style.backgroundColor = "green";
-//       item.innerText = "MISS";
-//       item.style.color = "black";
-//       item.style.pointerEvents = "none";
-//       playerObject.myAttack(row, column);
-//       playerObject.playerTurn = false;
-//       // console.log("compboard", playerObject.computerBoard.board);
-//       // console.log("myboard", playerObject.myBoard.board);
-//     }
-//   });
-// }
+  return {
+    content,
+    titleImage,
+    imageContainer,
+    formContainer,
+    playerNameLabel,
+    playerNameForm,
+    playerNameInput,
+    boardsOuterContainer,
+    display,
+    axisButton,
+    boardsContainer,
+    myBoardContainer,
+    myBoardTitle,
+    myBoardGrid,
+    computerBoardGrid,
+    computerBoardContainer,
+    computerBoardTitle,
+    winnerContainer,
+    winnerDisplay,
+    playAgainButton,
+  };
+};
 
-// module.exports = { initializeGameUI, renderMyBoard, renderComputerBoard };
+export const getShipImage = (ship) => {
+  switch (ship.fullName) {
+    case "Carrier":
+      console.log("carrier");
+      return carrierImg;
+    case "Battleship":
+      console.log("battleship");
+      return battleshipImg;
+    case "Cruiser":
+      console.log("cruiser");
+      return cruiserImg;
+    case "Submarine":
+      console.log("submarine");
+      return submarineImg;
+    case "Destroyer":
+      console.log("destroyer");
+      return destroyerImg;
+    default:
+      return "";
+  }
+};
