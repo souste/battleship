@@ -235,7 +235,7 @@ body {
 }
 
 .highlight {
-  background-color: rgba(0, 0, 255, 0.5); /* Adjust the color and opacity as needed */
+  background-color: rgba(0, 0, 255, 0.5);
 }
 
 .ship-image {
@@ -245,10 +245,34 @@ body {
   height: auto;
   opacity: 0.4;
   top: -2px;
-  // right: -0.1px;
 }
 
 .vertical {
   transform: rotate(90deg);
-  transform-origin: left top;
+  transform-origin: top left;
+}
+
+#ship1.vertical {
+  left: 50px;
+  bottom: 40px;
+}
+
+#ship2.vertical {
+  left: 50px;
+  bottom: 40px;
+}
+
+#ship3.vertical {
+  left: 50px;
+  bottom: 40px;
+}
+
+#ship4.vertical {
+  left: 50px;
+  bottom: 40px;
+}
+
+#ship5.vertical {
+  left: 50px;
+  bottom: 40px;
 }

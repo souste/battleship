@@ -1,17 +1,11 @@
-// need to highlight where the ship will be placed - done!
-
-// create a toggle button instead of a prompt - done!
-// hide then only reveal computer board once all ships have been selected - done!
-// change input to just enter input - done!
-// Need a dialogue instruction box - done!
-// Need to get rid of the extra turn since it is not a battleship rule - done!
-
-// Enhance the boarder of the ship if sunk??? - done!
-// need to disable event listener if too close to the edge of the board or if it goes on top of another ship - done!
-// Need to improve the AI for the computer
-// Separate DOM logic from Player Class
-// Add actual ships to the ship squares in the DOM
-// Sounds for a ship being hit
+// Remaining problems
+// 1) shipImage vertical alignment
+// 2) computerBoard ship Images disappearing
+// 3) Improving computer AI
+// 4) Refactor, if possible
+// 5) Fine tune the display
+// 6) Polish the design - add a sound to hit or miss?
+// 7) Readme. Can check a video
 
 import { initializeDom, getShipImage } from "./dom";
 
@@ -196,22 +190,28 @@ document.addEventListener("DOMContentLoaded", function () {
         this.myBoardShipSelect(item, i, arr);
       }
 
-      this.shipPositions.forEach(({ ship, row, column, orientation }) => {
+      this.shipPositions.forEach(({ ship, row, column, orientation }, index) => {
         let startSquare = dom.myBoardGrid.children[row * 10 + column];
         let squareContent = document.createElement("div");
         startSquare.appendChild(squareContent);
 
         let shipImage = document.createElement("img");
         shipImage.className = "ship-image";
+        shipImage.id = `ship${index + 1}`;
         shipImage.src = getShipImage(ship);
+        if (orientation === "vertical") {
+          shipImage.classList.add("vertical");
+        }
+
         squareContent.appendChild(shipImage);
 
         if (orientation === "horizontal") {
           shipImage.style.width = `${ship.length * 42}px`;
           shipImage.style.height = "40px";
-        } else {
-          shipImage.style.width = "40px";
-          shipImage.style.height = `${ship.length * 42}px`;
+        } else if (orientation === "vertical") {
+          shipImage.style.width = `${ship.length * 42}px`;
+          shipImage.style.height = "40px";
+          shipImage.style.transform = "rotate(90deg)";
         }
       });
     }
@@ -302,23 +302,6 @@ document.addEventListener("DOMContentLoaded", function () {
           removeHighlight();
           item.removeEventListener("mouseenter", highlightSquares);
           item.removeEventListener("mouseleave", removeHighlight);
-
-          let startSquare = dom.myBoardGrid.children[row * 10 + column];
-          let squareContent = document.createElement("div");
-          startSquare.appendChild(squareContent);
-
-          let shipImage = document.createElement("img");
-          shipImage.className = "ship-image";
-          shipImage.src = getShipImage(currentShip);
-          squareContent.appendChild(shipImage);
-
-          if (orientation === "horizontal") {
-            shipImage.style.width = `${currentShip.length * 42}px`;
-            shipImage.style.height = "40px";
-          } else {
-            shipImage.style.width = "40px";
-            shipImage.style.height = `${currentShip.length * 42}px`;
-          }
         } else {
           dom.display.innerText = `Invalid placement for ${currentShip.fullName}. Try again`;
         }
