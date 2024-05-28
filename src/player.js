@@ -1,5 +1,5 @@
 // Remaining problems
-// 1) shipImage vertical alignment
+// 1) shipImage vertical alignment - done!
 // 2) computerBoard ship Images disappearing
 // 3) Improving computer AI
 // 4) Refactor, if possible
@@ -8,10 +8,9 @@
 // 7) Readme. Can check a video
 
 import { initializeDom, getShipImage } from "./dom";
+import Board from "./board";
 
 document.addEventListener("DOMContentLoaded", function () {
-  const Board = require("./board");
-
   const dom = initializeDom();
   const axisButton = dom.axisButton;
 
@@ -363,7 +362,10 @@ document.addEventListener("DOMContentLoaded", function () {
 
         this.computerBoardSquares(item, i, arr);
       }
+      this.renderComputerShipImages();
+    }
 
+    renderComputerShipImages() {
       this.computerShipPositions.forEach(({ ship, row, column, orientation }, index) => {
         let startSquareIndex = row * 10 + column;
 
