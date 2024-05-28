@@ -364,7 +364,7 @@ document.addEventListener("DOMContentLoaded", function () {
         this.computerBoardSquares(item, i, arr);
       }
 
-      this.computerShipPositions.forEach(({ ship, row, column, orientation }) => {
+      this.computerShipPositions.forEach(({ ship, row, column, orientation }, index) => {
         let startSquareIndex = row * 10 + column;
 
         let startSquare = dom.computerBoardGrid.children[startSquareIndex];
@@ -374,15 +374,20 @@ document.addEventListener("DOMContentLoaded", function () {
 
         let shipImage = document.createElement("img");
         shipImage.className = "ship-image";
+        shipImage.id = `ship${index + 1}`;
         shipImage.src = getShipImage(ship);
+        if (orientation === "vertical") {
+          shipImage.classList.add("vertical");
+        }
         squareContent.appendChild(shipImage);
 
         if (orientation === "horizontal") {
           shipImage.style.width = `${ship.length * 42}px`;
           shipImage.style.height = "40px";
         } else {
-          shipImage.style.width = "40px";
-          shipImage.style.height = `${ship.length * 42}px`;
+          shipImage.style.width = `${ship.length * 42}px`;
+          shipImage.style.height = "40px";
+          shipImage.style.tranform = "rotate(90deg)";
         }
       });
     }
