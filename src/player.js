@@ -1,6 +1,8 @@
 // Remaining problems
 // 1) shipImage vertical alignment - done!
-// 2) computerBoard ship Images disappearing
+// 2) computerBoard ship Images disappearing - done
+// additonal - horizontal computer ships need realigning
+//additional - first click on shipImage always goes to the first child square!
 // 3) Improving computer AI
 // 4) Refactor, if possible
 // 5) Fine tune the display
@@ -373,15 +375,20 @@ document.addEventListener("DOMContentLoaded", function () {
         let startSquare = dom.computerBoardGrid.children[startSquareIndex];
 
         let shipImage = document.createElement("img");
-        shipImage.className = "ship-image";
-        shipImage.id = `ship${index + 1}`;
+        shipImage.className = "ship-image computer-ship";
+
         shipImage.src = getShipImage(ship);
 
         if (orientation === "vertical") {
           shipImage.classList.add("vertical");
           shipImage.style.tranform = "rotate(90deg)";
+          // shipImage.id = `ship${index + 1}`;
+        } else {
+          shipImage.classList.add("horizontal");
+          shipImage.classList.add("computer-horizontal-ship");
         }
 
+        shipImage.id = `ship${index + 1}`;
         startSquare.appendChild(shipImage);
 
         if (orientation === "horizontal") {
