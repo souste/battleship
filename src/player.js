@@ -365,23 +365,24 @@ document.addEventListener("DOMContentLoaded", function () {
       this.renderComputerShipImages();
     }
 
+    // Combine this with with the myBoard Image rendering
     renderComputerShipImages() {
       this.computerShipPositions.forEach(({ ship, row, column, orientation }, index) => {
         let startSquareIndex = row * 10 + column;
 
         let startSquare = dom.computerBoardGrid.children[startSquareIndex];
 
-        let squareContent = document.createElement("div");
-        startSquare.appendChild(squareContent);
-
         let shipImage = document.createElement("img");
         shipImage.className = "ship-image";
         shipImage.id = `ship${index + 1}`;
         shipImage.src = getShipImage(ship);
+
         if (orientation === "vertical") {
           shipImage.classList.add("vertical");
+          shipImage.style.tranform = "rotate(90deg)";
         }
-        squareContent.appendChild(shipImage);
+
+        startSquare.appendChild(shipImage);
 
         if (orientation === "horizontal") {
           shipImage.style.width = `${ship.length * 42}px`;
@@ -389,7 +390,6 @@ document.addEventListener("DOMContentLoaded", function () {
         } else {
           shipImage.style.width = `${ship.length * 42}px`;
           shipImage.style.height = "40px";
-          shipImage.style.tranform = "rotate(90deg)";
         }
       });
     }
@@ -401,22 +401,27 @@ document.addEventListener("DOMContentLoaded", function () {
 
       item.addEventListener("click", () => {
         if (!playerObject.playerTurn) return;
-        if (shipValues.includes(item.innerText)) {
-          item.innerHTML = '<div class="dot red-dot"></div>';
-          item.style.pointerEvents = "none";
-          playerObject.myAttack(row, column);
+
+        const coordValue = playerObject.computerBoard.board[row][column];
+        const isShip = shipValues.includes(coordValue);
+        const hitMarker = document.createElement("div");
+        hitMarker.classList.add("dot");
+        hitMarker.id = "computer-dot";
+
+        if (isShip) {
+          hitMarker.classList.add("red-dot");
           dom.display.innerText = `${playerName} has hit a ship!`;
-          console.log("compboard", playerObject.computerBoard.board);
-          console.log("myboard", playerObject.myBoard.board);
         } else {
-          item.innerHTML = '<div class="dot black-dot"></div>';
-          item.style.pointerEvents = "none";
-          playerObject.myAttack(row, column);
+          hitMarker.classList.add("black-dot");
           dom.display.innerText = `${playerName} has missed`;
-          playerObject.playerTurn = false;
-          console.log("compboard", playerObject.computerBoard.board);
-          console.log("myboard", playerObject.myBoard.board);
         }
+
+        item.appendChild(hitMarker);
+        item.style.pointerEvents = "none";
+
+        playerObject.myAttack(row, column);
+
+        playerObject.playerTurn = false;
       });
     }
 
