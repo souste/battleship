@@ -1,7 +1,7 @@
 // Remaining problems
 // 1) shipImage vertical alignment - done!
 // 2) computerBoard ship Images disappearing - done
-// additonal - horizontal computer ships need realigning
+// additonal - horizontal computer ships need realigning - done!
 //additional - first click on shipImage always goes to the first child square!
 // 3) Improving computer AI
 // 4) Refactor, if possible
@@ -375,7 +375,7 @@ document.addEventListener("DOMContentLoaded", function () {
         let startSquare = dom.computerBoardGrid.children[startSquareIndex];
 
         let shipImage = document.createElement("img");
-        shipImage.className = "ship-image computer-ship";
+        shipImage.className = "ship-image computer-ship hidden";
 
         shipImage.src = getShipImage(ship);
 
@@ -444,10 +444,14 @@ document.addEventListener("DOMContentLoaded", function () {
         if (ship.sunk === true) {
           dom.computerBoardGrid.querySelectorAll(".square").forEach((square) => {
             if (square.innerText === ship.boardName) {
-              square.style.backgroundColor = "purple";
+              // square.style.backgroundColor = "purple";
               square.style.border = "2px solid black";
             }
           });
+          const shipImage = dom.computerBoardGrid.querySelector(`#ship${ships.indexOf(ship) + 1}`);
+          if (shipImage) {
+            shipImage.classList.remove("hidden");
+          }
         }
       });
     }
