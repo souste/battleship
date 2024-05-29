@@ -342,10 +342,10 @@ document.addEventListener("DOMContentLoaded", function () {
 
     getCurrentShipToDisplay() {
       const ships = [
-        `${playerName}, place the Battleship`,
-        `${playerName}, place the Cruiser`,
-        `${playerName}, place the Submarine`,
-        `${playerName}, place the Destroyer`,
+        `Place the Battleship`,
+        `Place the Cruiser`,
+        `Place the Submarine`,
+        `Place the Destroyer`,
         `${playerName}'s Turn.  Place a hit on your Opponent's Board. Good Luck!!`,
       ];
 

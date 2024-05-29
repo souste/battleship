@@ -88,13 +88,16 @@ body {
 // DISPLAY
 
 .display {
-  background-color: rgb(199, 184, 184);
+  background: linear-gradient(to right, #456961, #92b59d);
+  font-family: "Digital-7 Mono", monospace;
   height: 80px;
   width: 1000px;
   border-radius: 10px;
   line-height: 80px;
   padding-left: 20px;
-  border: 2px solid black;
+  border: 5px solid black;
+  font-size: 20px;
+  color: blanchedalmond;
 }
 
 // BOARDS
