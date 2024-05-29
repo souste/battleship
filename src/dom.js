@@ -54,6 +54,7 @@ export const initializeDom = () => {
 
   const myBoardContainer = document.createElement("div");
   const myBoardTitle = document.createElement("h2");
+  myBoardTitle.className = "board-title";
 
   const myBoardGrid = document.createElement("div");
   myBoardGrid.className = "grid-container";
@@ -64,6 +65,7 @@ export const initializeDom = () => {
   const computerBoardContainer = document.createElement("div");
   const computerBoardTitle = document.createElement("h2");
   computerBoardTitle.innerText = "Opponent Board";
+  computerBoardTitle.className = "board-title";
 
   boardsContainer.appendChild(myBoardContainer);
   myBoardContainer.appendChild(myBoardTitle);
