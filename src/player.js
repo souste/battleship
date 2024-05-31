@@ -2,12 +2,14 @@
 // 1) shipImage vertical alignment - done!
 // 2) computerBoard ship Images disappearing - done
 // additonal - horizontal computer ships need realigning - done!
-//additional - first click on shipImage always goes to the first child square!
+//additional - first click on shipImage always goes to the first child square! - done (made images only appear after ship sunk)
 // 3) Improving computer AI
 // 4) Refactor, if possible
 // 5) Fine tune the display
 // 6) Polish the design - add a sound to hit or miss?
 // 7) Readme. Can check a video
+// 8) Get it to display properly on Github pages
+// make sure pointer isn't on myBoard
 
 import { initializeDom, getShipImage } from "./dom";
 import Board from "./board";
