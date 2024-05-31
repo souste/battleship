@@ -66,16 +66,16 @@ var Board = /*#__PURE__*/function () {
             arr.push(ship.boardName);
           }
           (_this$board$rowCoord = this.board[rowCoord]).splice.apply(_this$board$rowCoord, [colCoord, ship.length].concat(arr));
-          return this;
         } else if (direction === "vertical") {
           for (var _i2 = 0; _i2 < ship.length; _i2++) {
             this.board[rowCoord + _i2].splice(colCoord, 1, ship.boardName);
           }
-          return this;
-        } else {
-          return this;
         }
+        ship.startRow = rowCoord;
+        ship.startColumn = colCoord;
+        return this;
       }
+      return false;
     }
   }, {
     key: "receiveAttack",
@@ -154,147 +154,135 @@ module.exports = Board;
 /*!********************!*\
   !*** ./src/dom.js ***!
   \********************/
-/***/ (() => {
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
-// const initializeGameUI = () => {
-//   const content = document.querySelector(".content");
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   getShipImage: () => (/* binding */ getShipImage),
+/* harmony export */   initializeDom: () => (/* binding */ initializeDom)
+/* harmony export */ });
+/* harmony import */ var _assets_battleship_logo_jpg__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./assets/battleship-logo.jpg */ "./src/assets/battleship-logo.jpg");
+/* harmony import */ var _assets_battleship_PNG__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./assets/battleship.PNG */ "./src/assets/battleship.PNG");
+/* harmony import */ var _assets_carrier_PNG__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./assets/carrier.PNG */ "./src/assets/carrier.PNG");
+/* harmony import */ var _assets_cruiser_PNG__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./assets/cruiser.PNG */ "./src/assets/cruiser.PNG");
+/* harmony import */ var _assets_destroyer_PNG__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./assets/destroyer.PNG */ "./src/assets/destroyer.PNG");
+/* harmony import */ var _assets_submarine_PNG__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./assets/submarine.PNG */ "./src/assets/submarine.PNG");
+/* harmony import */ var _styles_main_scss__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./styles/main.scss */ "./src/styles/main.scss");
 
-//   const title = document.createElement("h1");
-//   title.innerText = "Battleships";
-//   content.appendChild(title);
-// };
 
-// const formContainer = document.createElement("div");
-// const playerNameLabel = document.createElement("label");
-// const playerNameForm = document.createElement("form");
-// const playerNameButton = document.createElement("button");
-// playerNameButton.className = "player-name-button";
-// const playerNameInput = document.createElement("input");
-// playerNameInput.className = "player-name-input";
-// playerNameLabel.textContent = "Enter Your Name";
-// playerNameButton.textContent = "Start";
-// playerNameForm.appendChild(playerNameInput);
-// formContainer.appendChild(playerNameLabel);
-// formContainer.appendChild(playerNameForm);
-// formContainer.appendChild(playerNameButton);
-// content.appendChild(formContainer);
 
-// const boardsContainer = document.createElement("div");
-// boardsContainer.className = "boards-container";
-// content.appendChild(boardsContainer);
 
-// const myBoardContainer = document.createElement("div");
-// const myBoardTitle = document.createElement("h2");
-// // myBoardTitle.innerText = "Your Board";
 
-// const myBoardGrid = document.createElement("div");
-// myBoardGrid.className = "grid-container";
 
-// const computerBoardContainer = document.createElement("div");
-// const computerBoardTitle = document.createElement("h2");
-// computerBoardTitle.innerText = "Opponent Board";
 
-// const computerBoardGrid = document.createElement("div");
-// computerBoardGrid.className = "grid-container";
-
-// boardsContainer.appendChild(myBoardContainer);
-// myBoardContainer.appendChild(myBoardTitle);
-// myBoardContainer.appendChild(myBoardGrid);
-// boardsContainer.appendChild(computerBoardContainer);
-// computerBoardContainer.appendChild(computerBoardTitle);
-// computerBoardContainer.appendChild(computerBoardGrid);
-
-// // boardsContainer.style.display = "none";
-// // Reveal this again to hid boards after name input
-
-// const renderMyBoard = (myBoardGrid, arr) => {};
-
-// const renderComputerBoard = (computerBoardGrid, arr) => {};
-
-// renderMyBoard(arr) {
-//   myBoardGrid.innerHTML = "";
-//   let flatArr = arr.flat();
-//   for (let i = 0; i <= 99; i++) {
-//     let item = document.createElement("div");
-//     item.innerText = flatArr[i];
-//     item.className = "square";
-//     this.myBoardSquares(item);
-//     myBoardGrid.appendChild(item);
-
-//     this.myBoardShipSelect(item, i, arr);
-
-//     ////// Need this to only happen before the start of the game:
-//     placePlayerShip(item, flatArr);
-//   }
-// }
-
-// myBoardSquares(item) {
-//   if (item.innerText === "Hit") {
-//     item.style.backgroundColor = "red";
-//   }
-//   if (item.innerText === "Miss") {
-//     item.style.backgroundColor = "green";
-//   }
-// }
-
-// myBoardShipSelect(item, index, arr) {
-//   let row = Math.floor(index / 10);
-//   let column = index % 10;
-
-//   item.addEventListener("click", () => {
-//     playerObject.myBoard.placeShip(playerObject.myBoard.carrier, row, column, "horizontal");
-//     // playerObject.myBoard.placeShip(playerObject.myBoard.battleship, 1, 0, "vertical");
-//     // playerObject.myBoard.placeShip(playerObject.myBoard.cruiser, 4, 3, "horizontal");
-//     // playerObject.myBoard.placeShip(playerObject.myBoard.submarine, 5, 4, "vertical");
-//     // playerObject.myBoard.placeShip(playerObject.myBoard.destroyer, 8, 6, "vertical");
-//     this.renderMyBoard(arr);
-//   });
-// }
-
-// renderComputerBoard(arr) {
-//   let flatArr = arr.flat();
-
-//   for (let i = 0; i <= 99; i++) {
-//     let item = document.createElement("div");
-//     item.innerText = flatArr[i];
-//     item.className = "square";
-//     computerBoardGrid.appendChild(item);
-//     // item.style.color = "yellow";
-//     // This will make the text invisible again
-
-//     this.computerBoardSquares(item, i);
-//   }
-// }
-
-// computerBoardSquares(item, index) {
-//   const shipValues = ["Crr", "Bat", "Cru", "Sub", "Des"];
-//   const row = Math.floor(index / 10);
-//   const column = index % 10;
-
-//   item.addEventListener("click", () => {
-//     if (!playerObject.playerTurn) return;
-//     if (shipValues.includes(item.innerText)) {
-//       item.style.backgroundColor = "red";
-//       item.innerText = "HIT!";
-//       item.style.color = "black";
-//       item.style.pointerEvents = "none";
-//       playerObject.myAttack(row, column);
-//       // console.log("compboard", playerObject.computerBoard.board);
-//       // console.log("myboard", playerObject.myBoard.board);
-//     } else {
-//       item.style.backgroundColor = "green";
-//       item.innerText = "MISS";
-//       item.style.color = "black";
-//       item.style.pointerEvents = "none";
-//       playerObject.myAttack(row, column);
-//       playerObject.playerTurn = false;
-//       // console.log("compboard", playerObject.computerBoard.board);
-//       // console.log("myboard", playerObject.myBoard.board);
-//     }
-//   });
-// }
-
-// module.exports = { initializeGameUI, renderMyBoard, renderComputerBoard };
+var initializeDom = function initializeDom() {
+  var content = document.querySelector(".content");
+  var titleImage = document.createElement("img");
+  titleImage.src = _assets_battleship_logo_jpg__WEBPACK_IMPORTED_MODULE_0__;
+  titleImage.className = "title-image";
+  var imageContainer = document.createElement("div");
+  imageContainer.className = "image-container";
+  imageContainer.appendChild(titleImage);
+  content.appendChild(imageContainer);
+  var formContainer = document.createElement("div");
+  formContainer.className = "form-container";
+  var playerNameLabel = document.createElement("label");
+  playerNameLabel.className = "player-name-label";
+  var playerNameForm = document.createElement("form");
+  var playerNameInput = document.createElement("input");
+  playerNameInput.className = "player-name-input";
+  playerNameLabel.textContent = "Enter Your Name";
+  playerNameForm.appendChild(playerNameInput);
+  formContainer.appendChild(playerNameLabel);
+  formContainer.appendChild(playerNameForm);
+  content.appendChild(formContainer);
+  var boardsOuterContainer = document.createElement("div");
+  boardsOuterContainer.className = "boards-outer-container";
+  content.appendChild(boardsOuterContainer);
+  var display = document.createElement("p");
+  display.className = "display";
+  boardsOuterContainer.appendChild(display);
+  display.style.display = "none";
+  var axisButton = document.createElement("button");
+  axisButton.innerText = "Horizontal";
+  axisButton.className = "axis-button";
+  boardsOuterContainer.appendChild(axisButton);
+  var boardsContainer = document.createElement("div");
+  boardsContainer.className = "boards-container";
+  boardsOuterContainer.appendChild(boardsContainer);
+  var myBoardContainer = document.createElement("div");
+  var myBoardTitle = document.createElement("h2");
+  myBoardTitle.className = "board-title";
+  var myBoardGrid = document.createElement("div");
+  myBoardGrid.className = "grid-container";
+  var computerBoardGrid = document.createElement("div");
+  computerBoardGrid.className = "grid-container";
+  var computerBoardContainer = document.createElement("div");
+  var computerBoardTitle = document.createElement("h2");
+  computerBoardTitle.innerText = "Opponent Board";
+  computerBoardTitle.className = "board-title";
+  boardsContainer.appendChild(myBoardContainer);
+  myBoardContainer.appendChild(myBoardTitle);
+  myBoardContainer.appendChild(myBoardGrid);
+  boardsContainer.appendChild(computerBoardContainer);
+  computerBoardContainer.appendChild(computerBoardTitle);
+  computerBoardContainer.appendChild(computerBoardGrid);
+  boardsContainer.style.display = "none";
+  myBoardContainer.style.display = "none";
+  computerBoardContainer.style.display = "none";
+  axisButton.style.display = "none";
+  var winnerContainer = document.createElement("div");
+  winnerContainer.className = "winner-container";
+  var winnerDisplay = document.createElement("p");
+  winnerDisplay.className = "winner-display";
+  var playAgainButton = document.createElement("button");
+  playAgainButton.className = "axis-button";
+  playAgainButton.innerText = "Play Again";
+  winnerContainer.appendChild(winnerDisplay);
+  winnerContainer.appendChild(playAgainButton);
+  content.appendChild(winnerContainer);
+  winnerDisplay.innerText = "";
+  winnerContainer.style.display = "none";
+  return {
+    content: content,
+    titleImage: titleImage,
+    imageContainer: imageContainer,
+    formContainer: formContainer,
+    playerNameLabel: playerNameLabel,
+    playerNameForm: playerNameForm,
+    playerNameInput: playerNameInput,
+    boardsOuterContainer: boardsOuterContainer,
+    display: display,
+    axisButton: axisButton,
+    boardsContainer: boardsContainer,
+    myBoardContainer: myBoardContainer,
+    myBoardTitle: myBoardTitle,
+    myBoardGrid: myBoardGrid,
+    computerBoardGrid: computerBoardGrid,
+    computerBoardContainer: computerBoardContainer,
+    computerBoardTitle: computerBoardTitle,
+    winnerContainer: winnerContainer,
+    winnerDisplay: winnerDisplay,
+    playAgainButton: playAgainButton
+  };
+};
+var getShipImage = function getShipImage(ship) {
+  switch (ship.fullName) {
+    case "Carrier":
+      return _assets_carrier_PNG__WEBPACK_IMPORTED_MODULE_2__;
+    case "Battleship":
+      return _assets_battleship_PNG__WEBPACK_IMPORTED_MODULE_1__;
+    case "Cruiser":
+      return _assets_cruiser_PNG__WEBPACK_IMPORTED_MODULE_3__;
+    case "Submarine":
+      return _assets_submarine_PNG__WEBPACK_IMPORTED_MODULE_5__;
+    case "Destroyer":
+      return _assets_destroyer_PNG__WEBPACK_IMPORTED_MODULE_4__;
+    default:
+      return "";
+  }
+};
 
 /***/ }),
 
@@ -306,13 +294,9 @@ module.exports = Board;
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _assets_battleship_logo_jpg__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./assets/battleship-logo.jpg */ "./src/assets/battleship-logo.jpg");
-/* harmony import */ var _assets_battleship_PNG__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./assets/battleship.PNG */ "./src/assets/battleship.PNG");
-/* harmony import */ var _assets_carrier_PNG__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./assets/carrier.PNG */ "./src/assets/carrier.PNG");
-/* harmony import */ var _assets_cruiser_PNG__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./assets/cruiser.PNG */ "./src/assets/cruiser.PNG");
-/* harmony import */ var _assets_destroyer_PNG__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./assets/destroyer.PNG */ "./src/assets/destroyer.PNG");
-/* harmony import */ var _assets_submarine_PNG__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./assets/submarine.PNG */ "./src/assets/submarine.PNG");
-/* harmony import */ var _styles_main_scss__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./styles/main.scss */ "./src/styles/main.scss");
+/* harmony import */ var _dom__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./dom */ "./src/dom.js");
+/* harmony import */ var _board__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./board */ "./src/board.js");
+/* harmony import */ var _board__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_board__WEBPACK_IMPORTED_MODULE_1__);
 /* module decorator */ module = __webpack_require__.hmd(module);
 function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
 function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
@@ -326,524 +310,498 @@ function _defineProperties(target, props) { for (var i = 0; i < props.length; i+
 function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); Object.defineProperty(Constructor, "prototype", { writable: false }); return Constructor; }
 function _toPropertyKey(t) { var i = _toPrimitive(t, "string"); return "symbol" == _typeof(i) ? i : String(i); }
 function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e = t[Symbol.toPrimitive]; if (void 0 !== e) { var i = e.call(t, r || "default"); if ("object" != _typeof(i)) return i; throw new TypeError("@@toPrimitive must return a primitive value."); } return ("string" === r ? String : Number)(t); }
-// need to highlight where the ship will be placed - done!
-
-// create a toggle button instead of a prompt - done!
-// hide then only reveal computer board once all ships have been selected - done!
-// change input to just enter input - done!
-// Need a dialogue instruction box - done!
-// Need to get rid of the extra turn since it is not a battleship rule - done!
-
-// Enhance the boarder of the ship if sunk??? - done!
-// need to disable event listener if too close to the edge of the board or if it goes on top of another ship - done!
-// Need to improve the AI for the computer
-// Separate DOM logic from Player Class
-// Add actual ships to the ship squares in the DOM
-// Sounds for a ship being hit
-
-var Board = __webpack_require__(/*! ./board */ "./src/board.js");
+// Remaining problems
+// 1) shipImage vertical alignment - done!
+// 2) computerBoard ship Images disappearing - done
+// additonal - horizontal computer ships need realigning - done!
+//additional - first click on shipImage always goes to the first child square! - done (made images only appear after ship sunk)
+// 3) Improving computer AI
+// 4) Refactor, if possible
+// 5) Fine tune the display
+// 6) Polish the design - add a sound to hit or miss?
+// 7) Readme. Can check a video
+// 8) Get it to display properly on Github pages
+// make sure pointer isn't on myBoard
 
 
 
-
-
-
-
-var content = document.querySelector(".content");
-var titleImage = document.createElement("img");
-titleImage.src = _assets_battleship_logo_jpg__WEBPACK_IMPORTED_MODULE_0__;
-titleImage.className = "title-image";
-var imageContainer = document.createElement("div");
-imageContainer.className = "image-container";
-imageContainer.appendChild(titleImage);
-content.appendChild(imageContainer);
-var formContainer = document.createElement("div");
-formContainer.className = "form-container";
-var playerNameLabel = document.createElement("label");
-playerNameLabel.className = "player-name-label";
-var playerNameForm = document.createElement("form");
-var playerNameInput = document.createElement("input");
-playerNameInput.className = "player-name-input";
-playerNameLabel.textContent = "Enter Your Name";
-playerNameForm.appendChild(playerNameInput);
-formContainer.appendChild(playerNameLabel);
-formContainer.appendChild(playerNameForm);
-content.appendChild(formContainer);
-var boardsOuterContainer = document.createElement("div");
-boardsOuterContainer.className = "boards-outer-container";
-content.appendChild(boardsOuterContainer);
-var display = document.createElement("p");
-display.className = "display";
-boardsOuterContainer.appendChild(display);
-display.style.display = "none";
-var axisButton = document.createElement("button");
-axisButton.innerText = "Horizontal";
-axisButton.className = "axis-button";
-boardsOuterContainer.appendChild(axisButton);
-var boardsContainer = document.createElement("div");
-boardsContainer.className = "boards-container";
-boardsOuterContainer.appendChild(boardsContainer);
-var myBoardContainer = document.createElement("div");
-var myBoardTitle = document.createElement("h2");
-var myBoardGrid = document.createElement("div");
-myBoardGrid.className = "grid-container";
-var computerBoardGrid = document.createElement("div");
-computerBoardGrid.className = "grid-container";
-var computerBoardContainer = document.createElement("div");
-var computerBoardTitle = document.createElement("h2");
-computerBoardTitle.innerText = "Opponent Board";
-boardsContainer.appendChild(myBoardContainer);
-myBoardContainer.appendChild(myBoardTitle);
-myBoardContainer.appendChild(myBoardGrid);
-boardsContainer.appendChild(computerBoardContainer);
-computerBoardContainer.appendChild(computerBoardTitle);
-computerBoardContainer.appendChild(computerBoardGrid);
-boardsContainer.style.display = "none";
-myBoardContainer.style.display = "none";
-computerBoardContainer.style.display = "none";
-axisButton.style.display = "none";
-var orientation = "horizontal";
-var changeAxis = function changeAxis() {
-  if (axisButton.innerText === "Horizontal") {
-    axisButton.innerText = "Vertical";
-    orientation = "vertical";
-  } else if (axisButton.innerText === "Vertical") {
-    axisButton.innerText = "Horizontal";
-    orientation = "horizontal";
-  }
-};
-axisButton.addEventListener("click", changeAxis);
-
-// WINNER SCREEN
-
-var winnerContainer = document.createElement("div");
-winnerContainer.className = "winner-container";
-var winnerDisplay = document.createElement("p");
-winnerDisplay.className = "winner-display";
-var playAgainButton = document.createElement("button");
-playAgainButton.className = "axis-button";
-playAgainButton.innerText = "Play Again";
-winnerContainer.appendChild(winnerDisplay);
-winnerContainer.appendChild(playAgainButton);
-content.appendChild(winnerContainer);
-winnerDisplay.innerText = "";
-winnerContainer.style.display = "none";
-var Player = /*#__PURE__*/function () {
-  function Player() {
-    _classCallCheck(this, Player);
-    this.myBoard = new Board();
-    this.computerBoard = new Board();
-    this.computerAttacks = [];
-    this.playerTurn = true;
-    this.compShipPlacement();
-    this.currentShipIndex = 0;
-    this.currentDisplayIndex = 0;
-    this.previousHitArr = [];
-  }
-  _createClass(Player, [{
-    key: "compShipPlacement",
-    value: function compShipPlacement() {
-      var flattenedBoard = this.computerBoard.board.flat();
-      var stringsToCheck = ["Crr", "Bat", "Cru", "Sub", "Des"];
-      var areAllStringsPresent = stringsToCheck.every(function (str) {
-        return flattenedBoard.includes(str);
-      });
-      if (!areAllStringsPresent) {
-        var ships = [this.computerBoard.carrier, this.computerBoard.battleship, this.computerBoard.cruiser, this.computerBoard.submarine, this.computerBoard.destroyer];
-        for (var _i = 0, _ships = ships; _i < _ships.length; _i++) {
-          var ship = _ships[_i];
-          var placed = false;
-          while (!placed) {
-            var direction = this.randomDirection();
-            var result = this.computerBoard.placeShip(ship, Math.floor(Math.random() * 10), Math.floor(Math.random() * 10), direction);
-            if (result) {
-              placed = true;
+document.addEventListener("DOMContentLoaded", function () {
+  var dom = (0,_dom__WEBPACK_IMPORTED_MODULE_0__.initializeDom)();
+  var axisButton = dom.axisButton;
+  var orientation = "horizontal";
+  var changeAxis = function changeAxis() {
+    if (axisButton.innerText === "Horizontal") {
+      axisButton.innerText = "Vertical";
+      orientation = "vertical";
+    } else if (axisButton.innerText === "Vertical") {
+      axisButton.innerText = "Horizontal";
+      orientation = "horizontal";
+    }
+  };
+  axisButton.addEventListener("click", changeAxis);
+  var Player = /*#__PURE__*/function () {
+    function Player() {
+      _classCallCheck(this, Player);
+      this.myBoard = new (_board__WEBPACK_IMPORTED_MODULE_1___default())();
+      this.computerBoard = new (_board__WEBPACK_IMPORTED_MODULE_1___default())();
+      this.computerAttacks = [];
+      this.playerTurn = true;
+      this.currentShipIndex = 0;
+      this.currentDisplayIndex = 0;
+      this.previousHitArr = [];
+      this.shipPositions = [];
+      this.computerShipPositions = [];
+      this.compShipPlacement();
+      this.renderComputerBoard(this.computerBoard.board);
+    }
+    _createClass(Player, [{
+      key: "compShipPlacement",
+      value: function compShipPlacement() {
+        var flattenedBoard = this.computerBoard.board.flat();
+        var stringsToCheck = ["Crr", "Bat", "Cru", "Sub", "Des"];
+        var areAllStringsPresent = stringsToCheck.every(function (str) {
+          return flattenedBoard.includes(str);
+        });
+        if (!areAllStringsPresent) {
+          var ships = [this.computerBoard.carrier, this.computerBoard.battleship, this.computerBoard.cruiser, this.computerBoard.submarine, this.computerBoard.destroyer];
+          for (var _i = 0, _ships = ships; _i < _ships.length; _i++) {
+            var ship = _ships[_i];
+            var placed = false;
+            while (!placed) {
+              var direction = this.randomDirection();
+              var result = this.computerBoard.placeShip(ship, Math.floor(Math.random() * 10), Math.floor(Math.random() * 10), direction);
+              if (result) {
+                placed = true;
+                this.recordComputerShipPosition(ship, ship.startRow, ship.startColumn, direction);
+              }
             }
           }
-        }
-        this.renderComputerBoard(this.computerBoard.board);
-      } else {
-        return;
-      }
-    }
-  }, {
-    key: "randomDirection",
-    value: function randomDirection() {
-      var randomNumber = Math.random();
-      if (randomNumber < 0.5) {
-        return "horizontal";
-      } else {
-        return "vertical";
-      }
-    }
-  }, {
-    key: "myAttack",
-    value: function myAttack(coord1, coord2) {
-      var _this = this;
-      if (!this.playerTurn) return;
-      var result = this.computerBoard.receiveAttack(coord1, coord2);
-      var coordValue = this.computerBoard.board[coord1][coord2];
-      console.log("coordValue", coordValue);
-      this.allShipsSunk();
-      this.compShipSunk();
-      setTimeout(function () {
-        _this.compAttack();
-        _this.myShipSunk();
-      }, 100);
-      this.playerTurn = false;
-      return result;
-    }
-  }, {
-    key: "compAttack",
-    value: function compAttack() {
-      var _this2 = this;
-      var coord1, coord2, coordValue, result;
-      var attackAfterOneSecond = function attackAfterOneSecond() {
-        coord1 = Math.floor(Math.random() * 10);
-        coord2 = Math.floor(Math.random() * 10);
-        coordValue = _this2.myBoard.board[coord1][coord2];
-        _this2.previousHitArr.push(coordValue);
-        console.log(_this2.previousHitArr);
-        if (typeof _this2.previousHitArr[_this2.previousHitArr.length - 1] === "string") {
-          console.log("this is a string");
-          // result = this.compAdjacentTargets(row, col);
-          result = _this2.myBoard.receiveMyAttack(coord1, coord2);
-        } else if (typeof _this2.previousHitArr[_this2.previousHitArr.length - 1] === "number" || _typeof(_this2.previousHitArr[_this2.previousHitArr.length - 1]) === undefined) {
-          console.log("this is a number");
-          result = _this2.myBoard.receiveMyAttack(coord1, coord2);
-        }
-
-        // console.log("compCordValue", coordValue);
-
-        if (typeof coordValue === "number" || coordValue === "Crr" || coordValue === "Bat" || coordValue === "Cru" || coordValue === "Sub" || coordValue === "Des") {
-          _this2.playerTurn = true;
-          _this2.refreshMyBoardAfterCompAttack();
-          _this2.myShipSunk();
-          _this2.allShipsSunk();
+          this.renderComputerBoard(this.computerBoard.board);
         } else {
-          setTimeout(attackAfterOneSecond, 0);
-        }
-      };
-      attackAfterOneSecond();
-      this.refreshMyBoardAfterCompAttack();
-      return result;
-    }
-  }, {
-    key: "compAdjacentTargets",
-    value: function compAdjacentTargets(row, col) {
-      var _this3 = this;
-      var adjacentTargets = [[row - 1, col], [row + 1, col], [row, col - 1], [row, col + 1]];
-      adjacentTargets.forEach(function (_ref) {
-        var _ref2 = _slicedToArray(_ref, 2),
-          row = _ref2[0],
-          column = _ref2[1];
-        if (row >= 10 && row < 10 && column >= 10 && column < 10 && typeof _this3.myBoard.board[row][column] === "number") {
-          _this3.previousHitArr.push([row, column]);
-          _this3.myBoard.receiveMyAttack(row, column);
-        }
-      });
-    }
-  }, {
-    key: "refreshMyBoardAfterCompAttack",
-    value: function refreshMyBoardAfterCompAttack() {
-      this.renderMyBoard(this.myBoard.board);
-    }
-  }, {
-    key: "renderMyBoard",
-    value: function renderMyBoard(arr) {
-      myBoardGrid.innerHTML = "";
-      var flatArr = arr.flat();
-      for (var i = 0; i <= 99; i++) {
-        var item = document.createElement("div");
-        item.innerText = flatArr[i];
-        item.className = "square";
-        this.myBoardSquares(item);
-        myBoardGrid.appendChild(item);
-        this.myBoardShipSelect(item, i, arr);
-      }
-    }
-  }, {
-    key: "myBoardSquares",
-    value: function myBoardSquares(item) {
-      var stringsToCheck = ["Crr", "Bat", "Cru", "Sub", "Des"];
-      if (stringsToCheck.includes(item.innerText)) {
-        // item.style.backgroundColor = "black";
-        item.style.color = "black";
-      } else if (item.innerText === "Sunk") {
-        item.style.backgroundColor = "purple";
-        item.style.border = "2px solid black";
-      } else if (item.innerText.startsWith("Hit")) {
-        item.style.backgroundColor = "red";
-        // item.style.color = "red";
-        display.innerText = "The opponent has hit your ship";
-      } else if (item.innerText === "Miss") {
-        item.style.backgroundColor = "green";
-        // item.style.color = "green";
-        display.innerText = "The opponent has missed";
-      } else {
-        // item.style.color = "rgb(241, 240, 240)";
-      }
-    }
-  }, {
-    key: "myBoardShipSelect",
-    value: function myBoardShipSelect(item, index, arr) {
-      var _this4 = this;
-      var row = Math.floor(index / 10);
-      var column = index % 10;
-      var currentShip = this.getCurrentShipToPlace();
-      var nextDisplay = this.getCurrentShipToDisplay();
-      var isPlacementValid = function isPlacementValid(row, column, ship, orientation) {
-        for (var i = 0; i < ship.length; i++) {
-          var newRow = void 0,
-            newColumn = void 0;
-          if (orientation === "horizontal") {
-            newRow = row;
-            newColumn = column + i;
-          } else if (orientation === "vertical") {
-            newRow = row + i;
-            newColumn = column;
-          }
-          if (newRow >= 10 || newColumn >= 10) {
-            console.log("Invalid: Out of bounds at (".concat(newRow, ", ").concat(newColumn, ")"));
-            return false;
-          }
-          if (typeof arr[newRow][newColumn] !== "number") {
-            console.log("Invalid: Overlap at (".concat(newRow, ", ").concat(newColumn, ")"));
-            return false;
-          }
-        }
-        return true;
-      };
-      var highlightSquares = function highlightSquares() {
-        if (!isPlacementValid(row, column, currentShip, orientation)) {
           return;
         }
-        for (var i = 0; i < currentShip.length; i++) {
-          var newRow = void 0,
-            newColumn = void 0;
-          if (orientation === "horizontal") {
-            newRow = row;
-            newColumn = column + i;
-          } else if (orientation === "vertical") {
-            newRow = row + i;
-            newColumn = column;
-          }
-          if (newRow >= 0 && newRow < 10 && newColumn >= 0 && newColumn < 10) {
-            var squareIndex = newRow * 10 + newColumn;
-            var square = myBoardGrid.children[squareIndex];
-            square.classList.add("highlight");
-          }
+      }
+    }, {
+      key: "randomDirection",
+      value: function randomDirection() {
+        var randomNumber = Math.random();
+        if (randomNumber < 0.5) {
+          return "horizontal";
+        } else {
+          return "vertical";
         }
-      };
-      var removeHighlight = function removeHighlight() {
-        var highlightSquares = myBoardGrid.querySelectorAll(".highlight");
-        highlightSquares.forEach(function (square) {
-          square.classList.remove("highlight");
+      }
+    }, {
+      key: "myAttack",
+      value: function myAttack(coord1, coord2) {
+        var _this = this;
+        if (!this.playerTurn) return;
+        var result = this.computerBoard.receiveAttack(coord1, coord2);
+        var coordValue = this.computerBoard.board[coord1][coord2];
+        console.log("coordValue", coordValue);
+        this.allShipsSunk();
+        this.compShipSunk();
+        setTimeout(function () {
+          _this.compAttack();
+          _this.myShipSunk();
+        }, 100);
+        this.playerTurn = false;
+        return result;
+      }
+    }, {
+      key: "compAttack",
+      value: function compAttack() {
+        var _this2 = this;
+        var coord1, coord2, coordValue, result;
+        var attackAfterOneSecond = function attackAfterOneSecond() {
+          coord1 = Math.floor(Math.random() * 10);
+          coord2 = Math.floor(Math.random() * 10);
+          coordValue = _this2.myBoard.board[coord1][coord2];
+          _this2.previousHitArr.push(coordValue);
+          console.log(_this2.previousHitArr);
+          if (typeof _this2.previousHitArr[_this2.previousHitArr.length - 1] === "string") {
+            console.log("this is a string");
+            result = _this2.myBoard.receiveMyAttack(coord1, coord2);
+          } else if (typeof _this2.previousHitArr[_this2.previousHitArr.length - 1] === "number" || _typeof(_this2.previousHitArr[_this2.previousHitArr.length - 1]) === undefined) {
+            console.log("this is a number");
+            result = _this2.myBoard.receiveMyAttack(coord1, coord2);
+          }
+          if (typeof coordValue === "number" || coordValue === "Crr" || coordValue === "Bat" || coordValue === "Cru" || coordValue === "Sub" || coordValue === "Des") {
+            _this2.playerTurn = true;
+            _this2.refreshMyBoardAfterCompAttack();
+            _this2.myShipSunk();
+            _this2.allShipsSunk();
+          } else {
+            setTimeout(attackAfterOneSecond, 0);
+          }
+        };
+        attackAfterOneSecond();
+        this.refreshMyBoardAfterCompAttack();
+        return result;
+      }
+    }, {
+      key: "compAdjacentTargets",
+      value: function compAdjacentTargets(row, col) {
+        var _this3 = this;
+        var adjacentTargets = [[row - 1, col], [row + 1, col], [row, col - 1], [row, col + 1]];
+        adjacentTargets.forEach(function (_ref) {
+          var _ref2 = _slicedToArray(_ref, 2),
+            row = _ref2[0],
+            column = _ref2[1];
+          if (row >= 10 && row < 10 && column >= 10 && column < 10 && typeof _this3.myBoard.board[row][column] === "number") {
+            _this3.previousHitArr.push([row, column]);
+            _this3.myBoard.receiveMyAttack(row, column);
+          }
         });
-      };
-      var clickHandler = function clickHandler() {
-        if (isPlacementValid(row, column, currentShip, orientation)) {
-          playerObject.myBoard.placeShip(currentShip, row, column, orientation);
-          _this4.currentShipIndex++;
-          _this4.currentDisplayIndex++;
-          _this4.renderMyBoard(arr);
-          display.innerText = "".concat(nextDisplay);
-          removeHighlight();
-          item.removeEventListener("mouseenter", highlightSquares);
-          item.removeEventListener("mouseleave", removeHighlight);
+      }
+    }, {
+      key: "refreshMyBoardAfterCompAttack",
+      value: function refreshMyBoardAfterCompAttack() {
+        this.renderMyBoard(this.myBoard.board);
+      }
+    }, {
+      key: "renderMyBoard",
+      value: function renderMyBoard(arr) {
+        dom.myBoardGrid.innerHTML = "";
+        var flatArr = arr.flat();
+        for (var i = 0; i <= 99; i++) {
+          var item = document.createElement("div");
+          item.innerText = flatArr[i];
+          item.className = "square";
+          this.myBoardSquares(item);
+          dom.myBoardGrid.appendChild(item);
+          this.myBoardShipSelect(item, i, arr);
+        }
+        this.shipPositions.forEach(function (_ref3, index) {
+          var ship = _ref3.ship,
+            row = _ref3.row,
+            column = _ref3.column,
+            orientation = _ref3.orientation;
+          var startSquare = dom.myBoardGrid.children[row * 10 + column];
+          var squareContent = document.createElement("div");
+          startSquare.appendChild(squareContent);
           var shipImage = document.createElement("img");
           shipImage.className = "ship-image";
-          shipImage.src = _this4.getShipImage(currentShip);
-          var startSquare = myBoardGrid.children[row * 10 + column];
+          shipImage.id = "ship".concat(index + 1);
+          shipImage.src = (0,_dom__WEBPACK_IMPORTED_MODULE_0__.getShipImage)(ship);
+          if (orientation === "vertical") {
+            shipImage.classList.add("vertical");
+          }
+          squareContent.appendChild(shipImage);
+          if (orientation === "horizontal") {
+            shipImage.style.width = "".concat(ship.length * 42, "px");
+            shipImage.style.height = "40px";
+          } else if (orientation === "vertical") {
+            shipImage.style.width = "".concat(ship.length * 42, "px");
+            shipImage.style.height = "40px";
+            shipImage.style.transform = "rotate(90deg)";
+          }
+        });
+      }
+    }, {
+      key: "myBoardSquares",
+      value: function myBoardSquares(item) {
+        var stringsToCheck = ["Crr", "Bat", "Cru", "Sub", "Des"];
+        if (stringsToCheck.includes(item.innerText)) {
+          item.style.color = "transparent";
+        } else if (item.innerText === "Sunk") {
+          item.style.backgroundColor = "purple";
+          item.style.border = "2px solid black";
+        } else if (item.innerText.startsWith("Hit")) {
+          item.innerHTML = '<div class="dot red-dot"></div>';
+          dom.display.innerText = "The opponent has hit your ship";
+        } else if (item.innerText === "Miss") {
+          item.innerHTML = '<div class="dot black-dot"></div>';
+          dom.display.innerText = "The opponent has missed";
+        } else {
+          // item.style.color = "rgb(241, 240, 240)";
+        }
+      }
+    }, {
+      key: "myBoardShipSelect",
+      value: function myBoardShipSelect(item, index, arr) {
+        var _this4 = this;
+        var row = Math.floor(index / 10);
+        var column = index % 10;
+        var currentShip = this.getCurrentShipToPlace();
+        var nextDisplay = this.getCurrentShipToDisplay();
+        var isPlacementValid = function isPlacementValid(row, column, ship, orientation) {
+          for (var i = 0; i < ship.length; i++) {
+            var newRow = void 0,
+              newColumn = void 0;
+            if (orientation === "horizontal") {
+              newRow = row;
+              newColumn = column + i;
+            } else if (orientation === "vertical") {
+              newRow = row + i;
+              newColumn = column;
+            }
+            if (newRow >= 10 || newColumn >= 10) {
+              return false;
+            }
+            if (typeof arr[newRow][newColumn] !== "number") {
+              return false;
+            }
+          }
+          return true;
+        };
+        var highlightSquares = function highlightSquares() {
+          if (!isPlacementValid(row, column, currentShip, orientation)) {
+            return;
+          }
+          for (var i = 0; i < currentShip.length; i++) {
+            var newRow = void 0,
+              newColumn = void 0;
+            if (orientation === "horizontal") {
+              newRow = row;
+              newColumn = column + i;
+            } else if (orientation === "vertical") {
+              newRow = row + i;
+              newColumn = column;
+            }
+            if (newRow >= 0 && newRow < 10 && newColumn >= 0 && newColumn < 10) {
+              var squareIndex = newRow * 10 + newColumn;
+              var square = dom.myBoardGrid.children[squareIndex];
+              square.classList.add("highlight");
+            }
+          }
+        };
+        var removeHighlight = function removeHighlight() {
+          var highlightSquares = dom.myBoardGrid.querySelectorAll(".highlight");
+          highlightSquares.forEach(function (square) {
+            square.classList.remove("highlight");
+          });
+        };
+        var clickHandler = function clickHandler() {
+          if (isPlacementValid(row, column, currentShip, orientation)) {
+            playerObject.myBoard.placeShip(currentShip, row, column, orientation);
+            playerObject.recordShipPosition(currentShip, row, column, orientation);
+            _this4.currentShipIndex++;
+            _this4.currentDisplayIndex++;
+            _this4.renderMyBoard(arr);
+            dom.display.innerText = "".concat(nextDisplay);
+            removeHighlight();
+            item.removeEventListener("mouseenter", highlightSquares);
+            item.removeEventListener("mouseleave", removeHighlight);
+          } else {
+            dom.display.innerText = "Invalid placement for ".concat(currentShip.fullName, ". Try again");
+          }
+        };
+        item.addEventListener("mouseenter", highlightSquares);
+        item.addEventListener("mouseleave", removeHighlight);
+        item.addEventListener("click", clickHandler);
+        if (this.currentShipIndex === 5) {
+          item.removeEventListener("mouseenter", highlightSquares);
+          item.removeEventListener("mouseleave", removeHighlight);
+          item.removeEventListener("click", clickHandler);
+          dom.computerBoardContainer.style.display = "block";
+          axisButton.style.display = "none";
+        }
+      }
+    }, {
+      key: "recordShipPosition",
+      value: function recordShipPosition(ship, row, column, orientation) {
+        this.shipPositions.push({
+          ship: ship,
+          row: row,
+          column: column,
+          orientation: orientation
+        });
+      }
+    }, {
+      key: "recordComputerShipPosition",
+      value: function recordComputerShipPosition(ship, row, column, orientation) {
+        this.computerShipPositions.push({
+          ship: ship,
+          row: row,
+          column: column,
+          orientation: orientation
+        });
+      }
+    }, {
+      key: "getCurrentShipToPlace",
+      value: function getCurrentShipToPlace() {
+        var ships = [this.myBoard.carrier, this.myBoard.battleship, this.myBoard.cruiser, this.myBoard.submarine, this.myBoard.destroyer];
+        return ships[this.currentShipIndex];
+      }
+    }, {
+      key: "getCurrentShipToDisplay",
+      value: function getCurrentShipToDisplay() {
+        var ships = ["Place the Battleship", "Place the Cruiser", "Place the Submarine", "Place the Destroyer", "".concat(playerName, "'s Turn.  Place a hit on your Opponent's Board. Good Luck!!")];
+        return ships[this.currentDisplayIndex];
+      }
+    }, {
+      key: "renderComputerBoard",
+      value: function renderComputerBoard(arr) {
+        dom.computerBoardGrid.innerHTML = "";
+        var flatArr = arr.flat();
+        for (var i = 0; i <= 99; i++) {
+          var item = document.createElement("div");
+          item.innerText = flatArr[i];
+          item.className = "square";
+          dom.computerBoardGrid.appendChild(item);
+          this.computerBoardSquares(item, i, arr);
+        }
+        this.renderComputerShipImages();
+      }
+
+      // Combine this with with the myBoard Image rendering
+    }, {
+      key: "renderComputerShipImages",
+      value: function renderComputerShipImages() {
+        this.computerShipPositions.forEach(function (_ref4, index) {
+          var ship = _ref4.ship,
+            row = _ref4.row,
+            column = _ref4.column,
+            orientation = _ref4.orientation;
+          var startSquareIndex = row * 10 + column;
+          var startSquare = dom.computerBoardGrid.children[startSquareIndex];
+          var shipImage = document.createElement("img");
+          shipImage.className = "ship-image computer-ship hidden";
+          shipImage.src = (0,_dom__WEBPACK_IMPORTED_MODULE_0__.getShipImage)(ship);
+          if (orientation === "vertical") {
+            shipImage.classList.add("vertical");
+            shipImage.style.tranform = "rotate(90deg)";
+            // shipImage.id = `ship${index + 1}`;
+          } else {
+            shipImage.classList.add("horizontal");
+            shipImage.classList.add("computer-horizontal-ship");
+          }
+          shipImage.id = "ship".concat(index + 1);
           startSquare.appendChild(shipImage);
           if (orientation === "horizontal") {
-            shipImage.style.width = "".concat(currentShip.length * 42, "px");
+            shipImage.style.width = "".concat(ship.length * 42, "px");
             shipImage.style.height = "40px";
           } else {
-            shipImage.style.width = "40px";
-            shipImage.style.height = "".concat(currentShip.length * 42, "px");
+            shipImage.style.width = "".concat(ship.length * 42, "px");
+            shipImage.style.height = "40px";
           }
-        } else {
-          display.innerText = "Invalid placement for ".concat(currentShip.fullName, ". Try again");
-        }
-      };
-      item.addEventListener("mouseenter", highlightSquares);
-      item.addEventListener("mouseleave", removeHighlight);
-      item.addEventListener("click", clickHandler);
-      if (this.currentShipIndex === 5) {
-        item.removeEventListener("mouseenter", highlightSquares);
-        item.removeEventListener("mouseleave", removeHighlight);
-        item.removeEventListener("click", clickHandler);
-        computerBoardContainer.style.display = "block";
-        axisButton.style.display = "none";
+        });
       }
-    }
-  }, {
-    key: "getShipImage",
-    value: function getShipImage(ship) {
-      switch (ship.fullName) {
-        case "carrier":
-          return _assets_carrier_PNG__WEBPACK_IMPORTED_MODULE_2__;
-        case "battleship":
-          return _assets_battleship_PNG__WEBPACK_IMPORTED_MODULE_1__;
-        case "cruiser":
-          return _assets_cruiser_PNG__WEBPACK_IMPORTED_MODULE_3__;
-        case "submarine":
-          return _assets_submarine_PNG__WEBPACK_IMPORTED_MODULE_5__;
-        case "destroyer":
-          return _assets_destroyer_PNG__WEBPACK_IMPORTED_MODULE_4__;
-        default:
-          return "";
-      }
-    }
-  }, {
-    key: "getCurrentShipToPlace",
-    value: function getCurrentShipToPlace() {
-      var ships = [this.myBoard.carrier, this.myBoard.battleship, this.myBoard.cruiser, this.myBoard.submarine, this.myBoard.destroyer];
-      return ships[this.currentShipIndex];
-    }
-  }, {
-    key: "getCurrentShipToDisplay",
-    value: function getCurrentShipToDisplay() {
-      var ships = ["".concat(playerName, ", place the Battleship"), "".concat(playerName, ", place the Cruiser"), "".concat(playerName, ", place the Submarine"), "".concat(playerName, ", place the Destroyer"), "".concat(playerName, "'s Turn.  Place a hit on your Opponent's Board. Good Luck!!")];
-      return ships[this.currentDisplayIndex];
-    }
-  }, {
-    key: "renderComputerBoard",
-    value: function renderComputerBoard(arr) {
-      var flatArr = arr.flat();
-      for (var i = 0; i <= 99; i++) {
-        var item = document.createElement("div");
-        item.innerText = flatArr[i];
-        item.className = "square";
-        computerBoardGrid.appendChild(item);
-        // item.style.color = "rgb(241, 240, 240)";
-        // This will make the text invisible again
-
-        this.computerBoardSquares(item, i);
-      }
-    }
-  }, {
-    key: "computerBoardSquares",
-    value: function computerBoardSquares(item, index) {
-      var shipValues = ["Crr", "Bat", "Cru", "Sub", "Des"];
-      var row = Math.floor(index / 10);
-      var column = index % 10;
-      item.addEventListener("click", function () {
-        if (!playerObject.playerTurn) return;
-        if (shipValues.includes(item.innerText)) {
-          item.style.backgroundColor = "red";
-          // item.style.color = "red";
+    }, {
+      key: "computerBoardSquares",
+      value: function computerBoardSquares(item, index) {
+        var shipValues = ["Crr", "Bat", "Cru", "Sub", "Des"];
+        var row = Math.floor(index / 10);
+        var column = index % 10;
+        item.addEventListener("click", function () {
+          if (!playerObject.playerTurn) return;
+          var coordValue = playerObject.computerBoard.board[row][column];
+          var isShip = shipValues.includes(coordValue);
+          var hitMarker = document.createElement("div");
+          hitMarker.classList.add("dot");
+          hitMarker.id = "computer-dot";
+          if (isShip) {
+            hitMarker.classList.add("red-dot");
+            dom.display.innerText = "".concat(playerName, " has hit a ship!");
+          } else {
+            hitMarker.classList.add("black-dot");
+            dom.display.innerText = "".concat(playerName, " has missed");
+          }
+          item.appendChild(hitMarker);
           item.style.pointerEvents = "none";
           playerObject.myAttack(row, column);
-          display.innerText = "".concat(playerName, " has hit a ship!");
-          console.log("compboard", playerObject.computerBoard.board);
-          console.log("myboard", playerObject.myBoard.board);
-        } else {
-          item.style.backgroundColor = "green";
-          // item.style.color = "green";
-          item.style.pointerEvents = "none";
-          playerObject.myAttack(row, column);
-          display.innerText = "".concat(playerName, " has missed");
           playerObject.playerTurn = false;
-          console.log("compboard", playerObject.computerBoard.board);
-          console.log("myboard", playerObject.myBoard.board);
-        }
-      });
-    }
-  }, {
-    key: "compShipSunk",
-    value: function compShipSunk() {
-      var ships = [this.computerBoard.carrier, this.computerBoard.battleship, this.computerBoard.cruiser, this.computerBoard.submarine, this.computerBoard.destroyer];
-      ships.forEach(function (ship) {
-        if (ship.sunk === true) {
-          computerBoardGrid.querySelectorAll(".square").forEach(function (square) {
-            if (square.innerText === ship.boardName) {
-              square.style.backgroundColor = "purple";
-              square.style.border = "2px solid black";
-            }
-          });
-        }
-      });
-    }
-  }, {
-    key: "myShipSunk",
-    value: function myShipSunk() {
-      var _this5 = this;
-      var ships = [this.myBoard.carrier, this.myBoard.battleship, this.myBoard.cruiser, this.myBoard.submarine, this.myBoard.destroyer];
-      var sunkShipUpdated = false;
-      ships.forEach(function (ship) {
-        if (ship.sunk === true) {
-          _this5.myBoard.board.forEach(function (row, rowIndex) {
-            row.forEach(function (value, colIndex) {
-              if (value === "Hit ".concat(ship.boardName)) {
-                _this5.myBoard.board[rowIndex][colIndex] = "Sunk";
-                sunkShipUpdated = true;
+        });
+      }
+    }, {
+      key: "compShipSunk",
+      value: function compShipSunk() {
+        var ships = [this.computerBoard.carrier, this.computerBoard.battleship, this.computerBoard.cruiser, this.computerBoard.submarine, this.computerBoard.destroyer];
+        ships.forEach(function (ship) {
+          if (ship.sunk === true) {
+            dom.computerBoardGrid.querySelectorAll(".square").forEach(function (square) {
+              if (square.innerText === ship.boardName) {
+                // square.style.backgroundColor = "purple";
+                square.style.border = "2px solid black";
               }
             });
-          });
+            var shipImage = dom.computerBoardGrid.querySelector("#ship".concat(ships.indexOf(ship) + 1));
+            if (shipImage) {
+              shipImage.classList.remove("hidden");
+            }
+          }
+        });
+      }
+    }, {
+      key: "myShipSunk",
+      value: function myShipSunk() {
+        var _this5 = this;
+        var ships = [this.myBoard.carrier, this.myBoard.battleship, this.myBoard.cruiser, this.myBoard.submarine, this.myBoard.destroyer];
+        var sunkShipUpdated = false;
+        ships.forEach(function (ship) {
+          if (ship.sunk === true) {
+            _this5.myBoard.board.forEach(function (row, rowIndex) {
+              row.forEach(function (value, colIndex) {
+                if (value === "Hit ".concat(ship.boardName)) {
+                  _this5.myBoard.board[rowIndex][colIndex] = "Sunk";
+                  sunkShipUpdated = true;
+                }
+              });
+            });
+          }
+        });
+        if (sunkShipUpdated) {
+          this.refreshMyBoardAfterCompAttack();
         }
-      });
-      if (sunkShipUpdated) {
-        this.refreshMyBoardAfterCompAttack();
       }
-    }
-  }, {
-    key: "allShipsSunk",
-    value: function allShipsSunk() {
-      var allComputerShipsSunk = this.computerBoard.areAllShipsSunk();
-      var allMyShipsSunk = this.myBoard.areAllShipsSunk();
-      if (allComputerShipsSunk) {
-        winnerContainer.style.display = "flex";
-        display.style.display = "none";
-        winnerDisplay.innerText = "".concat(playerName, " is the winner!!!! Well done! Play again?");
-      } else if (allMyShipsSunk) {
-        winnerContainer.style.display = "flex";
-        display.style.display = "none";
-        winnerDisplay.innerText = "Sorry ".concat(playerName, " you lose. Play again?");
+    }, {
+      key: "allShipsSunk",
+      value: function allShipsSunk() {
+        var allComputerShipsSunk = this.computerBoard.areAllShipsSunk();
+        var allMyShipsSunk = this.myBoard.areAllShipsSunk();
+        if (allComputerShipsSunk) {
+          dom.winnerContainer.style.display = "flex";
+          dom.display.style.display = "none";
+          dom.winnerDisplay.innerText = "".concat(playerName, " is the winner!!!! Well done! Play again?");
+        } else if (allMyShipsSunk) {
+          dom.winnerContainer.style.display = "flex";
+          dom.display.style.display = "none";
+          dom.winnerDisplay.innerText = "Sorry ".concat(playerName, " you lose. Play again?");
+        }
       }
+    }]);
+    return Player;
+  }();
+  var playerObject;
+  var playerName = dom.playerNameInput.value;
+  dom.playerNameInput.addEventListener("keydown", function (event) {
+    if (event.key === "Enter") {
+      event.preventDefault();
+      playerObject = new Player();
+      playerObject.renderMyBoard(playerObject.myBoard.board);
+      dom.myBoardTitle.innerText = "".concat(dom.playerNameInput.value, "'s Board");
+      playerName = dom.playerNameInput.value;
+      dom.display.innerText = "".concat(playerName, ", place the Carrier.  Use Axis button to change direction");
+      dom.boardsContainer.style.display = "flex";
+      dom.myBoardContainer.style.display = "block";
+      dom.formContainer.style.display = "none";
+      dom.playerNameInput.value = "";
+      axisButton.style.display = "grid";
+      dom.titleImage.style.width = "500px";
+      dom.display.style.display = "block";
     }
-  }]);
-  return Player;
-}();
-var playerObject;
-var playerName = playerNameInput.value;
-playerNameInput.addEventListener("keydown", function (event) {
-  if (event.key === "Enter") {
+  });
+  dom.playAgainButton.addEventListener("click", function (event) {
     event.preventDefault();
+    dom.myBoardGrid.innerText = "";
+    dom.computerBoardGrid.innerText = "";
+    dom.computerBoardContainer.style.display = "none";
+    dom.winnerContainer.style.display = "none";
     playerObject = new Player();
     playerObject.renderMyBoard(playerObject.myBoard.board);
-    myBoardTitle.innerText = "".concat(playerNameInput.value, "'s Board");
-    playerName = playerNameInput.value;
-    display.innerText = "".concat(playerName, ", place the Carrier.  Use Axis button to change direction");
-    boardsContainer.style.display = "flex";
-    myBoardContainer.style.display = "block";
-    formContainer.style.display = "none";
-    playerNameInput.value = "";
-    axisButton.style.display = "grid";
-    titleImage.style.width = "500px";
-    display.style.display = "block";
-  }
+    dom.myBoardTitle.innerText = "".concat(playerName, "'s Board");
+    dom.display.innerText = "".concat(playerName, ", place the Carrier.  Use Axis button to change direction");
+    dom.boardsContainer.style.display = "flex";
+    dom.myBoardContainer.style.display = "block";
+    dom.formContainer.style.display = "none";
+    dom.playerNameInput.value = "";
+    dom.axisButton.style.display = "grid";
+    dom.titleImage.style.width = "500px";
+    dom.display.style.display = "block";
+  });
+  module.exports = Player;
 });
-playAgainButton.addEventListener("click", function (event) {
-  event.preventDefault();
-  myBoardGrid.innerText = "";
-  computerBoardGrid.innerText = "";
-  computerBoardContainer.style.display = "none";
-  winnerContainer.style.display = "none";
-  playerObject = new Player();
-  playerObject.renderMyBoard(playerObject.myBoard.board);
-  myBoardTitle.innerText = "".concat(playerName, "'s Board");
-  display.innerText = "".concat(playerName, ", place the Carrier.  Use Axis button to change direction");
-  boardsContainer.style.display = "flex";
-  myBoardContainer.style.display = "block";
-  formContainer.style.display = "none";
-  playerNameInput.value = "";
-  axisButton.style.display = "grid";
-  titleImage.style.width = "500px";
-  display.style.display = "block";
-});
-module.exports = Player;
 
 /***/ }),
 
@@ -984,13 +942,16 @@ body {
 }
 
 .display {
-  background-color: rgb(199, 184, 184);
+  background: linear-gradient(to right, #456961, #92b59d);
+  font-family: "Digital-7 Mono", monospace;
   height: 80px;
   width: 1000px;
   border-radius: 10px;
   line-height: 80px;
   padding-left: 20px;
   border: 2px solid black;
+  font-size: 20px;
+  color: blanchedalmond;
 }
 
 .boards-outer-container {
@@ -1006,11 +967,19 @@ body {
   font-size: 1rem;
 }
 
+.board-title {
+  background: linear-gradient(to right, #456961, #92b59d);
+  font-family: "Digital-7 Mono", monospace;
+  text-align: center;
+  border: 1px solid black;
+  border-radius: 5px;
+}
+
 .grid-container {
   display: grid;
   grid-template-rows: repeat(10, 40px);
   grid-template-columns: repeat(10, 40px);
-  background-color: rgb(241, 240, 240);
+  background-color: white;
   border: 1px solid black;
   position: relative;
 }
@@ -1022,7 +991,31 @@ body {
 
 .square {
   cursor: pointer;
-  color: black;
+  color: transparent;
+  position: relative;
+}
+
+.dot {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  margin-top: 10px;
+  margin-left: 9px;
+  position: absolute;
+  z-index: 20;
+}
+
+.red-dot {
+  background-color: red;
+}
+
+.black-dot {
+  background-color: black;
+}
+
+#computer-dot {
+  left: -2px;
+  bottom: 8px;
 }
 
 .axis-button {
@@ -1110,7 +1103,7 @@ body {
 }
 
 .highlight {
-  background-color: rgba(0, 0, 255, 0.5); /* Adjust the color and opacity as needed */
+  background-color: rgba(0, 0, 255, 0.5);
 }
 
 .ship-image {
@@ -1118,7 +1111,47 @@ body {
   z-index: 1;
   width: 100px;
   height: auto;
-}`, "",{"version":3,"sources":["webpack://./src/styles/main.scss"],"names":[],"mappings":"AAAA;EACE,aAAA;EACA,sBAAA;EACA,mBAAA;AACF;;AAQA;EACE,YAAA;EACA,aAAA;AALF;;AAUA;EACE,aAAA;EACA,uBAAA;EACA,sBAAA;AAPF;;AAUA;EACE,oBAAA;EACA,WAAA;EACA,SAAA;EACA,6BAAA;EACA,UAAA;EACA,iBAAA;EACA,YAAA;EACA,cAAA;EACA,uBAAA;EACA,6BAAA;AAPF;AASE;EACE,kBAAA;AAPJ;AAUE;EACE,iBAAA;EACA,YAAA;EACA,SAAA;AARJ;;AAYA;EAUE,mBAAA;EACA,gBAAA;EACA,iBAAA;EACA,2DAAA;EACA,qBAAA;AAlBF;AAKE;EACE,kBAAA;EACA,MAAA;EACA,cAAA;EACA,gBAAA;EACA,eAAA;EACA,cAAA;EACA,gBAAA;AAHJ;;AAaE;EAEE,gBAAA;AAXJ;;AAeA;EACE,kCAAA;EACA,aAAA;EACA,sBAAA;EAEA,mBAAA;EACA,iBAAA;EACA,iBAAA;EACA,uBAAA;AAbF;;AAgBA;EACE,WAAA;AAbF;;AAkBA;EACE,oCAAA;EACA,YAAA;EACA,aAAA;EACA,mBAAA;EACA,iBAAA;EACA,kBAAA;EACA,uBAAA;AAfF;;AAoBA;EACE,aAAA;EACA,sBAAA;EACA,mBAAA;AAjBF;;AAoBA;EACE,aAAA;EACA,UAAA;EACA,uBAAA;EACA,eAAA;AAjBF;;AAoBA;EACE,aAAA;EACA,oCAAA;EACA,uCAAA;EACA,oCAAA;EACA,uBAAA;EACA,kBAAA;AAjBF;;AAoBA;EACE,uBAAA;EACA,kBAAA;AAjBF;;AAoBA;EACE,eAAA;EAEA,YAAA;AAlBF;;AAqBA;EACE,gBAAA;EACA,2BAAA;EACA,uBAAA;EACA,mBAAA;EACA,sBAAA;EACA,sBAAA;EACA,cAAA;EACA,eAAA;EACA,qBAAA;EACA,4CAAA;EACA,mBAAA;EACA,gBAAA;EACA,uBAAA;EACA,gBAAA;EACA,0BAAA;EACA,kBAAA;EACA,gBAAA;EACA,qBAAA;EACA,iCAAA;EACA,0BAAA;EACA,iBAAA;EACA,yBAAA;EACA,0BAAA;AAlBF;;AAqBA;EACE,sBAAA;AAlBF;;AAqBA;EACE,2CAAA;AAlBF;;AAqBA;EACE,4BAAA;AAlBF;;AAqBA;EACE,WAAA;EACA,eAAA;EACA,oBAAA;EACA,kBAAA;EACA,cAAA;EACA,yBAAA;EACA,iBAAA;AAlBF;;AAqBA;EACE,4BAAA;AAlBF;;AAqBA;EACE,eAAA;AAlBF;;AAqBA;EACE,+BAAA;AAlBF;;AAuBA;EACE,kBAAA;EACA,oCAAA;EACA,uBAAA;EACA,aAAA;EACA,aAAA;EACA,mBAAA;EACA,mBAAA;EACA,aAAA;EACA,sBAAA;EACA,uBAAA;EACA,iBAAA;AApBF;;AAuBA;EACE,oCAAA;EACA,YAAA;EACA,YAAA;EACA,mBAAA;EACA,kBAAA;EACA,uBAAA;EACA,iBAAA;AApBF;;AAuBA;EACE,sCAAA,EAAA,2CAAA;AApBF;;AAuBA;EACE,kBAAA;EACA,UAAA;EACA,YAAA;EACA,YAAA;AApBF","sourcesContent":[".content {\r\n  display: flex;\r\n  flex-direction: column;\r\n  align-items: center;\r\n}\r\n\r\n// TITLE IMAGE\r\n\r\n// .image-container {\r\n//   text-align: center;\r\n// }\r\n\r\n.title-image {\r\n  height: auto;\r\n  width: 1000px;\r\n}\r\n\r\n// FORM\r\n\r\n.form-container {\r\n  display: flex;\r\n  justify-content: center;\r\n  flex-direction: column;\r\n}\r\n\r\n.player-name-input {\r\n  font-family: inherit;\r\n  width: 100%;\r\n  border: 0;\r\n  border-bottom: 2px solid gray;\r\n  outline: 0;\r\n  font-size: 1.3rem;\r\n  color: black;\r\n  padding: 7px 0;\r\n  background: transparent;\r\n  transition: border-color 0.2s;\r\n\r\n  &::placeholder {\r\n    color: transparent;\r\n  }\r\n\r\n  &:placeholder-shown ~ .player-name-label {\r\n    font-size: 1.3rem;\r\n    cursor: text;\r\n    top: 20px;\r\n  }\r\n}\r\n\r\n.player-name-input:focus {\r\n  ~ .player-name-label {\r\n    position: absolute;\r\n    top: 0;\r\n    display: block;\r\n    transition: 0.2s;\r\n    font-size: 1rem;\r\n    color: primary;\r\n    font-weight: 700;\r\n  }\r\n  padding-bottom: 6px;\r\n  font-weight: 700;\r\n  border-width: 3px;\r\n  border-image: linear-gradient(to right, primary, secondary);\r\n  border-image-slice: 1;\r\n}\r\n\r\n.player-name-input {\r\n  &:required,\r\n  &:invalid {\r\n    box-shadow: none;\r\n  }\r\n}\r\n\r\nbody {\r\n  font-family: \"Poppins\", sans-serif;\r\n  display: flex;\r\n  flex-direction: column;\r\n  // justify-content: center;\r\n  align-items: center;\r\n  min-height: 100vh;\r\n  font-size: 1.5rem;\r\n  background-color: white;\r\n}\r\n\r\n.player-name-button {\r\n  width: 50px;\r\n}\r\n\r\n// DISPLAY\r\n\r\n.display {\r\n  background-color: rgb(199, 184, 184);\r\n  height: 80px;\r\n  width: 1000px;\r\n  border-radius: 10px;\r\n  line-height: 80px;\r\n  padding-left: 20px;\r\n  border: 2px solid black;\r\n}\r\n\r\n// BOARDS\r\n\r\n.boards-outer-container {\r\n  display: flex;\r\n  flex-direction: column;\r\n  align-items: center;\r\n}\r\n\r\n.boards-container {\r\n  display: flex;\r\n  gap: 100px;\r\n  justify-content: center;\r\n  font-size: 1rem;\r\n}\r\n\r\n.grid-container {\r\n  display: grid;\r\n  grid-template-rows: repeat(10, 40px);\r\n  grid-template-columns: repeat(10, 40px);\r\n  background-color: rgb(241, 240, 240);\r\n  border: 1px solid black;\r\n  position: relative;\r\n}\r\n\r\n.grid-container > div {\r\n  border: 1px solid black;\r\n  position: relative;\r\n}\r\n\r\n.square {\r\n  cursor: pointer;\r\n  // color: transparent;\r\n  color: black;\r\n}\r\n\r\n.axis-button {\r\n  background: #fff;\r\n  backface-visibility: hidden;\r\n  border-radius: 0.375rem;\r\n  border-style: solid;\r\n  border-width: 0.125rem;\r\n  box-sizing: border-box;\r\n  color: #212121;\r\n  cursor: pointer;\r\n  display: inline-block;\r\n  font-family: Circular, Helvetica, sans-serif;\r\n  font-size: 1.125rem;\r\n  font-weight: 700;\r\n  letter-spacing: -0.01em;\r\n  line-height: 1.3;\r\n  padding: 0.875rem 1.125rem;\r\n  position: relative;\r\n  text-align: left;\r\n  text-decoration: none;\r\n  transform: translateZ(0) scale(1);\r\n  transition: transform 0.2s;\r\n  user-select: none;\r\n  -webkit-user-select: none;\r\n  touch-action: manipulation;\r\n}\r\n\r\n.axis-button:not(:disabled):hover {\r\n  transform: scale(1.05);\r\n}\r\n\r\n.axis-button:not(:disabled):hover:active {\r\n  transform: scale(1.05) translateY(0.125rem);\r\n}\r\n\r\n.axis-button:focus {\r\n  outline: 0 solid transparent;\r\n}\r\n\r\n.axis-button:focus:before {\r\n  content: \"\";\r\n  left: calc(-1 * 0.375rem);\r\n  pointer-events: none;\r\n  position: absolute;\r\n  top: calc(-1 * 0.375rem);\r\n  transition: border-radius;\r\n  user-select: none;\r\n}\r\n\r\n.axis-button:focus:not(:focus-visible) {\r\n  outline: 0 solid transparent;\r\n}\r\n\r\n.axis-button:focus:not(:focus-visible):before {\r\n  border-width: 0;\r\n}\r\n\r\n.axis-button:not(:disabled):active {\r\n  transform: translateY(0.125rem);\r\n}\r\n\r\n// WINNER CONTAINER\r\n\r\n.winner-container {\r\n  position: absolute;\r\n  background-color: rgb(228, 195, 195);\r\n  border: 2px solid black;\r\n  height: 300px;\r\n  width: 1000px;\r\n  border-radius: 10px;\r\n  align-items: center;\r\n  display: flex;\r\n  flex-direction: column;\r\n  justify-content: center;\r\n  margin-top: 300px;\r\n}\r\n\r\n.winner-display {\r\n  background-color: rgb(113, 187, 126);\r\n  height: 80px;\r\n  width: 800px;\r\n  border-radius: 10px;\r\n  padding-left: 20px;\r\n  border: 2px solid black;\r\n  line-height: 80px;\r\n}\r\n\r\n.highlight {\r\n  background-color: rgba(0, 0, 255, 0.5); /* Adjust the color and opacity as needed */\r\n}\r\n\r\n.ship-image {\r\n  position: absolute;\r\n  z-index: 1;\r\n  width: 100px;\r\n  height: auto;\r\n}\r\n"],"sourceRoot":""}]);
+  opacity: 0.4;
+  top: -2px;
+}
+
+.vertical {
+  transform: rotate(90deg);
+  transform-origin: top left;
+}
+
+#ship1.vertical {
+  left: 50px;
+  bottom: 40px;
+}
+
+#ship2.vertical {
+  left: 50px;
+  bottom: 40px;
+}
+
+#ship3.vertical {
+  left: 50px;
+  bottom: 40px;
+}
+
+#ship4.vertical {
+  left: 50px;
+  bottom: 40px;
+}
+
+#ship5.vertical {
+  left: 50px;
+  bottom: 40px;
+}
+
+.computer-horizontal-ship {
+  transform: translateX(-30px);
+}
+
+.hidden {
+  display: none;
+}`, "",{"version":3,"sources":["webpack://./src/styles/main.scss"],"names":[],"mappings":"AAAA;EACE,aAAA;EACA,sBAAA;EACA,mBAAA;AACF;;AAQA;EACE,YAAA;EACA,aAAA;AALF;;AAUA;EACE,aAAA;EACA,uBAAA;EACA,sBAAA;AAPF;;AAUA;EACE,oBAAA;EACA,WAAA;EACA,SAAA;EACA,6BAAA;EACA,UAAA;EACA,iBAAA;EACA,YAAA;EACA,cAAA;EACA,uBAAA;EACA,6BAAA;AAPF;AASE;EACE,kBAAA;AAPJ;AAUE;EACE,iBAAA;EACA,YAAA;EACA,SAAA;AARJ;;AAYA;EAUE,mBAAA;EACA,gBAAA;EACA,iBAAA;EACA,2DAAA;EACA,qBAAA;AAlBF;AAKE;EACE,kBAAA;EACA,MAAA;EACA,cAAA;EACA,gBAAA;EACA,eAAA;EACA,cAAA;EACA,gBAAA;AAHJ;;AAaE;EAEE,gBAAA;AAXJ;;AAeA;EACE,kCAAA;EACA,aAAA;EACA,sBAAA;EAEA,mBAAA;EACA,iBAAA;EACA,iBAAA;EACA,uBAAA;AAbF;;AAgBA;EACE,WAAA;AAbF;;AAkBA;EACE,uDAAA;EACA,wCAAA;EACA,YAAA;EACA,aAAA;EACA,mBAAA;EACA,iBAAA;EACA,kBAAA;EACA,uBAAA;EACA,eAAA;EACA,qBAAA;AAfF;;AAoBA;EACE,aAAA;EACA,sBAAA;EACA,mBAAA;AAjBF;;AAoBA;EACE,aAAA;EACA,UAAA;EACA,uBAAA;EACA,eAAA;AAjBF;;AAoBA;EACE,uDAAA;EACA,wCAAA;EACA,kBAAA;EACA,uBAAA;EACA,kBAAA;AAjBF;;AAoBA;EACE,aAAA;EACA,oCAAA;EACA,uCAAA;EAEA,uBAAA;EACA,uBAAA;EACA,kBAAA;AAlBF;;AAqBA;EACE,uBAAA;EACA,kBAAA;AAlBF;;AAqBA;EACE,eAAA;EACA,kBAAA;EACA,kBAAA;AAlBF;;AAqBA;EACE,WAAA;EACA,YAAA;EACA,kBAAA;EACA,gBAAA;EACA,gBAAA;EACA,kBAAA;EACA,WAAA;AAlBF;;AAqBA;EACE,qBAAA;AAlBF;;AAqBA;EACE,uBAAA;AAlBF;;AAqBA;EACE,UAAA;EACA,WAAA;AAlBF;;AAqBA;EACE,gBAAA;EACA,2BAAA;EACA,uBAAA;EACA,mBAAA;EACA,sBAAA;EACA,sBAAA;EACA,cAAA;EACA,eAAA;EACA,qBAAA;EACA,4CAAA;EACA,mBAAA;EACA,gBAAA;EACA,uBAAA;EACA,gBAAA;EACA,0BAAA;EACA,kBAAA;EACA,gBAAA;EACA,qBAAA;EACA,iCAAA;EACA,0BAAA;EACA,iBAAA;EACA,yBAAA;EACA,0BAAA;AAlBF;;AAqBA;EACE,sBAAA;AAlBF;;AAqBA;EACE,2CAAA;AAlBF;;AAqBA;EACE,4BAAA;AAlBF;;AAqBA;EACE,WAAA;EACA,eAAA;EACA,oBAAA;EACA,kBAAA;EACA,cAAA;EACA,yBAAA;EACA,iBAAA;AAlBF;;AAqBA;EACE,4BAAA;AAlBF;;AAqBA;EACE,eAAA;AAlBF;;AAqBA;EACE,+BAAA;AAlBF;;AAuBA;EACE,kBAAA;EACA,oCAAA;EACA,uBAAA;EACA,aAAA;EACA,aAAA;EACA,mBAAA;EACA,mBAAA;EACA,aAAA;EACA,sBAAA;EACA,uBAAA;EACA,iBAAA;AApBF;;AAuBA;EACE,oCAAA;EACA,YAAA;EACA,YAAA;EACA,mBAAA;EACA,kBAAA;EACA,uBAAA;EACA,iBAAA;AApBF;;AAuBA;EACE,sCAAA;AApBF;;AAuBA;EACE,kBAAA;EACA,UAAA;EACA,YAAA;EACA,YAAA;EACA,YAAA;EACA,SAAA;AApBF;;AAuBA;EACE,wBAAA;EACA,0BAAA;AApBF;;AAuBA;EACE,UAAA;EACA,YAAA;AApBF;;AAuBA;EACE,UAAA;EACA,YAAA;AApBF;;AAuBA;EACE,UAAA;EACA,YAAA;AApBF;;AAuBA;EACE,UAAA;EACA,YAAA;AApBF;;AAuBA;EACE,UAAA;EACA,YAAA;AApBF;;AAuBA;EACE,4BAAA;AApBF;;AAuBA;EACE,aAAA;AApBF","sourcesContent":[".content {\r\n  display: flex;\r\n  flex-direction: column;\r\n  align-items: center;\r\n}\r\n\r\n// TITLE IMAGE\r\n\r\n// .image-container {\r\n//   text-align: center;\r\n// }\r\n\r\n.title-image {\r\n  height: auto;\r\n  width: 1000px;\r\n}\r\n\r\n// FORM\r\n\r\n.form-container {\r\n  display: flex;\r\n  justify-content: center;\r\n  flex-direction: column;\r\n}\r\n\r\n.player-name-input {\r\n  font-family: inherit;\r\n  width: 100%;\r\n  border: 0;\r\n  border-bottom: 2px solid gray;\r\n  outline: 0;\r\n  font-size: 1.3rem;\r\n  color: black;\r\n  padding: 7px 0;\r\n  background: transparent;\r\n  transition: border-color 0.2s;\r\n\r\n  &::placeholder {\r\n    color: transparent;\r\n  }\r\n\r\n  &:placeholder-shown ~ .player-name-label {\r\n    font-size: 1.3rem;\r\n    cursor: text;\r\n    top: 20px;\r\n  }\r\n}\r\n\r\n.player-name-input:focus {\r\n  ~ .player-name-label {\r\n    position: absolute;\r\n    top: 0;\r\n    display: block;\r\n    transition: 0.2s;\r\n    font-size: 1rem;\r\n    color: primary;\r\n    font-weight: 700;\r\n  }\r\n  padding-bottom: 6px;\r\n  font-weight: 700;\r\n  border-width: 3px;\r\n  border-image: linear-gradient(to right, primary, secondary);\r\n  border-image-slice: 1;\r\n}\r\n\r\n.player-name-input {\r\n  &:required,\r\n  &:invalid {\r\n    box-shadow: none;\r\n  }\r\n}\r\n\r\nbody {\r\n  font-family: \"Poppins\", sans-serif;\r\n  display: flex;\r\n  flex-direction: column;\r\n  // justify-content: center;\r\n  align-items: center;\r\n  min-height: 100vh;\r\n  font-size: 1.5rem;\r\n  background-color: white;\r\n}\r\n\r\n.player-name-button {\r\n  width: 50px;\r\n}\r\n\r\n// DISPLAY\r\n\r\n.display {\r\n  background: linear-gradient(to right, #456961, #92b59d);\r\n  font-family: \"Digital-7 Mono\", monospace;\r\n  height: 80px;\r\n  width: 1000px;\r\n  border-radius: 10px;\r\n  line-height: 80px;\r\n  padding-left: 20px;\r\n  border: 2px solid black;\r\n  font-size: 20px;\r\n  color: blanchedalmond;\r\n}\r\n\r\n// BOARDS\r\n\r\n.boards-outer-container {\r\n  display: flex;\r\n  flex-direction: column;\r\n  align-items: center;\r\n}\r\n\r\n.boards-container {\r\n  display: flex;\r\n  gap: 100px;\r\n  justify-content: center;\r\n  font-size: 1rem;\r\n}\r\n\r\n.board-title {\r\n  background: linear-gradient(to right, #456961, #92b59d);\r\n  font-family: \"Digital-7 Mono\", monospace;\r\n  text-align: center;\r\n  border: 1px solid black;\r\n  border-radius: 5px;\r\n}\r\n\r\n.grid-container {\r\n  display: grid;\r\n  grid-template-rows: repeat(10, 40px);\r\n  grid-template-columns: repeat(10, 40px);\r\n  // background-color: rgb(241, 240, 240);\r\n  background-color: white;\r\n  border: 1px solid black;\r\n  position: relative;\r\n}\r\n\r\n.grid-container > div {\r\n  border: 1px solid black;\r\n  position: relative;\r\n}\r\n\r\n.square {\r\n  cursor: pointer;\r\n  color: transparent;\r\n  position: relative;\r\n}\r\n\r\n.dot {\r\n  width: 20px;\r\n  height: 20px;\r\n  border-radius: 50%;\r\n  margin-top: 10px;\r\n  margin-left: 9px;\r\n  position: absolute;\r\n  z-index: 20;\r\n}\r\n\r\n.red-dot {\r\n  background-color: red;\r\n}\r\n\r\n.black-dot {\r\n  background-color: black;\r\n}\r\n\r\n#computer-dot {\r\n  left: -2px;\r\n  bottom: 8px;\r\n}\r\n\r\n.axis-button {\r\n  background: #fff;\r\n  backface-visibility: hidden;\r\n  border-radius: 0.375rem;\r\n  border-style: solid;\r\n  border-width: 0.125rem;\r\n  box-sizing: border-box;\r\n  color: #212121;\r\n  cursor: pointer;\r\n  display: inline-block;\r\n  font-family: Circular, Helvetica, sans-serif;\r\n  font-size: 1.125rem;\r\n  font-weight: 700;\r\n  letter-spacing: -0.01em;\r\n  line-height: 1.3;\r\n  padding: 0.875rem 1.125rem;\r\n  position: relative;\r\n  text-align: left;\r\n  text-decoration: none;\r\n  transform: translateZ(0) scale(1);\r\n  transition: transform 0.2s;\r\n  user-select: none;\r\n  -webkit-user-select: none;\r\n  touch-action: manipulation;\r\n}\r\n\r\n.axis-button:not(:disabled):hover {\r\n  transform: scale(1.05);\r\n}\r\n\r\n.axis-button:not(:disabled):hover:active {\r\n  transform: scale(1.05) translateY(0.125rem);\r\n}\r\n\r\n.axis-button:focus {\r\n  outline: 0 solid transparent;\r\n}\r\n\r\n.axis-button:focus:before {\r\n  content: \"\";\r\n  left: calc(-1 * 0.375rem);\r\n  pointer-events: none;\r\n  position: absolute;\r\n  top: calc(-1 * 0.375rem);\r\n  transition: border-radius;\r\n  user-select: none;\r\n}\r\n\r\n.axis-button:focus:not(:focus-visible) {\r\n  outline: 0 solid transparent;\r\n}\r\n\r\n.axis-button:focus:not(:focus-visible):before {\r\n  border-width: 0;\r\n}\r\n\r\n.axis-button:not(:disabled):active {\r\n  transform: translateY(0.125rem);\r\n}\r\n\r\n// WINNER CONTAINER\r\n\r\n.winner-container {\r\n  position: absolute;\r\n  background-color: rgb(228, 195, 195);\r\n  border: 2px solid black;\r\n  height: 300px;\r\n  width: 1000px;\r\n  border-radius: 10px;\r\n  align-items: center;\r\n  display: flex;\r\n  flex-direction: column;\r\n  justify-content: center;\r\n  margin-top: 300px;\r\n}\r\n\r\n.winner-display {\r\n  background-color: rgb(113, 187, 126);\r\n  height: 80px;\r\n  width: 800px;\r\n  border-radius: 10px;\r\n  padding-left: 20px;\r\n  border: 2px solid black;\r\n  line-height: 80px;\r\n}\r\n\r\n.highlight {\r\n  background-color: rgba(0, 0, 255, 0.5);\r\n}\r\n\r\n.ship-image {\r\n  position: absolute;\r\n  z-index: 1;\r\n  width: 100px;\r\n  height: auto;\r\n  opacity: 0.4;\r\n  top: -2px;\r\n}\r\n\r\n.vertical {\r\n  transform: rotate(90deg);\r\n  transform-origin: top left;\r\n}\r\n\r\n#ship1.vertical {\r\n  left: 50px;\r\n  bottom: 40px;\r\n}\r\n\r\n#ship2.vertical {\r\n  left: 50px;\r\n  bottom: 40px;\r\n}\r\n\r\n#ship3.vertical {\r\n  left: 50px;\r\n  bottom: 40px;\r\n}\r\n\r\n#ship4.vertical {\r\n  left: 50px;\r\n  bottom: 40px;\r\n}\r\n\r\n#ship5.vertical {\r\n  left: 50px;\r\n  bottom: 40px;\r\n}\r\n\r\n.computer-horizontal-ship {\r\n  transform: translateX(-30px);\r\n}\r\n\r\n.hidden {\r\n  display: none;\r\n}\r\n"],"sourceRoot":""}]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -1780,8 +1813,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _board__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_board__WEBPACK_IMPORTED_MODULE_1__);
 /* harmony import */ var _player__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./player */ "./src/player.js");
 /* harmony import */ var _dom__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./dom */ "./src/dom.js");
-/* harmony import */ var _dom__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(_dom__WEBPACK_IMPORTED_MODULE_3__);
 /* harmony import */ var _styles_main_scss__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./styles/main.scss */ "./src/styles/main.scss");
+
 
 
 
@@ -1890,4 +1923,4 @@ __webpack_require__.r(__webpack_exports__);
 
 /******/ })()
 ;
-//# sourceMappingURL=bundlebc208b427c629a6a0d43.js.map
+//# sourceMappingURL=bundleb145b88bde4ae891c43a.js.map
