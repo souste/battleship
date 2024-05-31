@@ -8,7 +8,7 @@
 // 5) Fine tune the display
 // 6) Polish the design - add a sound to hit or miss?
 // 7) Readme. Can check a video
-// 8) Get it to display properly on Github pages
+// 8) Get it to display properly on Github pages - done
 // make sure pointer isn't on myBoard
 
 import { initializeDom, getShipImage } from "./dom";
@@ -187,6 +187,7 @@ document.addEventListener("DOMContentLoaded", function () {
         let item = document.createElement("div");
         item.innerText = flatArr[i];
         item.className = "square";
+        item.id = "my-board-square";
 
         this.myBoardSquares(item);
         dom.myBoardGrid.appendChild(item);
@@ -320,6 +321,7 @@ document.addEventListener("DOMContentLoaded", function () {
         item.removeEventListener("click", clickHandler);
         dom.computerBoardContainer.style.display = "block";
         axisButton.style.display = "none";
+        item.style.cursor = "auto";
       }
     }
 
