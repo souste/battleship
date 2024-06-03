@@ -26,7 +26,8 @@ export const initializeDom = () => {
   const playerNameForm = document.createElement("form");
   const playerNameInput = document.createElement("input");
   playerNameInput.className = "player-name-input";
-  playerNameLabel.textContent = "Enter Your Name";
+  playerNameInput.placeholder = "Enter Your Name";
+  // playerNameLabel.textContent = "Enter Your Name";
 
   playerNameForm.appendChild(playerNameInput);
   formContainer.appendChild(playerNameLabel);

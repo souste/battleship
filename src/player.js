@@ -2,14 +2,14 @@
 // 1) shipImage vertical alignment - done!
 // 2) computerBoard ship Images disappearing - done
 // additonal - horizontal computer ships need realigning - done!
-//additional - first click on shipImage always goes to the first child square! - done (made images only appear after ship sunk)
+//additional - first click on shipImage always goes to the first child square! - done
 // 3) Improving computer AI
 // 4) Refactor, if possible
 // 5) Fine tune the display
 // 6) Polish the design - add a sound to hit or miss?
 // 7) Readme. Can check a video
 // 8) Get it to display properly on Github pages - done
-// make sure pointer isn't on myBoard
+// make sure pointer isn't on myBoard - done
 
 import { initializeDom, getShipImage } from "./dom";
 import Board from "./board";
@@ -386,7 +386,6 @@ document.addEventListener("DOMContentLoaded", function () {
         if (orientation === "vertical") {
           shipImage.classList.add("vertical");
           shipImage.style.tranform = "rotate(90deg)";
-          // shipImage.id = `ship${index + 1}`;
         } else {
           shipImage.classList.add("horizontal");
           shipImage.classList.add("computer-horizontal-ship");
