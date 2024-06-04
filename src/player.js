@@ -47,6 +47,10 @@ document.addEventListener("DOMContentLoaded", function () {
       this.renderComputerBoard(this.computerBoard.board);
     }
 
+    updateDisplay(message) {
+      dom.display.innerText = message;
+      console.log(message);
+    }
     compShipPlacement() {
       const flattenedBoard = this.computerBoard.board.flat();
       const stringsToCheck = ["Crr", "Bat", "Cru", "Sub", "Des"];
@@ -97,14 +101,13 @@ document.addEventListener("DOMContentLoaded", function () {
       if (!this.playerTurn) return;
       let result = this.computerBoard.receiveAttack(coord1, coord2);
       let coordValue = this.computerBoard.board[coord1][coord2];
-      console.log("coordValue", coordValue);
       this.allShipsSunk();
       this.compShipSunk();
 
       setTimeout(() => {
         this.compAttack();
         this.myShipSunk();
-      }, 100);
+      }, 1000);
       this.playerTurn = false;
 
       return result;
@@ -119,17 +122,15 @@ document.addEventListener("DOMContentLoaded", function () {
         coordValue = this.myBoard.board[coord1][coord2];
 
         this.previousHitArr.push(coordValue);
-        console.log(this.previousHitArr);
-        if (typeof this.previousHitArr[this.previousHitArr.length - 1] === "string") {
-          console.log("this is a string");
 
+        if (typeof this.previousHitArr[this.previousHitArr.length - 1] === "string") {
           result = this.myBoard.receiveMyAttack(coord1, coord2);
-        } else if (
-          typeof this.previousHitArr[this.previousHitArr.length - 1] === "number" ||
-          typeof this.previousHitArr[this.previousHitArr.length - 1] === undefined
-        ) {
-          console.log("this is a number");
+          dom.display.innerText = "The opponent has hit your ship";
+        } else if (typeof this.previousHitArr[this.previousHitArr.length - 1] === "number") {
           result = this.myBoard.receiveMyAttack(coord1, coord2);
+          dom.display.innerText = "The opponent has missed";
+        } else if (typeof this.previousHitArr[this.previousHitArr.length - 1] === undefined) {
+          return;
         }
 
         if (
@@ -145,7 +146,7 @@ document.addEventListener("DOMContentLoaded", function () {
           this.myShipSunk();
           this.allShipsSunk();
         } else {
-          setTimeout(attackAfterOneSecond, 0);
+          setTimeout(attackAfterOneSecond, 1000);
         }
       };
       attackAfterOneSecond();
@@ -225,16 +226,18 @@ document.addEventListener("DOMContentLoaded", function () {
       if (stringsToCheck.includes(item.innerText)) {
         item.style.color = "transparent";
       } else if (item.innerText === "Sunk") {
-        item.style.backgroundColor = "purple";
-        item.style.border = "2px solid black";
+        item.style.backgroundColor = "rgb(230, 165, 165)";
+        item.innerHTML = '<div class="dot red-dot"></div>';
+        // dom.display.innerText = "The opponent has sunk your ship";
       } else if (item.innerText.startsWith("Hit")) {
         item.innerHTML = '<div class="dot red-dot"></div>';
-        dom.display.innerText = "The opponent has hit your ship";
+        // dom.display.innerText = "The opponent has hit your ship";
       } else if (item.innerText === "Miss") {
         item.innerHTML = '<div class="dot black-dot"></div>';
-        dom.display.innerText = "The opponent has missed";
+        // dom.display.innerText = "The opponent has missed";
       } else {
         // item.style.color = "rgb(241, 240, 240)";
+        // console.log("None of the above");
       }
     }
 
@@ -447,8 +450,7 @@ document.addEventListener("DOMContentLoaded", function () {
         if (ship.sunk === true) {
           dom.computerBoardGrid.querySelectorAll(".square").forEach((square) => {
             if (square.innerText === ship.boardName) {
-              // square.style.backgroundColor = "purple";
-              square.style.border = "2px solid black";
+              square.style.backgroundColor = "rgb(230, 165, 165)";
             }
           });
           const shipImage = dom.computerBoardGrid.querySelector(`#ship${ships.indexOf(ship) + 1}`);
@@ -494,11 +496,11 @@ document.addEventListener("DOMContentLoaded", function () {
       if (allComputerShipsSunk) {
         dom.winnerContainer.style.display = "flex";
         dom.display.style.display = "none";
-        dom.winnerDisplay.innerText = `${playerName} is the winner!!!! Well done! Play again?`;
+        dom.winnerDisplay.innerText = `You are the winner!!!! Well done! Play again?`;
       } else if (allMyShipsSunk) {
         dom.winnerContainer.style.display = "flex";
         dom.display.style.display = "none";
-        dom.winnerDisplay.innerText = `Sorry ${playerName} you lose. Play again?`;
+        dom.winnerDisplay.innerText = `You lose. Play again?`;
       }
     }
   }

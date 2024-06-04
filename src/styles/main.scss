@@ -35,7 +35,6 @@
   padding: 7px 0;
   background: transparent;
   transition: border-color 0.2s;
-
   &::placeholder {
     color: black;
   }
@@ -117,8 +116,8 @@ body {
 }
 
 .board-title {
-  background: linear-gradient(to right, #456961, #92b59d);
-  color: blanchedalmond;
+  background: linear-gradient(to right, red, yellow, orange);
+  color: black;
   font-family: "Digital-7 Mono", monospace;
   text-align: center;
   border: 1px solid black;
