@@ -1,16 +1,3 @@
-// Remaining problems
-// 1) shipImage vertical alignment - done!
-// 2) computerBoard ship Images disappearing - done
-// additonal - horizontal computer ships need realigning - done!
-//additional - first click on shipImage always goes to the first child square! - done
-// 3) Improving computer AI
-// 4) Refactor, if possible
-// 5) Fine tune the display
-// 6) Polish the design - add a sound to hit or miss?
-// 7) Readme. Can check a video
-// 8) Get it to display properly on Github pages - done
-// make sure pointer isn't on myBoard - done
-
 import { initializeDom, getShipImage } from "./dom";
 import Board from "./board";
 
@@ -102,12 +89,24 @@ document.addEventListener("DOMContentLoaded", function () {
       let result = this.computerBoard.receiveAttack(coord1, coord2);
       let coordValue = this.computerBoard.board[coord1][coord2];
       this.allShipsSunk();
+
+      if (result.result === "hit") {
+        dom.display.innerText = `${playerName} has hit a ship!`;
+      } else if (result.result === "sunk") {
+        dom.display.innerText = `${playerName} has sunk the ${result.shipName}!`;
+      } else if (result.result === "miss") {
+        dom.display.innerText = `${playerName} has missed`;
+      } else if (result.result === "repeat") {
+        dom.display.innerText = "You cannot hit the same place twice";
+        return;
+      }
+
       this.compShipSunk();
 
       setTimeout(() => {
         this.compAttack();
         this.myShipSunk();
-      }, 100);
+      }, 1000);
       this.playerTurn = false;
 
       return result;
@@ -212,16 +211,10 @@ document.addEventListener("DOMContentLoaded", function () {
       } else if (item.innerText === "Sunk") {
         item.style.backgroundColor = "rgb(230, 165, 165)";
         item.innerHTML = '<div class="dot red-dot"></div>';
-        // dom.display.innerText = "The opponent has sunk your ship";
       } else if (item.innerText.startsWith("Hit")) {
         item.innerHTML = '<div class="dot red-dot"></div>';
-        // dom.display.innerText = "The opponent has hit your ship";
       } else if (item.innerText === "Miss") {
         item.innerHTML = '<div class="dot black-dot"></div>';
-        // dom.display.innerText = "The opponent has missed";
-      } else {
-        // item.style.color = "rgb(241, 240, 240)";
-        // console.log("None of the above");
       }
     }
 
@@ -358,7 +351,6 @@ document.addEventListener("DOMContentLoaded", function () {
       this.renderComputerShipImages();
     }
 
-    // Combine this with with the myBoard Image rendering
     renderComputerShipImages() {
       this.computerShipPositions.forEach(({ ship, row, column, orientation }, index) => {
         let startSquareIndex = row * 10 + column;
