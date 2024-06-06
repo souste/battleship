@@ -107,52 +107,36 @@ document.addEventListener("DOMContentLoaded", function () {
       setTimeout(() => {
         this.compAttack();
         this.myShipSunk();
-      }, 1000);
+      }, 100);
       this.playerTurn = false;
 
       return result;
     }
 
     compAttack() {
-      let coord1, coord2, coordValue, result;
+      let coord1, coord2, result;
 
       const attackAfterOneSecond = () => {
         coord1 = Math.floor(Math.random() * 10);
         coord2 = Math.floor(Math.random() * 10);
-        coordValue = this.myBoard.board[coord1][coord2];
 
-        this.previousHitArr.push(coordValue);
+        result = this.myBoard.receiveMyAttack(coord1, coord2);
 
-        if (typeof this.previousHitArr[this.previousHitArr.length - 1] === "string") {
-          result = this.myBoard.receiveMyAttack(coord1, coord2);
-          dom.display.innerText = "The opponent has hit your ship";
-        } else if (typeof this.previousHitArr[this.previousHitArr.length - 1] === "number") {
-          result = this.myBoard.receiveMyAttack(coord1, coord2);
-          dom.display.innerText = "The opponent has missed";
-        } else if (typeof this.previousHitArr[this.previousHitArr.length - 1] === undefined) {
+        if (result.result === "repeat") {
+          setTimeout(attackAfterOneSecond, 10);
           return;
+        } else if (result.result === "hit") {
+          dom.display.innerText = "The opponent has hit your ship";
+        } else if (result.result === "sunk") {
+          dom.display.innerText = `The opponent has sunk your ${result.shipName}`;
+        } else {
+          dom.display.innerText = "The opponent has missed";
         }
 
-        if (
-          typeof coordValue === "number" ||
-          coordValue === "Crr" ||
-          coordValue === "Bat" ||
-          coordValue === "Cru" ||
-          coordValue === "Sub" ||
-          coordValue === "Des"
-        ) {
-          this.playerTurn = true;
-          this.refreshMyBoardAfterCompAttack();
-          this.myShipSunk();
-          this.allShipsSunk();
-        } else {
-          setTimeout(attackAfterOneSecond, 1000);
-        }
+        this.refreshMyBoardAfterCompAttack();
+        this.playerTurn = true;
       };
       attackAfterOneSecond();
-      this.refreshMyBoardAfterCompAttack();
-
-      return result;
     }
 
     compAdjacentTargets(row, col) {

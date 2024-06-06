@@ -68,33 +68,41 @@ class Board {
     if (typeof coordValue == "number") {
       this.board[rowCoord].splice(colCoord, 1, "Miss");
       return this;
-    } else if (coordValue == "Hit" || coordValue == "Miss") {
+    } else if (coordValue == "Hit" || coordValue == "Miss" || coordValue === "Sunk") {
       console.log("You cannot hit the same place twice");
-      return this;
+      return { result: "repeat" };
     } else {
       const ship = this.findShipByName(coordValue);
       ship.hit();
-      this.board[rowCoord].splice(colCoord, 1, "Hit");
-      this.areAllShipsSunk();
+      this.board[rowCoord].splice(colCoord, 1, `Hit ${ship.boardName}`);
+      if (ship.sunk) {
+        this.updateSunkShip(ship);
+        this.areAllShipsSunk();
+        return { result: "sunk", shipName: ship.fullName };
+      }
+      return { result: "hit", shipName: ship.fullName };
     }
-    return this;
   }
 
   receiveMyAttack(rowCoord, colCoord) {
     let coordValue = this.board[rowCoord][colCoord];
     if (typeof coordValue == "number") {
       this.board[rowCoord].splice(colCoord, 1, "Miss");
-      return this;
+      return { result: "miss" };
     } else if (coordValue.startsWith("Hit") || coordValue == "Miss" || coordValue == "Sunk") {
       console.log("You cannot hit the same place twice");
-      return this;
+      return { result: "repeat" };
     } else {
       const ship = this.findShipByName(coordValue);
       ship.hit();
       this.board[rowCoord].splice(colCoord, 1, `Hit ${ship.boardName}`);
-      this.areAllShipsSunk();
+      if (ship.sunk) {
+        this.updateSunkShip(ship);
+        this.areAllShipsSunk();
+        return { result: "sunk", shipName: ship.fullName };
+      }
+      return { result: "hit", shipName: ship.fullName };
     }
-    return this;
   }
 
   findShipByName(name) {
@@ -113,6 +121,16 @@ class Board {
     if (name === "Des") {
       return this.destroyer;
     }
+  }
+
+  updateSunkShip(ship) {
+    this.board.forEach((row, rowIndex) => {
+      row.forEach((cell, colIndex) => {
+        if (cell === `Hit ${ship.boardName}`) {
+          this.board[rowIndex][colIndex] = "Sunk";
+        }
+      });
+    });
   }
 
   areAllShipsSunk() {
