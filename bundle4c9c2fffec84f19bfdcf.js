@@ -350,19 +350,6 @@ function _defineProperties(target, props) { for (var i = 0; i < props.length; i+
 function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); Object.defineProperty(Constructor, "prototype", { writable: false }); return Constructor; }
 function _toPropertyKey(t) { var i = _toPrimitive(t, "string"); return "symbol" == _typeof(i) ? i : String(i); }
 function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e = t[Symbol.toPrimitive]; if (void 0 !== e) { var i = e.call(t, r || "default"); if ("object" != _typeof(i)) return i; throw new TypeError("@@toPrimitive must return a primitive value."); } return ("string" === r ? String : Number)(t); }
-// Remaining problems
-// 1) shipImage vertical alignment - done!
-// 2) computerBoard ship Images disappearing - done
-// additonal - horizontal computer ships need realigning - done!
-//additional - first click on shipImage always goes to the first child square! - done
-// 3) Improving computer AI
-// 4) Refactor, if possible
-// 5) Fine tune the display
-// 6) Polish the design - add a sound to hit or miss?
-// 7) Readme. Can check a video
-// 8) Get it to display properly on Github pages - done
-// make sure pointer isn't on myBoard - done
-
 
 
 document.addEventListener("DOMContentLoaded", function () {
@@ -445,11 +432,21 @@ document.addEventListener("DOMContentLoaded", function () {
         var result = this.computerBoard.receiveAttack(coord1, coord2);
         var coordValue = this.computerBoard.board[coord1][coord2];
         this.allShipsSunk();
+        if (result.result === "hit") {
+          dom.display.innerText = "".concat(playerName, " has hit a ship!");
+        } else if (result.result === "sunk") {
+          dom.display.innerText = "".concat(playerName, " has sunk the ").concat(result.shipName, "!");
+        } else if (result.result === "miss") {
+          dom.display.innerText = "".concat(playerName, " has missed");
+        } else if (result.result === "repeat") {
+          dom.display.innerText = "You cannot hit the same place twice";
+          return;
+        }
         this.compShipSunk();
         setTimeout(function () {
           _this.compAttack();
           _this.myShipSunk();
-        }, 100);
+        }, 1000);
         this.playerTurn = false;
         return result;
       }
@@ -546,16 +543,10 @@ document.addEventListener("DOMContentLoaded", function () {
         } else if (item.innerText === "Sunk") {
           item.style.backgroundColor = "rgb(230, 165, 165)";
           item.innerHTML = '<div class="dot red-dot"></div>';
-          // dom.display.innerText = "The opponent has sunk your ship";
         } else if (item.innerText.startsWith("Hit")) {
           item.innerHTML = '<div class="dot red-dot"></div>';
-          // dom.display.innerText = "The opponent has hit your ship";
         } else if (item.innerText === "Miss") {
           item.innerHTML = '<div class="dot black-dot"></div>';
-          // dom.display.innerText = "The opponent has missed";
-        } else {
-          // item.style.color = "rgb(241, 240, 240)";
-          // console.log("None of the above");
         }
       }
     }, {
@@ -686,8 +677,6 @@ document.addEventListener("DOMContentLoaded", function () {
         }
         this.renderComputerShipImages();
       }
-
-      // Combine this with with the myBoard Image rendering
     }, {
       key: "renderComputerShipImages",
       value: function renderComputerShipImages() {
@@ -1974,4 +1963,4 @@ __webpack_require__.r(__webpack_exports__);
 
 /******/ })()
 ;
-//# sourceMappingURL=bundle98aa292f259e38862697.js.map
+//# sourceMappingURL=bundle4c9c2fffec84f19bfdcf.js.map
