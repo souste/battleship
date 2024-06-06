@@ -84,16 +84,28 @@ var Board = /*#__PURE__*/function () {
       if (typeof coordValue == "number") {
         this.board[rowCoord].splice(colCoord, 1, "Miss");
         return this;
-      } else if (coordValue == "Hit" || coordValue == "Miss") {
+      } else if (coordValue == "Hit" || coordValue == "Miss" || coordValue === "Sunk") {
         console.log("You cannot hit the same place twice");
-        return this;
+        return {
+          result: "repeat"
+        };
       } else {
         var ship = this.findShipByName(coordValue);
         ship.hit();
-        this.board[rowCoord].splice(colCoord, 1, "Hit");
-        this.areAllShipsSunk();
+        this.board[rowCoord].splice(colCoord, 1, "Hit ".concat(ship.boardName));
+        if (ship.sunk) {
+          this.updateSunkShip(ship);
+          this.areAllShipsSunk();
+          return {
+            result: "sunk",
+            shipName: ship.fullName
+          };
+        }
+        return {
+          result: "hit",
+          shipName: ship.fullName
+        };
       }
-      return this;
     }
   }, {
     key: "receiveMyAttack",
@@ -101,17 +113,31 @@ var Board = /*#__PURE__*/function () {
       var coordValue = this.board[rowCoord][colCoord];
       if (typeof coordValue == "number") {
         this.board[rowCoord].splice(colCoord, 1, "Miss");
-        return this;
+        return {
+          result: "miss"
+        };
       } else if (coordValue.startsWith("Hit") || coordValue == "Miss" || coordValue == "Sunk") {
         console.log("You cannot hit the same place twice");
-        return this;
+        return {
+          result: "repeat"
+        };
       } else {
         var ship = this.findShipByName(coordValue);
         ship.hit();
         this.board[rowCoord].splice(colCoord, 1, "Hit ".concat(ship.boardName));
-        this.areAllShipsSunk();
+        if (ship.sunk) {
+          this.updateSunkShip(ship);
+          this.areAllShipsSunk();
+          return {
+            result: "sunk",
+            shipName: ship.fullName
+          };
+        }
+        return {
+          result: "hit",
+          shipName: ship.fullName
+        };
       }
-      return this;
     }
   }, {
     key: "findShipByName",
@@ -131,6 +157,18 @@ var Board = /*#__PURE__*/function () {
       if (name === "Des") {
         return this.destroyer;
       }
+    }
+  }, {
+    key: "updateSunkShip",
+    value: function updateSunkShip(ship) {
+      var _this = this;
+      this.board.forEach(function (row, rowIndex) {
+        row.forEach(function (cell, colIndex) {
+          if (cell === "Hit ".concat(ship.boardName)) {
+            _this.board[rowIndex][colIndex] = "Sunk";
+          }
+        });
+      });
     }
   }, {
     key: "areAllShipsSunk",
@@ -192,7 +230,9 @@ var initializeDom = function initializeDom() {
   var playerNameForm = document.createElement("form");
   var playerNameInput = document.createElement("input");
   playerNameInput.className = "player-name-input";
-  playerNameLabel.textContent = "Enter Your Name";
+  playerNameInput.placeholder = "Enter Your Name";
+  // playerNameLabel.textContent = "Enter Your Name";
+
   playerNameForm.appendChild(playerNameInput);
   formContainer.appendChild(playerNameLabel);
   formContainer.appendChild(playerNameForm);
@@ -298,13 +338,13 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _board__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./board */ "./src/board.js");
 /* harmony import */ var _board__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_board__WEBPACK_IMPORTED_MODULE_1__);
 /* module decorator */ module = __webpack_require__.hmd(module);
+function _typeof(o) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof(o); }
 function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
 function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
 function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
 function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) arr2[i] = arr[i]; return arr2; }
 function _iterableToArrayLimit(r, l) { var t = null == r ? null : "undefined" != typeof Symbol && r[Symbol.iterator] || r["@@iterator"]; if (null != t) { var e, n, i, u, a = [], f = !0, o = !1; try { if (i = (t = t.call(r)).next, 0 === l) { if (Object(t) !== t) return; f = !1; } else for (; !(f = (e = i.call(t)).done) && (a.push(e.value), a.length !== l); f = !0); } catch (r) { o = !0, n = r; } finally { try { if (!f && null != t["return"] && (u = t["return"](), Object(u) !== u)) return; } finally { if (o) throw n; } } return a; } }
 function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
-function _typeof(o) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof(o); }
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, _toPropertyKey(descriptor.key), descriptor); } }
 function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); Object.defineProperty(Constructor, "prototype", { writable: false }); return Constructor; }
@@ -314,14 +354,14 @@ function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e 
 // 1) shipImage vertical alignment - done!
 // 2) computerBoard ship Images disappearing - done
 // additonal - horizontal computer ships need realigning - done!
-//additional - first click on shipImage always goes to the first child square! - done (made images only appear after ship sunk)
+//additional - first click on shipImage always goes to the first child square! - done
 // 3) Improving computer AI
 // 4) Refactor, if possible
 // 5) Fine tune the display
 // 6) Polish the design - add a sound to hit or miss?
 // 7) Readme. Can check a video
-// 8) Get it to display properly on Github pages
-// make sure pointer isn't on myBoard
+// 8) Get it to display properly on Github pages - done
+// make sure pointer isn't on myBoard - done
 
 
 
@@ -355,6 +395,12 @@ document.addEventListener("DOMContentLoaded", function () {
       this.renderComputerBoard(this.computerBoard.board);
     }
     _createClass(Player, [{
+      key: "updateDisplay",
+      value: function updateDisplay(message) {
+        dom.display.innerText = message;
+        console.log(message);
+      }
+    }, {
       key: "compShipPlacement",
       value: function compShipPlacement() {
         var flattenedBoard = this.computerBoard.board.flat();
@@ -398,7 +444,6 @@ document.addEventListener("DOMContentLoaded", function () {
         if (!this.playerTurn) return;
         var result = this.computerBoard.receiveAttack(coord1, coord2);
         var coordValue = this.computerBoard.board[coord1][coord2];
-        console.log("coordValue", coordValue);
         this.allShipsSunk();
         this.compShipSunk();
         setTimeout(function () {
@@ -412,32 +457,25 @@ document.addEventListener("DOMContentLoaded", function () {
       key: "compAttack",
       value: function compAttack() {
         var _this2 = this;
-        var coord1, coord2, coordValue, result;
+        var coord1, coord2, result;
         var attackAfterOneSecond = function attackAfterOneSecond() {
           coord1 = Math.floor(Math.random() * 10);
           coord2 = Math.floor(Math.random() * 10);
-          coordValue = _this2.myBoard.board[coord1][coord2];
-          _this2.previousHitArr.push(coordValue);
-          console.log(_this2.previousHitArr);
-          if (typeof _this2.previousHitArr[_this2.previousHitArr.length - 1] === "string") {
-            console.log("this is a string");
-            result = _this2.myBoard.receiveMyAttack(coord1, coord2);
-          } else if (typeof _this2.previousHitArr[_this2.previousHitArr.length - 1] === "number" || _typeof(_this2.previousHitArr[_this2.previousHitArr.length - 1]) === undefined) {
-            console.log("this is a number");
-            result = _this2.myBoard.receiveMyAttack(coord1, coord2);
-          }
-          if (typeof coordValue === "number" || coordValue === "Crr" || coordValue === "Bat" || coordValue === "Cru" || coordValue === "Sub" || coordValue === "Des") {
-            _this2.playerTurn = true;
-            _this2.refreshMyBoardAfterCompAttack();
-            _this2.myShipSunk();
-            _this2.allShipsSunk();
+          result = _this2.myBoard.receiveMyAttack(coord1, coord2);
+          if (result.result === "repeat") {
+            setTimeout(attackAfterOneSecond, 10);
+            return;
+          } else if (result.result === "hit") {
+            dom.display.innerText = "The opponent has hit your ship";
+          } else if (result.result === "sunk") {
+            dom.display.innerText = "The opponent has sunk your ".concat(result.shipName);
           } else {
-            setTimeout(attackAfterOneSecond, 0);
+            dom.display.innerText = "The opponent has missed";
           }
+          _this2.refreshMyBoardAfterCompAttack();
+          _this2.playerTurn = true;
         };
         attackAfterOneSecond();
-        this.refreshMyBoardAfterCompAttack();
-        return result;
       }
     }, {
       key: "compAdjacentTargets",
@@ -468,6 +506,7 @@ document.addEventListener("DOMContentLoaded", function () {
           var item = document.createElement("div");
           item.innerText = flatArr[i];
           item.className = "square";
+          item.id = "my-board-square";
           this.myBoardSquares(item);
           dom.myBoardGrid.appendChild(item);
           this.myBoardShipSelect(item, i, arr);
@@ -505,16 +544,18 @@ document.addEventListener("DOMContentLoaded", function () {
         if (stringsToCheck.includes(item.innerText)) {
           item.style.color = "transparent";
         } else if (item.innerText === "Sunk") {
-          item.style.backgroundColor = "purple";
-          item.style.border = "2px solid black";
+          item.style.backgroundColor = "rgb(230, 165, 165)";
+          item.innerHTML = '<div class="dot red-dot"></div>';
+          // dom.display.innerText = "The opponent has sunk your ship";
         } else if (item.innerText.startsWith("Hit")) {
           item.innerHTML = '<div class="dot red-dot"></div>';
-          dom.display.innerText = "The opponent has hit your ship";
+          // dom.display.innerText = "The opponent has hit your ship";
         } else if (item.innerText === "Miss") {
           item.innerHTML = '<div class="dot black-dot"></div>';
-          dom.display.innerText = "The opponent has missed";
+          // dom.display.innerText = "The opponent has missed";
         } else {
           // item.style.color = "rgb(241, 240, 240)";
+          // console.log("None of the above");
         }
       }
     }, {
@@ -596,6 +637,7 @@ document.addEventListener("DOMContentLoaded", function () {
           item.removeEventListener("click", clickHandler);
           dom.computerBoardContainer.style.display = "block";
           axisButton.style.display = "none";
+          item.style.cursor = "auto";
         }
       }
     }, {
@@ -662,7 +704,6 @@ document.addEventListener("DOMContentLoaded", function () {
           if (orientation === "vertical") {
             shipImage.classList.add("vertical");
             shipImage.style.tranform = "rotate(90deg)";
-            // shipImage.id = `ship${index + 1}`;
           } else {
             shipImage.classList.add("horizontal");
             shipImage.classList.add("computer-horizontal-ship");
@@ -712,8 +753,7 @@ document.addEventListener("DOMContentLoaded", function () {
           if (ship.sunk === true) {
             dom.computerBoardGrid.querySelectorAll(".square").forEach(function (square) {
               if (square.innerText === ship.boardName) {
-                // square.style.backgroundColor = "purple";
-                square.style.border = "2px solid black";
+                square.style.backgroundColor = "rgb(230, 165, 165)";
               }
             });
             var shipImage = dom.computerBoardGrid.querySelector("#ship".concat(ships.indexOf(ship) + 1));
@@ -753,11 +793,11 @@ document.addEventListener("DOMContentLoaded", function () {
         if (allComputerShipsSunk) {
           dom.winnerContainer.style.display = "flex";
           dom.display.style.display = "none";
-          dom.winnerDisplay.innerText = "".concat(playerName, " is the winner!!!! Well done! Play again?");
+          dom.winnerDisplay.innerText = "You are the winner!!!! Well done! Play again?";
         } else if (allMyShipsSunk) {
           dom.winnerContainer.style.display = "flex";
           dom.display.style.display = "none";
-          dom.winnerDisplay.innerText = "Sorry ".concat(playerName, " you lose. Play again?");
+          dom.winnerDisplay.innerText = "You lose. Play again?";
         }
       }
     }]);
@@ -886,19 +926,20 @@ ___CSS_LOADER_EXPORT___.push([module.id, `.content {
 }
 
 .player-name-input {
+  margin-top: 100px;
   font-family: inherit;
   width: 100%;
   border: 0;
   border-bottom: 2px solid gray;
   outline: 0;
-  font-size: 1.3rem;
+  font-size: 2rem;
   color: black;
   padding: 7px 0;
   background: transparent;
   transition: border-color 0.2s;
 }
 .player-name-input::placeholder {
-  color: transparent;
+  color: black;
 }
 .player-name-input:placeholder-shown ~ .player-name-label {
   font-size: 1.3rem;
@@ -968,7 +1009,8 @@ body {
 }
 
 .board-title {
-  background: linear-gradient(to right, #456961, #92b59d);
+  background: linear-gradient(to right, red, yellow, orange);
+  color: black;
   font-family: "Digital-7 Mono", monospace;
   text-align: center;
   border: 1px solid black;
@@ -1080,30 +1122,39 @@ body {
 
 .winner-container {
   position: absolute;
-  background-color: rgb(228, 195, 195);
-  border: 2px solid black;
+  background-color: #f0e6e6;
+  border: 2px solid #333;
   height: 300px;
   width: 1000px;
   border-radius: 10px;
-  align-items: center;
   display: flex;
   flex-direction: column;
   justify-content: center;
+  align-items: center;
   margin-top: 300px;
+  z-index: 30;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  padding: 20px;
 }
 
 .winner-display {
-  background-color: rgb(113, 187, 126);
+  background: linear-gradient(to right, #456961, #92b59d);
   height: 80px;
   width: 800px;
   border-radius: 10px;
-  padding-left: 20px;
-  border: 2px solid black;
+  padding: 0 20px;
+  border: 2px solid #333;
   line-height: 80px;
+  color: blanchedalmond;
+  font-size: 1.5rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
 
 .highlight {
-  background-color: rgba(0, 0, 255, 0.5);
+  background-color: #92b59d;
 }
 
 .ship-image {
@@ -1151,7 +1202,7 @@ body {
 
 .hidden {
   display: none;
-}`, "",{"version":3,"sources":["webpack://./src/styles/main.scss"],"names":[],"mappings":"AAAA;EACE,aAAA;EACA,sBAAA;EACA,mBAAA;AACF;;AAQA;EACE,YAAA;EACA,aAAA;AALF;;AAUA;EACE,aAAA;EACA,uBAAA;EACA,sBAAA;AAPF;;AAUA;EACE,oBAAA;EACA,WAAA;EACA,SAAA;EACA,6BAAA;EACA,UAAA;EACA,iBAAA;EACA,YAAA;EACA,cAAA;EACA,uBAAA;EACA,6BAAA;AAPF;AASE;EACE,kBAAA;AAPJ;AAUE;EACE,iBAAA;EACA,YAAA;EACA,SAAA;AARJ;;AAYA;EAUE,mBAAA;EACA,gBAAA;EACA,iBAAA;EACA,2DAAA;EACA,qBAAA;AAlBF;AAKE;EACE,kBAAA;EACA,MAAA;EACA,cAAA;EACA,gBAAA;EACA,eAAA;EACA,cAAA;EACA,gBAAA;AAHJ;;AAaE;EAEE,gBAAA;AAXJ;;AAeA;EACE,kCAAA;EACA,aAAA;EACA,sBAAA;EAEA,mBAAA;EACA,iBAAA;EACA,iBAAA;EACA,uBAAA;AAbF;;AAgBA;EACE,WAAA;AAbF;;AAkBA;EACE,uDAAA;EACA,wCAAA;EACA,YAAA;EACA,aAAA;EACA,mBAAA;EACA,iBAAA;EACA,kBAAA;EACA,uBAAA;EACA,eAAA;EACA,qBAAA;AAfF;;AAoBA;EACE,aAAA;EACA,sBAAA;EACA,mBAAA;AAjBF;;AAoBA;EACE,aAAA;EACA,UAAA;EACA,uBAAA;EACA,eAAA;AAjBF;;AAoBA;EACE,uDAAA;EACA,wCAAA;EACA,kBAAA;EACA,uBAAA;EACA,kBAAA;AAjBF;;AAoBA;EACE,aAAA;EACA,oCAAA;EACA,uCAAA;EAEA,uBAAA;EACA,uBAAA;EACA,kBAAA;AAlBF;;AAqBA;EACE,uBAAA;EACA,kBAAA;AAlBF;;AAqBA;EACE,eAAA;EACA,kBAAA;EACA,kBAAA;AAlBF;;AAqBA;EACE,WAAA;EACA,YAAA;EACA,kBAAA;EACA,gBAAA;EACA,gBAAA;EACA,kBAAA;EACA,WAAA;AAlBF;;AAqBA;EACE,qBAAA;AAlBF;;AAqBA;EACE,uBAAA;AAlBF;;AAqBA;EACE,UAAA;EACA,WAAA;AAlBF;;AAqBA;EACE,gBAAA;EACA,2BAAA;EACA,uBAAA;EACA,mBAAA;EACA,sBAAA;EACA,sBAAA;EACA,cAAA;EACA,eAAA;EACA,qBAAA;EACA,4CAAA;EACA,mBAAA;EACA,gBAAA;EACA,uBAAA;EACA,gBAAA;EACA,0BAAA;EACA,kBAAA;EACA,gBAAA;EACA,qBAAA;EACA,iCAAA;EACA,0BAAA;EACA,iBAAA;EACA,yBAAA;EACA,0BAAA;AAlBF;;AAqBA;EACE,sBAAA;AAlBF;;AAqBA;EACE,2CAAA;AAlBF;;AAqBA;EACE,4BAAA;AAlBF;;AAqBA;EACE,WAAA;EACA,eAAA;EACA,oBAAA;EACA,kBAAA;EACA,cAAA;EACA,yBAAA;EACA,iBAAA;AAlBF;;AAqBA;EACE,4BAAA;AAlBF;;AAqBA;EACE,eAAA;AAlBF;;AAqBA;EACE,+BAAA;AAlBF;;AAuBA;EACE,kBAAA;EACA,oCAAA;EACA,uBAAA;EACA,aAAA;EACA,aAAA;EACA,mBAAA;EACA,mBAAA;EACA,aAAA;EACA,sBAAA;EACA,uBAAA;EACA,iBAAA;AApBF;;AAuBA;EACE,oCAAA;EACA,YAAA;EACA,YAAA;EACA,mBAAA;EACA,kBAAA;EACA,uBAAA;EACA,iBAAA;AApBF;;AAuBA;EACE,sCAAA;AApBF;;AAuBA;EACE,kBAAA;EACA,UAAA;EACA,YAAA;EACA,YAAA;EACA,YAAA;EACA,SAAA;AApBF;;AAuBA;EACE,wBAAA;EACA,0BAAA;AApBF;;AAuBA;EACE,UAAA;EACA,YAAA;AApBF;;AAuBA;EACE,UAAA;EACA,YAAA;AApBF;;AAuBA;EACE,UAAA;EACA,YAAA;AApBF;;AAuBA;EACE,UAAA;EACA,YAAA;AApBF;;AAuBA;EACE,UAAA;EACA,YAAA;AApBF;;AAuBA;EACE,4BAAA;AApBF;;AAuBA;EACE,aAAA;AApBF","sourcesContent":[".content {\r\n  display: flex;\r\n  flex-direction: column;\r\n  align-items: center;\r\n}\r\n\r\n// TITLE IMAGE\r\n\r\n// .image-container {\r\n//   text-align: center;\r\n// }\r\n\r\n.title-image {\r\n  height: auto;\r\n  width: 1000px;\r\n}\r\n\r\n// FORM\r\n\r\n.form-container {\r\n  display: flex;\r\n  justify-content: center;\r\n  flex-direction: column;\r\n}\r\n\r\n.player-name-input {\r\n  font-family: inherit;\r\n  width: 100%;\r\n  border: 0;\r\n  border-bottom: 2px solid gray;\r\n  outline: 0;\r\n  font-size: 1.3rem;\r\n  color: black;\r\n  padding: 7px 0;\r\n  background: transparent;\r\n  transition: border-color 0.2s;\r\n\r\n  &::placeholder {\r\n    color: transparent;\r\n  }\r\n\r\n  &:placeholder-shown ~ .player-name-label {\r\n    font-size: 1.3rem;\r\n    cursor: text;\r\n    top: 20px;\r\n  }\r\n}\r\n\r\n.player-name-input:focus {\r\n  ~ .player-name-label {\r\n    position: absolute;\r\n    top: 0;\r\n    display: block;\r\n    transition: 0.2s;\r\n    font-size: 1rem;\r\n    color: primary;\r\n    font-weight: 700;\r\n  }\r\n  padding-bottom: 6px;\r\n  font-weight: 700;\r\n  border-width: 3px;\r\n  border-image: linear-gradient(to right, primary, secondary);\r\n  border-image-slice: 1;\r\n}\r\n\r\n.player-name-input {\r\n  &:required,\r\n  &:invalid {\r\n    box-shadow: none;\r\n  }\r\n}\r\n\r\nbody {\r\n  font-family: \"Poppins\", sans-serif;\r\n  display: flex;\r\n  flex-direction: column;\r\n  // justify-content: center;\r\n  align-items: center;\r\n  min-height: 100vh;\r\n  font-size: 1.5rem;\r\n  background-color: white;\r\n}\r\n\r\n.player-name-button {\r\n  width: 50px;\r\n}\r\n\r\n// DISPLAY\r\n\r\n.display {\r\n  background: linear-gradient(to right, #456961, #92b59d);\r\n  font-family: \"Digital-7 Mono\", monospace;\r\n  height: 80px;\r\n  width: 1000px;\r\n  border-radius: 10px;\r\n  line-height: 80px;\r\n  padding-left: 20px;\r\n  border: 2px solid black;\r\n  font-size: 20px;\r\n  color: blanchedalmond;\r\n}\r\n\r\n// BOARDS\r\n\r\n.boards-outer-container {\r\n  display: flex;\r\n  flex-direction: column;\r\n  align-items: center;\r\n}\r\n\r\n.boards-container {\r\n  display: flex;\r\n  gap: 100px;\r\n  justify-content: center;\r\n  font-size: 1rem;\r\n}\r\n\r\n.board-title {\r\n  background: linear-gradient(to right, #456961, #92b59d);\r\n  font-family: \"Digital-7 Mono\", monospace;\r\n  text-align: center;\r\n  border: 1px solid black;\r\n  border-radius: 5px;\r\n}\r\n\r\n.grid-container {\r\n  display: grid;\r\n  grid-template-rows: repeat(10, 40px);\r\n  grid-template-columns: repeat(10, 40px);\r\n  // background-color: rgb(241, 240, 240);\r\n  background-color: white;\r\n  border: 1px solid black;\r\n  position: relative;\r\n}\r\n\r\n.grid-container > div {\r\n  border: 1px solid black;\r\n  position: relative;\r\n}\r\n\r\n.square {\r\n  cursor: pointer;\r\n  color: transparent;\r\n  position: relative;\r\n}\r\n\r\n.dot {\r\n  width: 20px;\r\n  height: 20px;\r\n  border-radius: 50%;\r\n  margin-top: 10px;\r\n  margin-left: 9px;\r\n  position: absolute;\r\n  z-index: 20;\r\n}\r\n\r\n.red-dot {\r\n  background-color: red;\r\n}\r\n\r\n.black-dot {\r\n  background-color: black;\r\n}\r\n\r\n#computer-dot {\r\n  left: -2px;\r\n  bottom: 8px;\r\n}\r\n\r\n.axis-button {\r\n  background: #fff;\r\n  backface-visibility: hidden;\r\n  border-radius: 0.375rem;\r\n  border-style: solid;\r\n  border-width: 0.125rem;\r\n  box-sizing: border-box;\r\n  color: #212121;\r\n  cursor: pointer;\r\n  display: inline-block;\r\n  font-family: Circular, Helvetica, sans-serif;\r\n  font-size: 1.125rem;\r\n  font-weight: 700;\r\n  letter-spacing: -0.01em;\r\n  line-height: 1.3;\r\n  padding: 0.875rem 1.125rem;\r\n  position: relative;\r\n  text-align: left;\r\n  text-decoration: none;\r\n  transform: translateZ(0) scale(1);\r\n  transition: transform 0.2s;\r\n  user-select: none;\r\n  -webkit-user-select: none;\r\n  touch-action: manipulation;\r\n}\r\n\r\n.axis-button:not(:disabled):hover {\r\n  transform: scale(1.05);\r\n}\r\n\r\n.axis-button:not(:disabled):hover:active {\r\n  transform: scale(1.05) translateY(0.125rem);\r\n}\r\n\r\n.axis-button:focus {\r\n  outline: 0 solid transparent;\r\n}\r\n\r\n.axis-button:focus:before {\r\n  content: \"\";\r\n  left: calc(-1 * 0.375rem);\r\n  pointer-events: none;\r\n  position: absolute;\r\n  top: calc(-1 * 0.375rem);\r\n  transition: border-radius;\r\n  user-select: none;\r\n}\r\n\r\n.axis-button:focus:not(:focus-visible) {\r\n  outline: 0 solid transparent;\r\n}\r\n\r\n.axis-button:focus:not(:focus-visible):before {\r\n  border-width: 0;\r\n}\r\n\r\n.axis-button:not(:disabled):active {\r\n  transform: translateY(0.125rem);\r\n}\r\n\r\n// WINNER CONTAINER\r\n\r\n.winner-container {\r\n  position: absolute;\r\n  background-color: rgb(228, 195, 195);\r\n  border: 2px solid black;\r\n  height: 300px;\r\n  width: 1000px;\r\n  border-radius: 10px;\r\n  align-items: center;\r\n  display: flex;\r\n  flex-direction: column;\r\n  justify-content: center;\r\n  margin-top: 300px;\r\n}\r\n\r\n.winner-display {\r\n  background-color: rgb(113, 187, 126);\r\n  height: 80px;\r\n  width: 800px;\r\n  border-radius: 10px;\r\n  padding-left: 20px;\r\n  border: 2px solid black;\r\n  line-height: 80px;\r\n}\r\n\r\n.highlight {\r\n  background-color: rgba(0, 0, 255, 0.5);\r\n}\r\n\r\n.ship-image {\r\n  position: absolute;\r\n  z-index: 1;\r\n  width: 100px;\r\n  height: auto;\r\n  opacity: 0.4;\r\n  top: -2px;\r\n}\r\n\r\n.vertical {\r\n  transform: rotate(90deg);\r\n  transform-origin: top left;\r\n}\r\n\r\n#ship1.vertical {\r\n  left: 50px;\r\n  bottom: 40px;\r\n}\r\n\r\n#ship2.vertical {\r\n  left: 50px;\r\n  bottom: 40px;\r\n}\r\n\r\n#ship3.vertical {\r\n  left: 50px;\r\n  bottom: 40px;\r\n}\r\n\r\n#ship4.vertical {\r\n  left: 50px;\r\n  bottom: 40px;\r\n}\r\n\r\n#ship5.vertical {\r\n  left: 50px;\r\n  bottom: 40px;\r\n}\r\n\r\n.computer-horizontal-ship {\r\n  transform: translateX(-30px);\r\n}\r\n\r\n.hidden {\r\n  display: none;\r\n}\r\n"],"sourceRoot":""}]);
+}`, "",{"version":3,"sources":["webpack://./src/styles/main.scss"],"names":[],"mappings":"AAAA;EACE,aAAA;EACA,sBAAA;EACA,mBAAA;AACF;;AAQA;EACE,YAAA;EACA,aAAA;AALF;;AAUA;EACE,aAAA;EACA,uBAAA;EACA,sBAAA;AAPF;;AAUA;EACE,iBAAA;EACA,oBAAA;EACA,WAAA;EACA,SAAA;EACA,6BAAA;EACA,UAAA;EACA,eAAA;EACA,YAAA;EACA,cAAA;EACA,uBAAA;EACA,6BAAA;AAPF;AAQE;EACE,YAAA;AANJ;AASE;EACE,iBAAA;EACA,YAAA;EACA,SAAA;AAPJ;;AAWA;EAUE,mBAAA;EACA,gBAAA;EACA,iBAAA;EACA,2DAAA;EACA,qBAAA;AAjBF;AAIE;EACE,kBAAA;EACA,MAAA;EACA,cAAA;EACA,gBAAA;EACA,eAAA;EACA,cAAA;EACA,gBAAA;AAFJ;;AAYE;EAEE,gBAAA;AAVJ;;AAcA;EACE,kCAAA;EACA,aAAA;EACA,sBAAA;EAEA,mBAAA;EACA,iBAAA;EACA,iBAAA;EACA,uBAAA;AAZF;;AAeA;EACE,WAAA;AAZF;;AAiBA;EACE,uDAAA;EACA,wCAAA;EACA,YAAA;EACA,aAAA;EACA,mBAAA;EACA,iBAAA;EACA,kBAAA;EACA,uBAAA;EACA,eAAA;EACA,qBAAA;AAdF;;AAmBA;EACE,aAAA;EACA,sBAAA;EACA,mBAAA;AAhBF;;AAmBA;EACE,aAAA;EACA,UAAA;EACA,uBAAA;EACA,eAAA;AAhBF;;AAmBA;EACE,0DAAA;EACA,YAAA;EACA,wCAAA;EACA,kBAAA;EACA,uBAAA;EACA,kBAAA;AAhBF;;AAmBA;EACE,aAAA;EACA,oCAAA;EACA,uCAAA;EAEA,uBAAA;EACA,uBAAA;EACA,kBAAA;AAjBF;;AAoBA;EACE,uBAAA;EACA,kBAAA;AAjBF;;AAoBA;EACE,eAAA;EACA,kBAAA;EACA,kBAAA;AAjBF;;AAoBA;EACE,WAAA;EACA,YAAA;EACA,kBAAA;EACA,gBAAA;EACA,gBAAA;EACA,kBAAA;EACA,WAAA;AAjBF;;AAoBA;EACE,qBAAA;AAjBF;;AAoBA;EACE,uBAAA;AAjBF;;AAoBA;EACE,UAAA;EACA,WAAA;AAjBF;;AAoBA;EACE,gBAAA;EACA,2BAAA;EACA,uBAAA;EACA,mBAAA;EACA,sBAAA;EACA,sBAAA;EACA,cAAA;EACA,eAAA;EACA,qBAAA;EACA,4CAAA;EACA,mBAAA;EACA,gBAAA;EACA,uBAAA;EACA,gBAAA;EACA,0BAAA;EACA,kBAAA;EACA,gBAAA;EACA,qBAAA;EACA,iCAAA;EACA,0BAAA;EACA,iBAAA;EACA,yBAAA;EACA,0BAAA;AAjBF;;AAoBA;EACE,sBAAA;AAjBF;;AAoBA;EACE,2CAAA;AAjBF;;AAoBA;EACE,4BAAA;AAjBF;;AAoBA;EACE,WAAA;EACA,eAAA;EACA,oBAAA;EACA,kBAAA;EACA,cAAA;EACA,yBAAA;EACA,iBAAA;AAjBF;;AAoBA;EACE,4BAAA;AAjBF;;AAoBA;EACE,eAAA;AAjBF;;AAoBA;EACE,+BAAA;AAjBF;;AAsBA;EACE,kBAAA;EACA,yBAAA;EACA,sBAAA;EACA,aAAA;EACA,aAAA;EACA,mBAAA;EACA,aAAA;EACA,sBAAA;EACA,uBAAA;EACA,mBAAA;EACA,iBAAA;EACA,WAAA;EACA,wCAAA;EACA,aAAA;AAnBF;;AAsBA;EACE,uDAAA;EACA,YAAA;EACA,YAAA;EACA,mBAAA;EACA,eAAA;EACA,sBAAA;EACA,iBAAA;EACA,qBAAA;EACA,iBAAA;EACA,aAAA;EACA,uBAAA;EACA,mBAAA;EACA,wCAAA;AAnBF;;AAsBA;EACE,yBAAA;AAnBF;;AAwBA;EACE,kBAAA;EACA,UAAA;EACA,YAAA;EACA,YAAA;EACA,YAAA;EACA,SAAA;AArBF;;AAwBA;EACE,wBAAA;EACA,0BAAA;AArBF;;AAwBA;EACE,UAAA;EACA,YAAA;AArBF;;AAwBA;EACE,UAAA;EACA,YAAA;AArBF;;AAwBA;EACE,UAAA;EACA,YAAA;AArBF;;AAwBA;EACE,UAAA;EACA,YAAA;AArBF;;AAwBA;EACE,UAAA;EACA,YAAA;AArBF;;AAwBA;EACE,4BAAA;AArBF;;AAwBA;EACE,aAAA;AArBF","sourcesContent":[".content {\r\n  display: flex;\r\n  flex-direction: column;\r\n  align-items: center;\r\n}\r\n\r\n// TITLE IMAGE\r\n\r\n// .image-container {\r\n//   text-align: center;\r\n// }\r\n\r\n.title-image {\r\n  height: auto;\r\n  width: 1000px;\r\n}\r\n\r\n// FORM\r\n\r\n.form-container {\r\n  display: flex;\r\n  justify-content: center;\r\n  flex-direction: column;\r\n}\r\n\r\n.player-name-input {\r\n  margin-top: 100px;\r\n  font-family: inherit;\r\n  width: 100%;\r\n  border: 0;\r\n  border-bottom: 2px solid gray;\r\n  outline: 0;\r\n  font-size: 2rem;\r\n  color: black;\r\n  padding: 7px 0;\r\n  background: transparent;\r\n  transition: border-color 0.2s;\r\n  &::placeholder {\r\n    color: black;\r\n  }\r\n\r\n  &:placeholder-shown ~ .player-name-label {\r\n    font-size: 1.3rem;\r\n    cursor: text;\r\n    top: 20px;\r\n  }\r\n}\r\n\r\n.player-name-input:focus {\r\n  ~ .player-name-label {\r\n    position: absolute;\r\n    top: 0;\r\n    display: block;\r\n    transition: 0.2s;\r\n    font-size: 1rem;\r\n    color: primary;\r\n    font-weight: 700;\r\n  }\r\n  padding-bottom: 6px;\r\n  font-weight: 700;\r\n  border-width: 3px;\r\n  border-image: linear-gradient(to right, primary, secondary);\r\n  border-image-slice: 1;\r\n}\r\n\r\n.player-name-input {\r\n  &:required,\r\n  &:invalid {\r\n    box-shadow: none;\r\n  }\r\n}\r\n\r\nbody {\r\n  font-family: \"Poppins\", sans-serif;\r\n  display: flex;\r\n  flex-direction: column;\r\n  // justify-content: center;\r\n  align-items: center;\r\n  min-height: 100vh;\r\n  font-size: 1.5rem;\r\n  background-color: white;\r\n}\r\n\r\n.player-name-button {\r\n  width: 50px;\r\n}\r\n\r\n// DISPLAY\r\n\r\n.display {\r\n  background: linear-gradient(to right, #456961, #92b59d);\r\n  font-family: \"Digital-7 Mono\", monospace;\r\n  height: 80px;\r\n  width: 1000px;\r\n  border-radius: 10px;\r\n  line-height: 80px;\r\n  padding-left: 20px;\r\n  border: 2px solid black;\r\n  font-size: 20px;\r\n  color: blanchedalmond;\r\n}\r\n\r\n// BOARDS\r\n\r\n.boards-outer-container {\r\n  display: flex;\r\n  flex-direction: column;\r\n  align-items: center;\r\n}\r\n\r\n.boards-container {\r\n  display: flex;\r\n  gap: 100px;\r\n  justify-content: center;\r\n  font-size: 1rem;\r\n}\r\n\r\n.board-title {\r\n  background: linear-gradient(to right, red, yellow, orange);\r\n  color: black;\r\n  font-family: \"Digital-7 Mono\", monospace;\r\n  text-align: center;\r\n  border: 1px solid black;\r\n  border-radius: 5px;\r\n}\r\n\r\n.grid-container {\r\n  display: grid;\r\n  grid-template-rows: repeat(10, 40px);\r\n  grid-template-columns: repeat(10, 40px);\r\n  // background-color: rgb(241, 240, 240);\r\n  background-color: white;\r\n  border: 1px solid black;\r\n  position: relative;\r\n}\r\n\r\n.grid-container > div {\r\n  border: 1px solid black;\r\n  position: relative;\r\n}\r\n\r\n.square {\r\n  cursor: pointer;\r\n  color: transparent;\r\n  position: relative;\r\n}\r\n\r\n.dot {\r\n  width: 20px;\r\n  height: 20px;\r\n  border-radius: 50%;\r\n  margin-top: 10px;\r\n  margin-left: 9px;\r\n  position: absolute;\r\n  z-index: 20;\r\n}\r\n\r\n.red-dot {\r\n  background-color: red;\r\n}\r\n\r\n.black-dot {\r\n  background-color: black;\r\n}\r\n\r\n#computer-dot {\r\n  left: -2px;\r\n  bottom: 8px;\r\n}\r\n\r\n.axis-button {\r\n  background: #fff;\r\n  backface-visibility: hidden;\r\n  border-radius: 0.375rem;\r\n  border-style: solid;\r\n  border-width: 0.125rem;\r\n  box-sizing: border-box;\r\n  color: #212121;\r\n  cursor: pointer;\r\n  display: inline-block;\r\n  font-family: Circular, Helvetica, sans-serif;\r\n  font-size: 1.125rem;\r\n  font-weight: 700;\r\n  letter-spacing: -0.01em;\r\n  line-height: 1.3;\r\n  padding: 0.875rem 1.125rem;\r\n  position: relative;\r\n  text-align: left;\r\n  text-decoration: none;\r\n  transform: translateZ(0) scale(1);\r\n  transition: transform 0.2s;\r\n  user-select: none;\r\n  -webkit-user-select: none;\r\n  touch-action: manipulation;\r\n}\r\n\r\n.axis-button:not(:disabled):hover {\r\n  transform: scale(1.05);\r\n}\r\n\r\n.axis-button:not(:disabled):hover:active {\r\n  transform: scale(1.05) translateY(0.125rem);\r\n}\r\n\r\n.axis-button:focus {\r\n  outline: 0 solid transparent;\r\n}\r\n\r\n.axis-button:focus:before {\r\n  content: \"\";\r\n  left: calc(-1 * 0.375rem);\r\n  pointer-events: none;\r\n  position: absolute;\r\n  top: calc(-1 * 0.375rem);\r\n  transition: border-radius;\r\n  user-select: none;\r\n}\r\n\r\n.axis-button:focus:not(:focus-visible) {\r\n  outline: 0 solid transparent;\r\n}\r\n\r\n.axis-button:focus:not(:focus-visible):before {\r\n  border-width: 0;\r\n}\r\n\r\n.axis-button:not(:disabled):active {\r\n  transform: translateY(0.125rem);\r\n}\r\n\r\n// WINNER CONTAINER\r\n\r\n.winner-container {\r\n  position: absolute;\r\n  background-color: #f0e6e6;\r\n  border: 2px solid #333;\r\n  height: 300px;\r\n  width: 1000px;\r\n  border-radius: 10px;\r\n  display: flex;\r\n  flex-direction: column;\r\n  justify-content: center;\r\n  align-items: center;\r\n  margin-top: 300px;\r\n  z-index: 30;\r\n  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);\r\n  padding: 20px;\r\n}\r\n\r\n.winner-display {\r\n  background: linear-gradient(to right, #456961, #92b59d);\r\n  height: 80px;\r\n  width: 800px;\r\n  border-radius: 10px;\r\n  padding: 0 20px;\r\n  border: 2px solid #333;\r\n  line-height: 80px;\r\n  color: blanchedalmond;\r\n  font-size: 1.5rem;\r\n  display: flex;\r\n  justify-content: center;\r\n  align-items: center;\r\n  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);\r\n}\r\n\r\n.highlight {\r\n  background-color: #92b59d;\r\n}\r\n\r\n// SHIP IMAGES\r\n\r\n.ship-image {\r\n  position: absolute;\r\n  z-index: 1;\r\n  width: 100px;\r\n  height: auto;\r\n  opacity: 0.4;\r\n  top: -2px;\r\n}\r\n\r\n.vertical {\r\n  transform: rotate(90deg);\r\n  transform-origin: top left;\r\n}\r\n\r\n#ship1.vertical {\r\n  left: 50px;\r\n  bottom: 40px;\r\n}\r\n\r\n#ship2.vertical {\r\n  left: 50px;\r\n  bottom: 40px;\r\n}\r\n\r\n#ship3.vertical {\r\n  left: 50px;\r\n  bottom: 40px;\r\n}\r\n\r\n#ship4.vertical {\r\n  left: 50px;\r\n  bottom: 40px;\r\n}\r\n\r\n#ship5.vertical {\r\n  left: 50px;\r\n  bottom: 40px;\r\n}\r\n\r\n.computer-horizontal-ship {\r\n  transform: translateX(-30px);\r\n}\r\n\r\n.hidden {\r\n  display: none;\r\n}\r\n"],"sourceRoot":""}]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -1923,4 +1974,4 @@ __webpack_require__.r(__webpack_exports__);
 
 /******/ })()
 ;
-//# sourceMappingURL=bundleb145b88bde4ae891c43a.js.map
+//# sourceMappingURL=bundle98aa292f259e38862697.js.map
