@@ -34,42 +34,7 @@ document.addEventListener("DOMContentLoaded", function () {
       this.renderComputerBoard(this.computerBoard.board);
     }
 
-    compShipPlacement() {
-      const flattenedBoard = this.computerBoard.board.flat();
-      const stringsToCheck = ["Crr", "Bat", "Cru", "Sub", "Des"];
-      const areAllStringsPresent = stringsToCheck.every((str) => flattenedBoard.includes(str));
-
-      if (!areAllStringsPresent) {
-        const ships = [
-          this.computerBoard.carrier,
-          this.computerBoard.battleship,
-          this.computerBoard.cruiser,
-          this.computerBoard.submarine,
-          this.computerBoard.destroyer,
-        ];
-
-        for (const ship of ships) {
-          let placed = false;
-          while (!placed) {
-            const direction = this.randomDirection();
-            const result = this.computerBoard.placeShip(
-              ship,
-              Math.floor(Math.random() * 10),
-              Math.floor(Math.random() * 10),
-              direction
-            );
-
-            if (result) {
-              placed = true;
-              this.recordComputerShipPosition(ship, ship.startRow, ship.startColumn, direction);
-            }
-          }
-        }
-        this.renderComputerBoard(this.computerBoard.board);
-      } else {
-        return;
-      }
-    }
+    // Set Up Utility Methods
 
     randomDirection() {
       const randomNumber = Math.random();
@@ -80,139 +45,30 @@ document.addEventListener("DOMContentLoaded", function () {
       }
     }
 
-    myAttack(coord1, coord2) {
-      if (!this.playerTurn) return;
-      let result = this.computerBoard.receiveAttack(coord1, coord2);
-      let coordValue = this.computerBoard.board[coord1][coord2];
-      this.allShipsSunk();
-
-      if (result.result === "hit") {
-        dom.display.innerText = `${playerName} has hit a ship!`;
-      } else if (result.result === "sunk") {
-        dom.display.innerText = `${playerName} has sunk the ${result.shipName}!`;
-      } else if (result.result === "miss") {
-        dom.display.innerText = `${playerName} has missed`;
-      } else if (result.result === "repeat") {
-        dom.display.innerText = "You cannot hit the same place twice";
-        return;
-      }
-
-      this.compShipSunk();
-
-      setTimeout(() => {
-        this.compAttack();
-        this.myShipSunk();
-      }, 1500);
-      this.playerTurn = false;
-
-      return result;
+    getCurrentShipToPlace() {
+      const ships = [
+        this.myBoard.carrier,
+        this.myBoard.battleship,
+        this.myBoard.cruiser,
+        this.myBoard.submarine,
+        this.myBoard.destroyer,
+      ];
+      return ships[this.currentShipIndex];
     }
 
-    compAttack() {
-      let coord1, coord2, result;
-
-      const attackAfterOneSecond = () => {
-        coord1 = Math.floor(Math.random() * 10);
-        coord2 = Math.floor(Math.random() * 10);
-
-        result = this.myBoard.receiveMyAttack(coord1, coord2);
-
-        if (result.result === "repeat") {
-          setTimeout(attackAfterOneSecond, 10);
-          return;
-        } else if (result.result === "hit") {
-          dom.display.innerText = "The opponent has hit your ship";
-        } else if (result.result === "sunk") {
-          dom.display.innerText = `The opponent has sunk your ${result.shipName}`;
-        } else {
-          dom.display.innerText = "The opponent has missed";
-        }
-
-        this.refreshMyBoardAfterCompAttack();
-        this.playerTurn = true;
-      };
-      attackAfterOneSecond();
-    }
-
-    compAdjacentTargets(row, col) {
-      const adjacentTargets = [
-        [row - 1, col],
-        [row + 1, col],
-        [row, col - 1],
-        [row, col + 1],
+    getCurrentShipToDisplay() {
+      const ships = [
+        `Place the Battleship`,
+        `Place the Cruiser`,
+        `Place the Submarine`,
+        `Place the Destroyer`,
+        `${playerName}'s Turn.  Place a hit on your Opponent's Board. Good Luck!!`,
       ];
 
-      adjacentTargets.forEach(([row, column]) => {
-        if (
-          row >= 10 &&
-          row < 10 &&
-          column >= 10 &&
-          column < 10 &&
-          typeof this.myBoard.board[row][column] === "number"
-        ) {
-          this.previousHitArr.push([row, column]);
-          this.myBoard.receiveMyAttack(row, column);
-        }
-      });
+      return ships[this.currentDisplayIndex];
     }
 
-    refreshMyBoardAfterCompAttack() {
-      this.renderMyBoard(this.myBoard.board);
-    }
-
-    renderMyBoard(arr) {
-      dom.myBoardGrid.innerHTML = "";
-      let flatArr = arr.flat();
-      for (let i = 0; i <= 99; i++) {
-        let item = document.createElement("div");
-        item.innerText = flatArr[i];
-        item.className = "square";
-        item.id = "my-board-square";
-
-        this.myBoardSquares(item);
-        dom.myBoardGrid.appendChild(item);
-        this.myBoardShipSelect(item, i, arr);
-      }
-
-      this.shipPositions.forEach(({ ship, row, column, orientation }, index) => {
-        let startSquare = dom.myBoardGrid.children[row * 10 + column];
-        let squareContent = document.createElement("div");
-        startSquare.appendChild(squareContent);
-
-        let shipImage = document.createElement("img");
-        shipImage.className = "ship-image";
-        shipImage.id = `ship${index + 1}`;
-        shipImage.src = getShipImage(ship);
-        if (orientation === "vertical") {
-          shipImage.classList.add("vertical");
-        }
-
-        squareContent.appendChild(shipImage);
-
-        if (orientation === "horizontal") {
-          shipImage.style.width = `${ship.length * 42}px`;
-          shipImage.style.height = "40px";
-        } else if (orientation === "vertical") {
-          shipImage.style.width = `${ship.length * 42}px`;
-          shipImage.style.height = "40px";
-          shipImage.style.transform = "rotate(90deg)";
-        }
-      });
-    }
-
-    myBoardSquares(item) {
-      const stringsToCheck = ["Crr", "Bat", "Cru", "Sub", "Des"];
-      if (stringsToCheck.includes(item.innerText)) {
-        item.style.color = "transparent";
-      } else if (item.innerText === "Sunk") {
-        item.style.backgroundColor = "rgb(230, 165, 165)";
-        item.innerHTML = '<div class="dot red-dot"></div>';
-      } else if (item.innerText.startsWith("Hit")) {
-        item.innerHTML = '<div class="dot red-dot"></div>';
-      } else if (item.innerText === "Miss") {
-        item.innerHTML = '<div class="dot black-dot"></div>';
-      }
-    }
+    // Player Ship Set Up Methods
 
     myBoardShipSelect(item, index, arr) {
       let row = Math.floor(index / 10);
@@ -301,35 +157,85 @@ document.addEventListener("DOMContentLoaded", function () {
       }
     }
 
-    recordShipPosition(ship, row, column, orientation) {
-      this.shipPositions.push({ ship, row, column, orientation });
+    // Comp Ship Set Up Methods
+
+    compShipPlacement() {
+      const flattenedBoard = this.computerBoard.board.flat();
+      const stringsToCheck = ["Crr", "Bat", "Cru", "Sub", "Des"];
+      const areAllStringsPresent = stringsToCheck.every((str) => flattenedBoard.includes(str));
+
+      if (!areAllStringsPresent) {
+        const ships = [
+          this.computerBoard.carrier,
+          this.computerBoard.battleship,
+          this.computerBoard.cruiser,
+          this.computerBoard.submarine,
+          this.computerBoard.destroyer,
+        ];
+
+        for (const ship of ships) {
+          let placed = false;
+          while (!placed) {
+            const direction = this.randomDirection();
+            const result = this.computerBoard.placeShip(
+              ship,
+              Math.floor(Math.random() * 10),
+              Math.floor(Math.random() * 10),
+              direction
+            );
+
+            if (result) {
+              placed = true;
+              this.recordComputerShipPosition(ship, ship.startRow, ship.startColumn, direction);
+            }
+          }
+        }
+        this.renderComputerBoard(this.computerBoard.board);
+      } else {
+        return;
+      }
     }
 
-    recordComputerShipPosition(ship, row, column, orientation) {
-      this.computerShipPositions.push({ ship, row, column, orientation });
-    }
+    // Rendering Methods
 
-    getCurrentShipToPlace() {
-      const ships = [
-        this.myBoard.carrier,
-        this.myBoard.battleship,
-        this.myBoard.cruiser,
-        this.myBoard.submarine,
-        this.myBoard.destroyer,
-      ];
-      return ships[this.currentShipIndex];
-    }
+    renderMyBoard(arr) {
+      dom.myBoardGrid.innerHTML = "";
+      let flatArr = arr.flat();
+      for (let i = 0; i <= 99; i++) {
+        let item = document.createElement("div");
+        item.innerText = flatArr[i];
+        item.className = "square";
+        item.id = "my-board-square";
 
-    getCurrentShipToDisplay() {
-      const ships = [
-        `Place the Battleship`,
-        `Place the Cruiser`,
-        `Place the Submarine`,
-        `Place the Destroyer`,
-        `${playerName}'s Turn.  Place a hit on your Opponent's Board. Good Luck!!`,
-      ];
+        this.myBoardSquares(item);
+        dom.myBoardGrid.appendChild(item);
+        this.myBoardShipSelect(item, i, arr);
+      }
 
-      return ships[this.currentDisplayIndex];
+      this.shipPositions.forEach(({ ship, row, column, orientation }, index) => {
+        let startSquare = dom.myBoardGrid.children[row * 10 + column];
+        let squareContent = document.createElement("div");
+        startSquare.appendChild(squareContent);
+
+        let shipImage = document.createElement("img");
+        shipImage.className = "ship-image";
+        shipImage.id = `ship${index + 1}`;
+        shipImage.src = getShipImage(ship);
+        if (orientation === "vertical") {
+          shipImage.classList.add("vertical");
+        }
+
+        squareContent.appendChild(shipImage);
+
+        if (orientation === "horizontal") {
+          shipImage.style.width = `${ship.length * 42}px`;
+          shipImage.style.height = "40px";
+        } else if (orientation === "vertical") {
+          shipImage.style.width = `${ship.length * 42}px`;
+          shipImage.style.height = "40px";
+          shipImage.style.transform = "rotate(90deg)";
+        }
+      });
     }
 
     renderComputerBoard(arr) {
@@ -379,6 +285,104 @@ document.addEventListener("DOMContentLoaded", function () {
       });
     }
 
+    // Attack Methods
+
+    myAttack(coord1, coord2) {
+      if (!this.playerTurn) return;
+      let result = this.computerBoard.receiveAttack(coord1, coord2);
+      let coordValue = this.computerBoard.board[coord1][coord2];
+      this.allShipsSunk();
+
+      if (result.result === "hit") {
+        dom.display.innerText = `${playerName} has hit a ship!`;
+      } else if (result.result === "sunk") {
+        dom.display.innerText = `${playerName} has sunk the ${result.shipName}!`;
+      } else if (result.result === "miss") {
+        dom.display.innerText = `${playerName} has missed`;
+      } else if (result.result === "repeat") {
+        dom.display.innerText = "You cannot hit the same place twice";
+        return;
+      }
+
+      this.compShipSunk();
+
+      setTimeout(() => {
+        this.compAttack();
+        this.myShipSunk();
+      }, 1500);
+      this.playerTurn = false;
+
+      return result;
+    }
+
+    compAttack() {
+      let coord1, coord2, result;
+
+      const attackAfterOneSecond = () => {
+        coord1 = Math.floor(Math.random() * 10);
+        coord2 = Math.floor(Math.random() * 10);
+
+        result = this.myBoard.receiveMyAttack(coord1, coord2);
+
+        if (result.result === "repeat") {
+          setTimeout(attackAfterOneSecond, 10);
+          return;
+        } else if (result.result === "hit") {
+          dom.display.innerText = "The opponent has hit your ship";
+        } else if (result.result === "sunk") {
+          dom.display.innerText = `The opponent has sunk your ${result.shipName}`;
+        } else {
+          dom.display.innerText = "The opponent has missed";
+        }
+
+        this.refreshMyBoardAfterCompAttack();
+        this.playerTurn = true;
+      };
+      attackAfterOneSecond();
+    }
+
+    // Event Handlers
+
+    compAdjacentTargets(row, col) {
+      const adjacentTargets = [
+        [row - 1, col],
+        [row + 1, col],
+        [row, col - 1],
+        [row, col + 1],
+      ];
+
+      adjacentTargets.forEach(([row, column]) => {
+        if (
+          row >= 10 &&
+          row < 10 &&
+          column >= 10 &&
+          column < 10 &&
+          typeof this.myBoard.board[row][column] === "number"
+        ) {
+          this.previousHitArr.push([row, column]);
+          this.myBoard.receiveMyAttack(row, column);
+        }
+      });
+    }
+
+    refreshMyBoardAfterCompAttack() {
+      this.renderMyBoard(this.myBoard.board);
+    }
+
+    myBoardSquares(item) {
+      const stringsToCheck = ["Crr", "Bat", "Cru", "Sub", "Des"];
+      if (stringsToCheck.includes(item.innerText)) {
+        item.style.color = "transparent";
+      } else if (item.innerText === "Sunk") {
+        item.style.backgroundColor = "rgb(230, 165, 165)";
+        item.innerHTML = '<div class="dot red-dot"></div>';
+      } else if (item.innerText.startsWith("Hit")) {
+        item.innerHTML = '<div class="dot red-dot"></div>';
+      } else if (item.innerText === "Miss") {
+        item.innerHTML = '<div class="dot black-dot"></div>';
+      }
+    }
+
     computerBoardSquares(item, index) {
       const shipValues = ["Crr", "Bat", "Cru", "Sub", "Des"];
       const row = Math.floor(index / 10);
@@ -409,6 +413,16 @@ document.addEventListener("DOMContentLoaded", function () {
         playerObject.playerTurn = false;
       });
     }
+
+    recordShipPosition(ship, row, column, orientation) {
+      this.shipPositions.push({ ship, row, column, orientation });
+    }
+
+    recordComputerShipPosition(ship, row, column, orientation) {
+      this.computerShipPositions.push({ ship, row, column, orientation });
+    }
+
+    // Ship Sunk/Winner Methods
 
     compShipSunk() {
       const ships = [
