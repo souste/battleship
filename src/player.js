@@ -34,10 +34,6 @@ document.addEventListener("DOMContentLoaded", function () {
       this.renderComputerBoard(this.computerBoard.board);
     }
 
-    updateDisplay(message) {
-      dom.display.innerText = message;
-      console.log(message);
-    }
     compShipPlacement() {
       const flattenedBoard = this.computerBoard.board.flat();
       const stringsToCheck = ["Crr", "Bat", "Cru", "Sub", "Des"];
@@ -106,7 +102,7 @@ document.addEventListener("DOMContentLoaded", function () {
       setTimeout(() => {
         this.compAttack();
         this.myShipSunk();
-      }, 1000);
+      }, 1500);
       this.playerTurn = false;
 
       return result;

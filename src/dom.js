@@ -135,3 +135,9 @@ export const getShipImage = (ship) => {
       return "";
   }
 };
+
+export const updateDisplay = (message) => {
+  const display = document.querySelector(".display");
+  display.innerText = message;
+  console.log(message);
+};
