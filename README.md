@@ -1,12 +1,10 @@
-# battleship
-
-Battleship Game
+# Battleship Game
 
 https://souste.github.io/battleship/
 
 The Battleship Game is a turn-based strategy game where the objective is to sink all of your opponent's ships before they sink yours. This project provides an interactive user interface to place ships and attack the opponent's grid.
 
-Features
+## Features
 
 • Interactive user interface for placing ships and attacking.
 
@@ -22,7 +20,7 @@ Features
 
 • Build with test driven development
 
-Technologies Used
+## Technologies Used
 
 • JavaScript: Core game logic and interactivity.
 
